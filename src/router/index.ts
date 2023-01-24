@@ -5,9 +5,9 @@ import { useAuthStore } from '@/modules/Auth/stores'
 import middlewarePipeline from "@/router/middlewarePipeline"
 import AuthRoutes from "@/modules/Auth/routes"
 import AuthorizationRoutes from "@/modules/Authorization/routes"
-import MessageRoutes from "@/modules/Message/routes"
-import ShopCart from "@/modules/ShopCart/routes"
-import ThemesRoutes from "@/modules/Themes/routes"
+import InventoryRoutes from "@/modules/Inventory/routes"
+import ProductRoutes from "@/modules/Product/routes"
+import StoreRoutes from "@/modules/Store/routes"
 import UserRoutes from "@/modules/User/routes"
 
 const storeAuth = computed(() => useAuthStore())
@@ -15,9 +15,9 @@ const storeAuth = computed(() => useAuthStore())
 const routes: Array<RouteRecordRaw> = [
   ...AuthRoutes.map(route => route),
   ...AuthorizationRoutes.map(route => route),
-  ...MessageRoutes.map(route => route),
-  ...ShopCart.map(route => route),
-  ...ThemesRoutes.map(route => route),
+  ...InventoryRoutes.map(route => route),
+  ...ProductRoutes.map(route => route),
+  ...StoreRoutes.map(route => route),
   ...UserRoutes.map(route => route)
 ]
 
