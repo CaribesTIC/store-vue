@@ -33,12 +33,6 @@ onMounted(async () => {
         :depth="depth + 1"/>
       </ul>
     </nav>
-    <AppLink to="https://github.com/CaribesTIC/laravuel-api">
-      LaraVuel-API
-    </AppLink><br/>
-    <AppLink to="https://github.com/CaribesTIC/laravuel-spa">
-      LaraVuel-Spa
-    </AppLink>
 </template>
 
 

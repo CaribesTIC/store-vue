@@ -14,7 +14,7 @@ const routePathRoot = computed(
   () => route.path.startsWith(`/${props.menu.path}`)
 )
 
-const showChildren = ref(true)
+const showChildren = ref(false)
 const toggleChildren = ()=> showChildren.value = !showChildren.value
 </script>
 
