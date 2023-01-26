@@ -27,7 +27,7 @@ export default [{
     path: "/categories",
     name: "categories",
     meta: { middleware: [auth, admin] },
-    component: () => import("@/modules/Auth/components/InConstruction.vue").then(m => m.default),
+    component: () => import("@/modules/Product/views/Category/Index.vue").then(m => m.default)
 }, {
     path: "/marks",
     name: "marks",
