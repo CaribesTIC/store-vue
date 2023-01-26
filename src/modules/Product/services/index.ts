@@ -1,6 +1,11 @@
 import Http from "@/utils/Http";
 
 export default {
+
+  getCategories (query) {  
+    return Http.get(`/api/category/get/list`);
+  },
+
   getProduct(userId) {
     return Http.get(`/api/users/${userId}`);
   },      
