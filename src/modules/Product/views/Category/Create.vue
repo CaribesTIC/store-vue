@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
-import * as MenuService from "@/modules/Authorization/services/MenuService"
+import { getCategoriesChildren, insertCategory } from "../../services/CategoryService"
 //import AppLoadingButton from '@/components/AppLoadingButton.vue'
 export default defineComponent({
   components: {    
@@ -14,11 +14,8 @@ export default defineComponent({
       nivel: 0,
       isDisabled: false,
       form: {
-        title: '',
-        menu_id: 0,
-        path: '#',
-        icon: 'icon',
-        sort: 0
+        name: '',
+        parent_id: 0        
       }   
     }
   },
@@ -30,31 +27,31 @@ export default defineComponent({
       let element = document.querySelector("input:invalid");
       return element === null ? true : false;
     },         
-    closeModal111: function () {
-      this.$emit('closeModal0');        
+    closeModal: function () {
+      this.$emit('closeModal');
     },
     showSelected: function () {
       let menu = (this.menus.find(element => element.id === this.selVal));
       this.selTexs.push({ 
         nivel: this.nivel,
-        title: menu.title,
-        id   : menu.menu_id 
+        name: menu.name,
+        id   : menu.parent_id 
       });
     },   
     stepFrontward: function (menuId = 0, step = true ) {
       menuId= !menuId ? 0 : menuId;      
-      MenuService.getMenusChildren(menuId).then((res) => {
+      getCategoriesChildren(menuId).then((res) => {
         if (step) {
             if (this.selVal) {                    
               this.showSelected();
               this.nivel++;
-              this.form.menu_id = this.selVal;
+              this.form.parent_id = this.selVal;
             }
           } else {
             this.nivel--;
-            this.form.menu_id = res.data[0].menu_id;
+            this.form.parent_id = res.data[0].parent_id;
           }
-          this.menus = [ {id:0 , title:'Seleccione...'} ].concat(res.data);
+          this.menus = [ {id:0 , name:'Seleccione...'} ].concat(res.data);
           this.selVal = 0;          
       })
     },
@@ -68,13 +65,17 @@ export default defineComponent({
       this.stepFrontward(0);
     },
     async submit(){
-      //console.log(this.form)
-      //sending.value= true        
-      return await MenuService.insertMenu(this.form)
-        .then((response) => {
-          alert( response.data.message );
-          //this.$router.push( { path: '/menus' } );
-          window.location.reload()
+      console.log(this.form)
+      //sending.value= true
+      return await insertCategory(this.form)
+        .then((response) => {          
+          this.$router.push( { path: '/categories' } );
+            //this.closeModal111()
+            //window.location.reload()
+            this.$emit('loadTable');
+            this.$emit('closeModal');
+            alert( response.data.message );
+          
         })
         .catch((err) => {                
           console.log( err.response.data );
@@ -83,26 +84,7 @@ export default defineComponent({
         //.finally(() => {
         //  //sending.value = false
         //});
-    },
-    /*
-    createMenu: function () {
-      let url = `${process.env.MIX_APP_URL}menu/store`;
-      axios.post(url, {
-        menu_id: this.form.menu_id,
-        title  : this.form.title,
-        path: this.form.path,
-        icon: this.form.icon,
-        sort: this.form.sort
-      }).then(response => {
-        gridViewModel.getMenus();
-        this.form.title = '';
-        this.errors = [];
-        $('#create').modal('hide');
-        Notification.success('Nueva tarea creada con éxito');
-      }).catch(error => {
-        this.errors = error.response.data;
-      });
-    }*/
+    }
   }
 })
 </script>
@@ -124,15 +106,15 @@ export default defineComponent({
 
           <table style="width: 100%" id="main">                
             <tr>
-              <th colspan="2" class="text-center font-bold py-2">Crear nueva opción del menú</th>
+              <th colspan="2" class="text-center font-bold py-2">Crear Categoría</th>
             </tr>
             <tr>
               <td colspan="2">
                 <table id="id_table_padre" style="width: 100%">                       
                   <tr v-for="(selTex, index) in selTexs" class="font-bold">
-                    <td width="50%" class="bg-gray-100 py-2">{{ selTex.title }}</td>
-                    <td class="bg-gray-100 py-2">( nivel {{ selTex.nivel }} )</td>
-                    <td class="bg-gray-100 py-2">
+                    <td width="50%" class="bg-base-200 py-2">{{ selTex.name }}</td>
+                    <td class="bg-base-200 py-2">( nivel {{ selTex.nivel }} )</td>
+                    <td class="bg-base-200 py-2">
                       <span 
                         v-if="index==selTexs.length-1"
                         title="Retroceder un paso"
@@ -141,7 +123,7 @@ export default defineComponent({
                         @click="stepBackward(selTex.id)">&lt;</span>
                       <span v-else >&nbsp;</span>
                     </td>
-                    <td class="bg-gray-100 py-2">                                   
+                    <td class="bg-base-200 py-2">                                   
                       <span
                         v-if="index==selTexs.length-1 && index!=0"
                         title="Retroceder todos los pasos"
@@ -165,8 +147,8 @@ export default defineComponent({
                   <option
                     v-for="(menu,index) in menus" 
                     :value="menu.id" 
-                    :xlabel="menu.menu_id"
-                    v-bind:selected="index === 0">{{ menu.title }}</option>
+                    :xlabel="menu.parent_id"
+                    v-bind:selected="index === 0">{{ menu.name }}</option>
                 </select>
               </td>
             </tr>
@@ -177,56 +159,17 @@ export default defineComponent({
                 <table width="100%">
                   <tr>
                     <td align="left" id="id_td_descripcion" width="50%">
-                      Opción (nivel {{ nivel }})
+                      Categoría (nivel {{ nivel }})
                     </td>
                     <td>
                       <input
                         type="text"
                         name="menu"
                         class="form-control"
-                        v-model="form.title"
-                        placeholder="Opction..." />
+                        v-model="form.name"
+                        placeholder="Categoría..." />
                     </td>
-                  </tr>
-                  <tr>
-                    <td align="left" width="50%">
-                      Ruta (nivel {{ nivel }})
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name="path"
-                        class="form-control"
-                        v-model="form.path"
-                        placeholder="Path..." />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td align="left" width="50%">
-                      Icon (nivel {{ nivel }})
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name="icon"
-                        class="form-control"
-                        v-model="form.icon"
-                        placeholder="Icon..." />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td align="left" width="50%">
-                      Orden (nivel {{ nivel }})
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name="sort"
-                        class="form-control"
-                        v-model="form.sort"
-                        placeholder="Sort..." />
-                    </td>
-                  </tr>
+                  </tr>                  
                   <!--tr>
                     <td align="center" colspan="2">
                       <input type="submit" class="btn btn-primary" value="Guardar">
@@ -252,8 +195,8 @@ export default defineComponent({
             </button>
           </span>
           <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
-            <button
-	          @click="closeModal111"
+            <button	          
+	          @click="closeModal"
 	          type="button"
 	          class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">Cancel</button>
           </span>

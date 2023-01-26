@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
-import * as MenuService from "@/modules/Authorization/services/MenuService"
+import { updateCategory } from "../../services/CategoryService"
 //import AppLoadingButton from '@/components/AppLoadingButton.vue'
 export default defineComponent({
   components: {    
@@ -11,8 +11,11 @@ export default defineComponent({
     return {      
       nivel: 0,
       form: {
-        title: this.menu.title,
-        _method: 'PUT'
+        id: this.menu.id,
+        name: this.menu.name,        
+        parent_id: this.menu.parent_id,        
+        _method: 'POST'
+        //_method: 'PUT'
       }
     }
   },
@@ -20,7 +23,7 @@ export default defineComponent({
     parents() {
         let arr = this.menu.family.split(' / ');
         this.nivel = arr.length -1;        
-        this.form.title = arr.pop();
+        this.form.name = arr.pop();
         return arr;
       }
     },    
@@ -32,12 +35,22 @@ export default defineComponent({
       submit() {
         //console.log(this.form, this.menu.id)
         //sending.value= true
-        this.form._method = 'PUT';
-        return MenuService.updateMenu(this.menu.id, this.form)
+        //this.form._method = 'PUT';
+        this.form.id = this.menu.id;
+        this.form.parent_id = this.menu.parent_id;
+        // return updateCategory(this.menu.id, this.form)
+        return updateCategory(this.form)
+        
+        //console.log(this.form)
+        
           .then((response) => {
+            
+            this.$router.push( { path: '/categories' } );
+            //this.closeModal111()
+            //window.location.reload()
+            this.$emit('loadTable');
+            this.$emit('closeModal');
             alert( response.data.message );
-            //this.$router.push( { path: '/menus' } );
-            window.location.reload()
           })
           .catch((err) => {                
             console.log( err.response.data );
@@ -47,8 +60,8 @@ export default defineComponent({
             //sending.value = false
           //});
       },     
-      closeModal111: function () {
-        this.$emit('closeModal1');        
+      closeModal: function () {
+        this.$emit('closeModal');        
       }
   }
 })
@@ -70,9 +83,9 @@ export default defineComponent({
         <div class="bg-base-200 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
           <table style="width: 100%" id="main" border="1">                
             <tr class="text-left font-bold">
-              <th colspan="2" class="px-6 pt-6 pb-4 items-center">Update menu option</th>
+              <th colspan="2" class="px-6 pt-6 pb-4 items-center">Actualizar Categoría</th>
             </tr>
-            <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
+            <tr class="hover:bg-base-200 focus-within:bg-base-200">
               <td colspan="2">
                 <table id="id_table_padre" style="width: 100%"> 
                   <tr v-for="(parent, key) in parents">
@@ -85,17 +98,17 @@ export default defineComponent({
             <tr class="lospare">
               <td colspan="2">                
                 <table width="100%">
-                  <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
+                  <tr class="hover:bg-base-200 focus-within:bg-base-200">
                     <td align="left" id="id_td_descripcion" width="50%">
-                      Option (level {{ nivel }})
+                      Categoría (nivel {{ nivel }})
                     </td>
                     <td>
                       <input
                         type="text"
                         name="menu"
                         class="form-control"
-                        v-model="form.title"
-                        placeholder="Opction..." />
+                        v-model="form.name"
+                        placeholder="Categoría..." />
                     </td>
                   </tr>                           
                 </table>                
@@ -114,7 +127,7 @@ export default defineComponent({
           </span>
           <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
             <button
-	          @click="closeModal111"
+	          @click="closeModal"
 	          type="button"
 	          class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">Cancel</button>
           </span>

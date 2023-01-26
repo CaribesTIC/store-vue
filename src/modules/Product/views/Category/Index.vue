@@ -1,8 +1,7 @@
 <script lang="ts">
 // @ts-nocheck
 import { defineComponent } from 'vue'
-//import * as MenuService from "@/modules/Authorization/services/MenuService"
-import ProductService from "../../services"
+import { deleteCategory, getCategories } from "../../services/CategoryService"
 import AppPaginationB from "@/components/AppPaginationB.vue";
 import AppPageHeader from "@/components/AppPageHeader.vue"
 import Create from './Create.vue'
@@ -20,44 +19,46 @@ export default defineComponent({
     return {
       // editMode: false,
       isOpenCreate: false,
-      isOpen: false,
+      isOpenEdit: false,
       menu: {},
       menus: {},
       //links: {},
     }
   },
   async mounted (){
-    const response = await  ProductService.getCategories();
-    this.menus = response.data
+    await this.loadTable()
   },
-  
   methods: {
     openModalCreate: function () {
       this.isOpenCreate = true;
     },
-    openModal: function () {
-      this.isOpen = true;
+    openModalEdit: function () {
+      this.isOpenEdit = true;
     },
     closeModalCreate: function () {
       this.isOpenCreate = false;
     },
-    closeModal: function () {
-      this.isOpen = false;
+    closeModalEdit: function () {
+      this.isOpenEdit = false;
       //this.reset();
-      //this.editMode=false;
+      //this.editMode=false;      
     },
     edit: function (data) {      
       //this.editMode = true;
       this.menu=data;
-      this.openModal();
+      this.openModalEdit();
     },
     async remove(id) {
       if (id === undefined) return;
       if (confirm(`¿Estás seguro de que quieres eliminar el registro ${id}?`)) {
-        await MenuService.deleteMenu(id)
-        window.location.reload()
+        await deleteCategory(id)
+        await this.loadTable()
       }
-    }
+    },
+    async loadTable () {
+      const response = await getCategories();
+      this.menus = response.data
+    },  
   }
 })
 </script>
@@ -101,13 +102,13 @@ export default defineComponent({
         </tbody>            
       </table>        
       
-      <AppPaginationB :links="menus.links" />
+      <!--AppPaginationB :links="menus.links" /-->
       
       <div class="fixed z-10 inset-0 overflow-y-auto ease-out duration-400" v-if="isOpenCreate">
-        <Create @closeModal0="closeModalCreate"/>
+        <Create @closeModal="closeModalCreate" @loadTable="loadTable"/>
       </div>
-      <div class="fixed z-10 inset-0 overflow-y-auto ease-out duration-400" v-if="isOpen">
-        <Edit :menu="menu" @closeModal1="closeModal"/>
+      <div class="fixed z-10 inset-0 overflow-y-auto ease-out duration-400" v-if="isOpenEdit">
+        <Edit :menu="menu" @closeModal="closeModalEdit" @loadTable="loadTable"/>
       </div>
       
     </div>
