@@ -1,18 +1,15 @@
 import { onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import useHttp from "@/composables/useHttp";
-import UserService from "@/modules/User/services";
-import type Role from "../types/Role"
-import type User from "../types/User"
+import * as MarkService from "@/modules/Product/services/MarkService";
+import type User from "../../types/Mark"
 
-export default (userId?: string) => {
+export default (markId?: string) => {
   const router = useRouter();
   
-  const user: User = reactive({    
-    name: "", email: "", password: "", role_id: ""
+  const mark: Mark = reactive({    
+    name: ""
   })
- 
-  const roles = ref<Role[]>([])
   
   const {  
     errors,
@@ -23,14 +20,11 @@ export default (userId?: string) => {
   } = useHttp()
   
   onMounted(async () => {
-    if (userId) {
+    if (markId) {
       loading.value = true
-      UserService.getUser(userId)
-        .then((response) => {                
-          user.name = response.data.data.name
-          user.email = response.data.data.email
-          user.password = null
-          user.role_id = response.data.data.role_id        
+      MarkService.getMark(markId)
+        .then((response) => {              
+          mark.name = response.data.data.name          
         })
         .catch((err) => {        
           errors.value = getError(err)
@@ -39,25 +33,14 @@ export default (userId?: string) => {
           loading.value = false;
         })
     }
-    loading.value = true
-    UserService.helperTablesGet()
-      .then((response) => {
-        roles.value = response.data.roles
-      })
-      .catch((err) => {
-        errors.value = getError(err)
-      })
-      .finally(() => {
-        loading.value = false
-      })
   })
 
-  const insertUser = async (user: User) => {  
+  const insertMark = async (mark: Mark) => {  
     sending.value = true
-    return UserService.insertUser(user)
+    return MarkService.insertMark(user)
       .then((response) => {         
         alert( response.data.message )
-        router.push( { path: '/users' } )
+        router.push( { path: '/marks' } )
       })
       .catch((err) => {                
         console.log( err.response.data )
@@ -68,12 +51,12 @@ export default (userId?: string) => {
       })
   }
 
-  const updateUser = async (user: User, userId: string) => {
+  const updateMark = async (mark: Mark, markId: string) => {
     sending.value= true
-    return UserService.updateUser(userId, user)
+    return MarkService.updateMark(markId, mark)
       .then((response) => {
         alert( response.data.message )
-        router.push( { path: '/users' } )
+        router.push( { path: '/marks' } )
       })
       .catch((err) => {                
         console.log( err.response.data )
@@ -84,14 +67,13 @@ export default (userId?: string) => {
       })
   }
   
-  const submit = (user: User, userId?: string) => {  
-    !userId ? insertUser (user)  : updateUser(user, userId)
+  const submit = (mark: Mark, markId?: string) => {  
+    !markId ? insertMark (mark)  : updateMark(user, markId)
   }
 
   return {
-    user,
-    errors,
-    roles,
+    mark,
+    errors,    
     sending,
     loading,
     router,

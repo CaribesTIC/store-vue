@@ -4,6 +4,25 @@ export const getMarks = () => {
   return Http.get("/api/marks/?${query}");
 }
 
+export const getMark = (markId: string) => { 
+  return Http.get(`/api/marks/${markId}`);
+}
+
+
+export const insertMark = () => {  
+  return null;
+}
+
+export const updateMark = () => {  
+  return null;
+}
+
+export default {
+  getMarks,
+  insertMark,
+  updateMark
+}
+
 /*export default {
 
   getProduct(userId) {
