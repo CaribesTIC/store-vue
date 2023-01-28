@@ -19,7 +19,7 @@ const {
 
 <template>
   <div>
-    <AppPageHeader>Productos / {{ !props.id ? "Crear" : "Editar" }}</AppPageHeader>
+    <AppPageHeader>Marcas / {{ !props.id ? "Crear" : "Editar" }}</AppPageHeader>
     <transition name="fade" mode="out-in">
       <AppPageHeader
         message="loading..."
@@ -30,7 +30,7 @@ const {
         <div  class="flex space-x-2">
           <button
             class="btn btn-primary mb-4"
-            @click="router.push({ path: '/products' })"
+            @click="router.push({ path: '/marks' })"
           >
             Ver todos
           </button>
