@@ -37,7 +37,7 @@ export default (markId?: string) => {
 
   const insertMark = async (mark: Mark) => {  
     sending.value = true
-    return MarkService.insertMark(user)
+    return MarkService.insertMark(mark)
       .then((response) => {         
         alert( response.data.message )
         router.push( { path: '/marks' } )
@@ -53,6 +53,7 @@ export default (markId?: string) => {
 
   const updateMark = async (mark: Mark, markId: string) => {
     sending.value= true
+    mark._method = 'PUT'
     return MarkService.updateMark(markId, mark)
       .then((response) => {
         alert( response.data.message )
@@ -68,7 +69,7 @@ export default (markId?: string) => {
   }
   
   const submit = (mark: Mark, markId?: string) => {  
-    !markId ? insertMark (mark)  : updateMark(user, markId)
+    !markId ? insertMark (mark)  : updateMark(mark, markId)
   }
 
   return {
