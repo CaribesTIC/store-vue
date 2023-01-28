@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AppPageHeader from "@/components/AppPageHeader.vue";
-import FormCreateOrEdit from "../components/FormCreateOrEdit.vue";
-import useCreateOrEdit from "../composables/useCreateOrEdit";
+import FormCreateOrEdit from "../../components/FormCreateOrEdit.vue";
+import useCreateOrEdit from "../../composables/useCreateOrEdit";
 
 const props = defineProps<{ id?: string }>()
 
