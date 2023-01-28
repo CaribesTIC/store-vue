@@ -1,7 +1,5 @@
-<?xml version="1.0" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
- "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg fill="#003A48" version="1.0" xmlns="http://www.w3.org/2000/svg"
+<template>
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
  width="1280.000000pt" height="1216.000000pt" viewBox="0 0 1280.000000 1216.000000"
  preserveAspectRatio="xMidYMid meet">
 <metadata>
@@ -21,3 +19,4 @@ stroke="none">
 220 136 87 30 231 31 321 3z"/>
 </g>
 </svg>
+</template>
