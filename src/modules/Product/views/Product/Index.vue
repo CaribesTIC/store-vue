@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // @ts-nocheck
-import useIndex from "../../composables/Category/useIndex";
+import useIndex from "../../composables/useIndex";
 import AppPaginationB from "@/components/AppPaginationB.vue";
 import AppPageHeader from "@/components/AppPageHeader.vue"
 import AppBtn from "@/components/AppBtn.vue"
@@ -20,7 +20,7 @@ const {
 
 <template>
   <div>
-    <AppPageHeader> Category </AppPageHeader>
+    <AppPageHeader> Productos </AppPageHeader>
 
     <div class="flex space-x-2">
       <AppLink class="btn btn-primary" to="/products/create">
@@ -79,7 +79,7 @@ const {
                   class="text-indigo-600 hover:text-indigo-800 underline"
                   :to="{ name: 'userEdit', params: { id: row.id }}"                  
                 >
-                  {{ row.family }}
+                  {{ row.name }}
                 </AppLink>
               </td>
               <td class="">
