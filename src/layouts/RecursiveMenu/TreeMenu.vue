@@ -75,18 +75,15 @@ const toggleChildren = ()=> showChildren.value = !showChildren.value
 .activeClass {
   @apply
     bg-gray-600
-    bg-opacity-25
-    /*text-gray-100*/
+    bg-opacity-25    
     border-gray-100
     border-l-4
     -ml-3;
 }
 .inactiveClass {
   @apply
-    border-gray-900
-    /*text-gray-300*/
-    hover:bg-gray-200
+    border-gray-100
+    hover:bg-gray-400    
     hover:bg-opacity-25
-    hover:text-gray-100;
 }
 </style>

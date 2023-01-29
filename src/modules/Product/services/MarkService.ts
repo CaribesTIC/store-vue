@@ -22,6 +22,7 @@ export const deleteMark = (markId: string) => {
 
 export default {
   getMarks,
+  getMark,
   insertMark,
   updateMark,
   deleteMark
