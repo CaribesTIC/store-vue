@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // @ts-nocheck
-import useIndex from "../../composables/useIndex";
+import useIndex from "../../composables/Product/useIndex";
 import AppPaginationB from "@/components/AppPaginationB.vue";
 import AppPageHeader from "@/components/AppPageHeader.vue"
 import AppBtn from "@/components/AppBtn.vue"
@@ -47,33 +47,13 @@ const {
           <thead>
             <tr class="">
               <th class="">
-                Image
-              </th>
-              <th class="">
                 <AppLink to="#" @click.prevent="setSort('name')">Nombre</AppLink>
-              </th>
-              <th class="">
-                <AppLink to="#" @click.prevent="setSort('email')">Correo</AppLink>
-              </th>
-              <th class="">
-                <AppLink to="#" @click.prevent="setSort('role')">Role</AppLink>
-              </th>
+              </th>              
               <th class="">Acción</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="row in data.rows" :key="row.id" class="">
-              <td>
-              <div class="inline-flex items-center space-x-2">
-            <img
-              v-if="row.avatar"
-              :src="row.avatar"
-              class="w-10 h-10 rounded-full"
-              alt=""
-            />
-            <AvatarIcon class="w-10 h-10 text-gray-400 rounded-full" v-else />            
-          </div>
-              </td>
               <td class="">
                 <AppLink
                   class="text-indigo-600 hover:text-indigo-800 underline"
@@ -81,13 +61,7 @@ const {
                 >
                   {{ row.name }}
                 </AppLink>
-              </td>
-              <td class="">
-                {{ row.email }}
-              </td>
-              <td class="">
-                {{ row.role_id }}
-              </td>
+              </td>              
               <td class="">
                 <div class="flex items-center space-x-1">                
                   <AppBtn

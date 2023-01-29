@@ -2,7 +2,7 @@ import { reactive, onMounted } from "vue"
 import { onBeforeRouteUpdate } from "vue-router"
 import useTableGrid from "@/composables/useTableGrid"
 import useHttp from "@/composables/useHttp"
-import ProductService from "../services"
+import ProductService from "../../services/ProductService"
 
 type Params =  string | string[][] | Record<string, string> | URLSearchParams | undefined
 
@@ -27,10 +27,10 @@ export default () => {
 
     setSearch,
     setSort, 
-  } = useTableGrid(data, "/users")
+  } = useTableGrid(data, "/products")
 
-  const getUsers = (routeQuery: string) => {  
-    return ProductService.getProduct(routeQuery)
+  const getProducts = (routeQuery: string) => {  
+    return ProductService.getProducts(routeQuery)
       .then((response) => {
         errors.value = {}
         data.rows = response.data.rows.data
@@ -51,7 +51,7 @@ export default () => {
       return ProductService.deleteProduct(rowId)
         .then((response) => {
           errors.value = {}
-          router.push( { path: '/users' } )        
+          router.push( { path: '/products' } )        
         })
         .catch((err) => {                
           console.log( err.response.data )
@@ -62,14 +62,14 @@ export default () => {
 
   onBeforeRouteUpdate(async (to, from) => {      
     if (to.query !== from.query) {        
-      await getUsers(
+      await getProducts(
         new URLSearchParams(to.query as Params).toString()
       )
     }
   })
 
   onMounted(() => {
-    getUsers(
+    getProducts(
       new URLSearchParams(route.query as Params).toString()
     )
   })
