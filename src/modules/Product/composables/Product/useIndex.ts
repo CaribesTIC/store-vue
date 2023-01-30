@@ -17,7 +17,7 @@ export default () => {
 
   const {  
     errors,
-
+    pending,
     getError     
   } = useHttp()
 
@@ -78,6 +78,7 @@ export default () => {
     errors,
     data,
     router,
+    pending,
 
     deleteRow,
     setSearch,
