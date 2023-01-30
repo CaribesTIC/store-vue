@@ -10,13 +10,13 @@ export default [{
     path: "/products/create",
     name: "productCreate",
     meta: { middleware: [auth, admin] },
-    component: () => import("@/modules/Product/views/Product/CreateOrEdit.vue").then(m => m.default),
+    component: () => import("@/modules/Product/views/Product/Tabs.vue").then(m => m.default),
     props: true
 }, {
     path: "/products/edit/:id(\\d+)",
     name: "productEdit",
     meta: { middleware: [auth, admin] },
-    component: () => import("@/modules/Product/views/Product/CreateOrEdit.vue").then(m => m.default),
+    component: () => import("@/modules/Product/views/Product/Tabs.vue").then(m => m.default),
     props: true
 }, {
     path: "/articles",

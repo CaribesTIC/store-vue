@@ -10,6 +10,7 @@ const {
   errors,
   data,
   router,
+  pending,
 
   deleteRow,
   setSearch,
@@ -41,8 +42,13 @@ const {
             />
           </div>
         </div>
-      </div>      
-      <div class="table-data__wrapper">
+      </div>
+      <AppPending
+        v-if="pending"
+        :pending="pending"
+        msg="Cargando"
+      />     
+      <div v-else class="table-data__wrapper">
         <table class="table-data">
           <thead>
             <tr class="">
