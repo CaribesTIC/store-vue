@@ -6,14 +6,14 @@ import { useRouter } from 'vue-router'
 
 const TabProduct = defineAsyncComponent(() => import('./TabProduct.vue'))
 const TabPresentation = defineAsyncComponent(() => import('./TabPresentation.vue'))
-
+const TabImage = defineAsyncComponent(() => import('./TabImage.vue'))
 
 const props = defineProps<{ id: string }>()
 
 const tabs = []
 tabs.push({ component: TabProduct, title: "Producto" }) 
 tabs.push({ component: TabPresentation, title: "Presentación" })
-
+tabs.push({ component: TabImage, title: "Imagen" })
 
 const currentTab = shallowRef(tabs[0])
 
