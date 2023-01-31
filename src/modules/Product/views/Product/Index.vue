@@ -51,23 +51,35 @@ const {
       <div v-else class="table-data__wrapper">
         <table class="table-data">
           <thead>
-            <tr class="">
+            <tr class=""> 
               <th class="">
-                <AppLink to="#" @click.prevent="setSort('name')">Nombre</AppLink>
-              </th>              
+                <AppLink to="#" @click.prevent="setSort('product')">Nombre</AppLink>
+              </th>
+              <th class="">
+                <AppLink to="#" @click.prevent="setSort('mark')">Marca</AppLink>
+              </th>
+              <th class="">
+                <AppLink to="#" @click.prevent="setSort('category')">Categoría</AppLink>
+              </th>       
               <th class="">Acción</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="row in data.rows" :key="row.id" class="">
+            <tr v-for="row in data.rows" :key="row.id" class="">              
               <td class="">
                 <AppLink
                   class="text-indigo-600 hover:text-indigo-800 underline"
-                  :to="{ name: 'userEdit', params: { id: row.id }}"                  
+                  :to="{ name: 'productEdit', params: { id: row.id }}"                  
                 >
-                  {{ row.name }}
+                  {{ row.product }}
                 </AppLink>
-              </td>              
+              </td>
+              <td class="">
+                {{ row.mark }}                
+              </td>
+              <td class="">
+                {{ row.category }}                
+              </td>
               <td class="">
                 <div class="flex items-center space-x-1">                
                   <AppBtn
