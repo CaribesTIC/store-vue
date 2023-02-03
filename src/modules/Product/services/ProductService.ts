@@ -4,8 +4,8 @@ export const getProducts = (query: string) => {
   return Http.get(`/api/products/?${query}`);
 }
 
-export const getProduct = (userId: string) => { 
-  return Http.get(`/api/users/${userId}`);
+export const getProduct = (productId: string) => { 
+  return Http.get(`/api/products/${productId}`);
 }
 
 export const insertProduct = (payload) => {  

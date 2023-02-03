@@ -8,6 +8,10 @@ export const getCategoriesChildren = (menuId) => {
   return Http.get(`/api/category/get/nivel/${menuId}`);
 }
 
+export const getCategoriesSelect = () => {  
+  return Http.get("/api/category/get/select");
+}
+
 export const insertCategory = (form) => {  
   return Http.post(`/api/category/regist`, form);
 }

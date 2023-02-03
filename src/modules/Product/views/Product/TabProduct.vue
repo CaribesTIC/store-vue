@@ -1,7 +1,21 @@
 <script setup lang="ts">
+import useTabProduct from "../../composables/Product/useTabProduct";
+
+const props = defineProps<{ id: string }>()
+
+const {
+  category,
+  product,
+  errors,
+  //roles,
+  pending,
+  //router,
+
+  submit    
+} = useTabProduct(props.id)
 </script>
 
-<template>  
+<template>
   <div class="">
     <div class="p-5 grid lg:grid-cols-2 gap-4">    
       <div class="block">      
@@ -9,6 +23,7 @@
           id="category_id"
           name="category_id"
           label="Categoría"
+          :options="category"
         />
       </div>      
       <div class="block">      
