@@ -7,16 +7,13 @@ import { useRouter } from 'vue-router'
 const TabProduct = defineAsyncComponent(() => import('./TabProduct.vue'))
 const TabPresentation = defineAsyncComponent(() => import('./TabPresentation.vue'))
 const TabImage = defineAsyncComponent(() => import('./TabImage.vue'))
-
 const props = defineProps<{ id: string }>()
-
-const tabs = []
-tabs.push({ component: TabProduct, title: "Producto" }) 
-tabs.push({ component: TabPresentation, title: "Presentación" })
-tabs.push({ component: TabImage, title: "Imagen" })
-
+const tabs = [
+  { component: TabProduct, title: "Producto" },
+  { component: TabPresentation, title: "Presentación" },
+  { component: TabImage, title: "Imagen" }
+]
 const currentTab = shallowRef(tabs[0])
-
 const router = useRouter();  
 //const {
 //  router,  
@@ -24,7 +21,7 @@ const router = useRouter();
 </script>
 
 <template>
-  <div>     
+  <div>
     <AppPageHeader>Productos / {{ !props.id ? "Crear" : "Editar" }}</AppPageHeader>
     <div  class="flex space-x-2">
       <button
