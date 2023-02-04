@@ -7,8 +7,8 @@ const {
   category,
   product,
   errors,
-  //roles,
   pending,
+  mark,
   //router,
 
   submit    
@@ -31,6 +31,7 @@ const {
           id="mark_id"
           name="mark_id"
           label="Marca"
+          :options="mark"
         />
       </div>
 
