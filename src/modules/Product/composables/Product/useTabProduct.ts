@@ -3,6 +3,7 @@ import { useRouter } from 'vue-router'
 import useHttp from "@/composables/useHttp";
 import * as CategoryService from "@/modules/Product/services/CategoryService";
 import * as MarkService from "@/modules/Product/services/MarkService";
+import * as CommonService from "@/modules/Product/services/CommonService";
 import ProductService from "@/modules/Product/services/ProductService";
 //import type User from "../types/User"
 
@@ -12,14 +13,16 @@ export default (productId?: string) => {
   //const category = ref<Role[]>([])
   const category = ref([])
   const mark = ref([])
+  const measureUnitTypes = ref([])
+  const measureUnits = ref([])
   
   // const user: User = reactive({
-  const product = reactive({ 
+  const form = reactive({
     category_id: "",
     mark_id: "",
-    id_measure_unit_type: "",
-    id_measure_unit: "",
-    name: ""
+    measure_unit_type_id: "",
+    measure_unit_id: "",
+    name:""
   })
   
   const {  
@@ -30,15 +33,17 @@ export default (productId?: string) => {
   } = useHttp()
   
   onMounted(async () => {
-    /*if (productId) {
+    if (productId) {
       pending.value = true
       ProductService.getProduct(productId)
         .then((response) => {
-          product.category_id: response.data.data.category_id,
-          product.mark_id: response.data.data.mark_id,
-          product.id_measure_unit_type: response.data.data.id_measure_unit_type,
-          product.id_measure_unit: response.data.data.id_measure_unit,
-          product.name: response.data.data.name
+          form.category_id = response.data.category_id;
+          form.mark_id = response.data.mark_id;
+          form.measure_unit_type_id = response.data.measure_unit_type_id;
+          form.measure_unit_id = response.data.measure_unit_id;
+          form.name = response.data.name
+          if (form.measure_unit_type_id)
+              getMeasureUnits(form.measure_unit_type_id)
         })
         .catch((err) => {        
           errors.value = getError(err)
@@ -46,7 +51,7 @@ export default (productId?: string) => {
         .finally(() => {
           pending.value = false;
         })
-    }*/
+    }
 
     pending.value = true
     CategoryService.getCategoriesSelect()
@@ -82,18 +87,55 @@ export default (productId?: string) => {
         pending.value = false
       })
 
-    /*pending.value = true
-    UserService.helperTablesGet()
-      .then((response) => {
-        roles.value = response.data.roles
+    pending.value = true
+    CommonService.getMeasureUnitTypes()
+     .then((response) => {
+        measureUnitTypes.value = response.data.map(function(mut) {
+          return {
+            id: mut.id,
+            name: mut.description
+          }
+        }).sort(function (a, b) {
+          if (a.name > b.name) { return  1; }
+          if (a.name < b.name) { return -1; }
+          // a must be equal to b
+          return 0;
+        })
       })
-      .catch((err) => {
+      .catch((err) => {        
         errors.value = getError(err)
       })
       .finally(() => {
-        pending.value = false
-      })*/
+        pending.value = false;
+      })
   })
+  
+  const getMeasureUnits = async (measureUnitTypeId) => {    
+    pending.value = true
+      CommonService.getMeasureUnits(measureUnitTypeId)
+        .then((response) => {          
+          measureUnits.value = response.data.map(function(mu) {
+            return {
+              id: mu.id,
+              name: mu.description
+            }
+          }).sort(function (a, b) {
+            if (a.name > b.name) { return  1; }
+            if (a.name < b.name) { return -1; }
+            // a must be equal to b
+            return 0;
+          })
+          if (!measureUnits.value.some(item => item.id === form.measure_unit_id))
+            form.measure_unit_id = "" 
+      })
+      .catch((err) => {        
+        errors.value = getError(err)
+      })
+      .finally(() => {
+        pending.value = false;
+      })
+  }
+
 
   /*const insertUser = async (user: User) => {  
     sending.value = true
@@ -135,12 +177,15 @@ export default (productId?: string) => {
 
   return {
     category,
-    product,
+    form,
     errors,
     pending,
     mark,
+    measureUnitTypes,
+    measureUnits,
     router,
 
+    getMeasureUnits,
     submit    
   }
 
