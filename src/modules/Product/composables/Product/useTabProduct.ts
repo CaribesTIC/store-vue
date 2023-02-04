@@ -2,6 +2,7 @@ import { onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import useHttp from "@/composables/useHttp";
 import * as CategoryService from "@/modules/Product/services/CategoryService";
+import * as MarkService from "@/modules/Product/services/MarkService";
 import ProductService from "@/modules/Product/services/ProductService";
 //import type User from "../types/User"
 
@@ -10,6 +11,7 @@ export default (productId?: string) => {
   
   //const category = ref<Role[]>([])
   const category = ref([])
+  const mark = ref([])
   
   // const user: User = reactive({
   const product = reactive({ 
@@ -60,6 +62,18 @@ export default (productId?: string) => {
           // a must be equal to b
           return 0;
         })
+      })
+      .catch((err) => {
+        errors.value = getError(err)
+      })
+      .finally(() => {
+        pending.value = false
+      })
+    
+    pending.value = true
+    MarkService.getMarksSelect()
+      .then((response) => {         
+         mark.value =   response.data
       })
       .catch((err) => {
         errors.value = getError(err)
@@ -123,8 +137,8 @@ export default (productId?: string) => {
     category,
     product,
     errors,
-    //roles,
     pending,
+    mark,
     router,
 
     submit    
