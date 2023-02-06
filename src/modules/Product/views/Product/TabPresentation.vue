@@ -1,7 +1,11 @@
 <script setup lang="ts">
-import {ref} from "vue"
+import {ref, computed} from "vue"
 
-const isOpen = ref()
+const isOpenPanel = ref(false)
+const isOpenModal = ref(false)
+
+const OpenOrCloseButton = computed(()=> isOpenPanel.value ? "Cerrar" : "Abrir")
+const OpenOrCloseClass = computed(()=> isOpenPanel.value ? "btn-default" : "btn-primary")
 </script>
 
 <template>
@@ -10,18 +14,19 @@ const isOpen = ref()
   <div class="col-sm-12">
     <div  align="center">    
       <div>
-        <table style="cursor:pointer;"  @click="isOpen=!isOpen">
+        <table style="cursor:pointer;"  @click="isOpenPanel=!isOpenPanel">
           <tr>
             <td>
-              <div class="subtitulo_datos">Agregar Presentación</div>
+              <div class="btn p-8" :class="OpenOrCloseClass">{{ OpenOrCloseButton }} panel para agregar Presentación</div>
             </td>
-            <td>
+            <!--td>
               <div id="id_img_presentacion" title="Mostrar Panel" class="img_show"></div>
-            </td>
+            </td-->
           </tr>
         </table>
-      </div><br/>
-      <div id="id_panel_presentacion" v-if="isOpen">
+      </div>  
+      <br/>
+      <div id="id_panel_presentacion" v-if="isOpenPanel" class="bg-base-200 py-4 rounded">
         <input id="id_presentation" name="id_presentation" value="0" type="hidden">
         <table class="table table-striped table-bordered compact" style="width: 75%">
           <tr>
@@ -47,6 +52,7 @@ const isOpen = ref()
                         type="text"
                         autocomplete="off"
                         style="width: 98%;"
+                        @focus="isOpenModal = !isOpenModal"
                         data-format="uppercase"
                         data-constraints=""
                         data-validation="required"
@@ -106,11 +112,11 @@ const isOpen = ref()
             </td>
           </tr>
         </table>
-        <div style="margin-bottom:2%">
+        <div style="margin:2%">
           <button id="addReg" type="button" class="btn btn-primary" onClick="Product.Presentation.valEnvio();">Agregar</button>
         </div>
       </div>     
-      <table id="id_tab_presentacion" class="table table-striped table-bordered compact" width="100%">
+      <table id="id_tab_presentacion" class="mt-4" width="100%">
         <thead class="table-success text-center">
           <tr>  
             <th>Venta</th>
@@ -149,5 +155,80 @@ const isOpen = ref()
     </div>
   </div>
 </div>
+<div>
+<Teleport to="body">
+    <Transition mode="in-out">
+      <div v-if="isOpenModal" class="modal transition duration-150 v-enter-active">        
+        <div class="modal-content rounded-lg shadow-xl">
+          <span class="close" @click="isOpenModal = false">&times;</span>
+          <h1 class="text-gray-900 text-xl font-semibold mb-4">Empacar</h1>
+          
+            <div class="flex items-center justify-between mt-4">
+               <AppBtn
+                 type="button"       
+                 data-testid="submit-btn"
+                 class="btn btn-primary"
+                 text="Aceptar"
+               />
+             </div> 
+        </div>
+      </div>
+    </Transition>
+  </Teleport>
+</div>
 </div>
 </template>
+
+
+
+<style>
+
+.modal {  
+  @apply fixed z-30 pt-28; 
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+  
+}
+
+.modal-content {
+  @apply m-auto w-4/5 sm:w-9/12 md:w-4/6 lg:w-3/6;
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.25s ease-in-out;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+  transform: translate3d(-10vw);
+}
+
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+</style>
+
+
+
