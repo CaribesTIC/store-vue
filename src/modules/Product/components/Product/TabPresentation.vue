@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {ref, computed} from "vue"
+import ModalPacking from '../../components/Product/ModalPacking.vue'
 
 const isOpenPanel = ref(false)
 const isOpenModal = ref(false)
@@ -156,25 +157,12 @@ const OpenOrCloseClass = computed(()=> isOpenPanel.value ? "btn-default" : "btn-
   </div>
 </div>
 <div>
-<Teleport to="body">
-    <Transition mode="in-out">
-      <div v-if="isOpenModal" class="modal transition duration-150 v-enter-active">        
-        <div class="modal-content rounded-lg shadow-xl">
-          <span class="close" @click="isOpenModal = false">&times;</span>
-          <h1 class="text-gray-900 text-xl font-semibold mb-4">Empacar</h1>
-          
-            <div class="flex items-center justify-between mt-4">
-               <AppBtn
-                 type="button"       
-                 data-testid="submit-btn"
-                 class="btn btn-primary"
-                 text="Aceptar"
-               />
-             </div> 
-        </div>
-      </div>
-    </Transition>
-  </Teleport>
+
+<ModalPacking
+  v-if="isOpenModal"
+  @closeModal="isOpenModal = false"
+/>
+
 </div>
 </div>
 </template>
