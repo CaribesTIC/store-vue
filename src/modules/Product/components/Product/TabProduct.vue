@@ -3,11 +3,9 @@
 //https://gitlab.com/fdsoil/php_laravel_mybusiness_product/-/blob/master/resources/js/Product/Packing.js
 //https://gitlab.com/fdsoil/php_fdsoil_my_business_product/-/blob/master/modulos/product_aux/modalWindowEmpaque.html
 //https://gitlab.com/fdsoil/php_fdsoil_my_business_product/-/blob/master/modulos/product_aux/js/Empaque.js
-
-import { ref, reactive, watch } from "vue" 
 import useTabProduct from "../../composables/Product/useTabProduct";
 
-const props = defineProps<{ id: string }>()
+const props = defineProps<{ id?: string }>()
 
 //const emit = defineEmits<{
 //  (e: 'getMeasureUnits', measure_unit_type_id: string): void    
@@ -22,54 +20,20 @@ const {
   mark,
   measureUnitTypes,
   measureUnits,
+  measureUnit,
   //router,
 
   getMeasureUnits,
+  measureUnitUpdate,
   submit    
-} = useTabProduct(props.id)
-
-
-watch(
-  () => form.measure_unit_type_id,
-  (newMeasureUnitType, oldMeasureUnitType) => {
-    //if (!measureUnit.value.includes(form.measure_unit_id))
-      //form.measure_unit_id = ""    
-    if (newMeasureUnitType !== "")
-      //emit('getMeasureUnits', newMeasureUnitType)
-      getMeasureUnits(form.measure_unit_type_id)
-  },        
-  { immediate: false, deep: true }, 
-)
-
-
-
-    const items = [
-      { title: "Learn JavaScript", id: 'A' },
-      { title: "Learn Vue", id: 'B' },      
-      { title: "Play around in JSFiddle", id: 'C' },
-      { title: "Build something awesome", id: 'D' }
-    ]
-    const selectedIndex = ref(0)
-    
-    const switchView = function(event, selectedIndex) {
-      console.log(event.target[selectedIndex].text);      
-      //selectedIndex.value = selectedIndex;
-    }
-    
+} = useTabProduct(props.id)   
 </script>
 
 <template>
-  <div class="">
-  
-  <select @change="switchView($event, $event.target.selectedIndex)">
-  <option v-for="(item, index) in measureUnits" v-bind:value="item.name">
-    {{ item.name }}
-  </option>
-</select>
-  
+  <div class="">{{measureUnit}}
     <div class="p-5 grid lg:grid-cols-2 gap-4">    
       <div class="block">      
-        <AppSelect
+        <AppSelect          
           v-model="form.category_id"          
           label="Categoría"
           :options="category"
@@ -90,13 +54,37 @@ watch(
           :options="measureUnitTypes"
         />
       </div>
-      <div class="block"> 
+
+      <div class="block">
+        <label>Unidad de Medida</label> 
+        <select
+          v-model="form.measure_unit_id"
+          @change="measureUnitUpdate($event, $event.target.selectedIndex)"                  
+        >
+        <option
+          value=""
+          class="text-gray-200"
+        >
+          Seleccione...
+        </option>
+        <option
+          v-for="(option, index) in measureUnits"
+          :value="option.id"
+          :key="index"
+          :selected="option.id === form.measure_unit_id"
+         >
+          {{ option.name }}
+        </option>
+        </select>
+      </div>      
+      
+      <!--div class="block"> 
         <AppSelect
           v-model="form.measure_unit_id"
           label="Unidad de Medida"
           :options="measureUnits"
         />
-      </div>
+      </div-->
 
       <div class="block">      
         <AppInput      
