@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { reactive, watch } from "vue" 
+//https://gitlab.com/fdsoil/php_laravel_mybusiness_product/-/blob/master/resources/views/product/partials/modal_packing.blade.php
+//https://gitlab.com/fdsoil/php_laravel_mybusiness_product/-/blob/master/resources/js/Product/Packing.js
+//https://gitlab.com/fdsoil/php_fdsoil_my_business_product/-/blob/master/modulos/product_aux/modalWindowEmpaque.html
+//https://gitlab.com/fdsoil/php_fdsoil_my_business_product/-/blob/master/modulos/product_aux/js/Empaque.js
+
+import { ref, reactive, watch } from "vue" 
 import useTabProduct from "../../composables/Product/useTabProduct";
 
 const props = defineProps<{ id: string }>()
@@ -35,10 +40,33 @@ watch(
   },        
   { immediate: false, deep: true }, 
 )
+
+
+
+    const items = [
+      { title: "Learn JavaScript", id: 'A' },
+      { title: "Learn Vue", id: 'B' },      
+      { title: "Play around in JSFiddle", id: 'C' },
+      { title: "Build something awesome", id: 'D' }
+    ]
+    const selectedIndex = ref(0)
+    
+    const switchView = function(event, selectedIndex) {
+      console.log(event.target[selectedIndex].text);      
+      //selectedIndex.value = selectedIndex;
+    }
+    
 </script>
 
 <template>
   <div class="">
+  
+  <select @change="switchView($event, $event.target.selectedIndex)">
+  <option v-for="(item, index) in measureUnits" v-bind:value="item.name">
+    {{ item.name }}
+  </option>
+</select>
+  
     <div class="p-5 grid lg:grid-cols-2 gap-4">    
       <div class="block">      
         <AppSelect

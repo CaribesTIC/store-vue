@@ -15,7 +15,8 @@ const containers = ref([])
 const form = reactive({
   quantity: 0,
   packing: "",
-  packing_json: ""
+  packing_description: "",
+  packing_json: [],
 })
 
 onMounted(async () => {
@@ -24,7 +25,7 @@ onMounted(async () => {
           console.log(response)
           containers.value=response.data.map(function(c) {
           return {
-            id: c.id,
+            id: c.description,
             name: c.description
           }
         }).sort(function (a, b) {
@@ -41,6 +42,18 @@ onMounted(async () => {
           //pending.value = false;
         })
 })
+
+let n = 0, i = 0;
+const aConect = [ ' DE ', ' CON ' ];    
+  
+const add = ()=> {
+  form.packing_description += `${form.packing} ${aConect[n++]} ${form.quantity}`  
+  form.packing_json[i++] = `{"packing":"${form.packing}","quantity":${form.quantity}}`;
+  if (n == 2) n = 0;
+  //`${empa} ${aConect[n++]} ${cant} `;
+}
+
+const remove = ()=> alert(form.packing)
 </script>
 
 <template>
@@ -71,14 +84,19 @@ onMounted(async () => {
             </div>
 
             <div class="block mt-5">
-              <AppBtn class="btn btn-primary mx-1">+</AppBtn>
-              <AppBtn class="btn btn-danger mx-1">-</AppBtn>
+              <AppBtn class="btn btn-primary mx-1" @click="add">+</AppBtn>
+              <AppBtn class="btn btn-danger mx-1" @click="remove">-</AppBtn>
             </div>
           </div>
+          
+          <AppTextarea
+            label="Descripcción"
+            v-model="form.packing_description"
+            readonly/>
                
           <AppInput
             v-model="form.packing_json"          
-            type="hidden"          
+            type="text"          
           />
           
           <div class="flex items-center justify-between mt-4">
