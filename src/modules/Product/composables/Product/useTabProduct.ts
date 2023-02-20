@@ -1,4 +1,4 @@
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import useHttp from "@/composables/useHttp";
 import * as CategoryService from "@/modules/Product/services/CategoryService";
@@ -15,6 +15,7 @@ export default (productId?: string) => {
   const mark = ref([])
   const measureUnitTypes = ref([])
   const measureUnits = ref([])
+  const measureUnit = ref("")
   
   // const user: User = reactive({
   const form = reactive({
@@ -23,8 +24,8 @@ export default (productId?: string) => {
     measure_unit_type_id: "",
     measure_unit_id: "",
     name:""
-  })
-  
+  }) 
+
   const {  
     errors,
     pending,
@@ -125,8 +126,10 @@ export default (productId?: string) => {
             // a must be equal to b
             return 0;
           })
-          if (!measureUnits.value.some(item => item.id === form.measure_unit_id))
-            form.measure_unit_id = "" 
+          if (!measureUnits.value.some(item => item.id === form.measure_unit_id)) {
+            form.measure_unit_id = ""
+          }
+          measureUnit.value = measureUnits.value.find((item)=> item.id === form.measure_unit_id).name
       })
       .catch((err) => {        
         errors.value = getError(err)
@@ -136,8 +139,7 @@ export default (productId?: string) => {
       })
   }
 
-
-  /*const insertUser = async (user: User) => {  
+  /*const insertUser = async (user: User) => {
     sending.value = true
     return UserService.insertUser(user)
       .then((response) => {         
@@ -169,11 +171,27 @@ export default (productId?: string) => {
       })
   }*/
   
-  //const submit = (user: User, userId?: string) => {  
+  //const submit = (user: User, userId?: string) => {
   //  !userId ? insertUser (user)  : updateUser(user, userId)
   const submit = (product, productId?) => {
     !productId ? insertProduct (product)  : updateProduct(product, userId)
   }
+
+  const measureUnitUpdate = (event, selectedIndex) => {
+    measureUnit.value = selectedIndex ? event.target[selectedIndex].text : ""
+  }
+
+  watch(
+    () => form.measure_unit_type_id,
+    (newMeasureUnitType, oldMeasureUnitType) => {
+      //if (!measureUnit.value.includes(form.measure_unit_id)) form.measure_unit_id = ""
+      if (newMeasureUnitType !== "") { //emit('getMeasureUnits', newMeasureUnitType)
+        measureUnit.value = ""
+        getMeasureUnits(form.measure_unit_type_id)
+      }
+    },
+    { immediate: false, deep: true },
+  )
 
   return {
     category,
@@ -183,9 +201,11 @@ export default (productId?: string) => {
     mark,
     measureUnitTypes,
     measureUnits,
+    measureUnit,
     router,
 
     getMeasureUnits,
+    measureUnitUpdate,
     submit    
   }
 

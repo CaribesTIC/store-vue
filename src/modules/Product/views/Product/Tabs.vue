@@ -7,7 +7,7 @@ import { useRouter } from 'vue-router'
 const TabProduct = defineAsyncComponent(() => import('../../components/Product/TabProduct.vue'))
 const TabPresentation = defineAsyncComponent(() => import('../../components/Product/TabPresentation.vue'))
 const TabImage = defineAsyncComponent(() => import('../../components/Product/TabImage.vue'))
-const props = defineProps<{ id: string }>()
+const props = defineProps<{ id?: string }>()
 const tabs = [
   { component: TabProduct, title: "Producto" },
   { component: TabPresentation, title: "Presentación" },
