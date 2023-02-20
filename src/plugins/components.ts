@@ -8,6 +8,7 @@ app
   .component('AppLink', defineAsyncComponent(() => import('@/components/AppLink.vue')))   
   .component('AppInput', defineAsyncComponent(() => import('@/components/AppInput.vue')))
   .component('AppSelect', defineAsyncComponent(() => import('@/components/AppSelect.vue')))
+  .component('AppTextarea', defineAsyncComponent(() => import('@/components/AppTextarea.vue')))
   .component('AppPending', defineAsyncComponent(() => import('@/components/AppPending.vue')))
   .component('DefaultLayout', defineAsyncComponent(() => import('@/layouts/DashboardLayout.vue')))
   .component('EmptyLayout', defineAsyncComponent(() => import('@/layouts/EmptyLayout.vue')))
