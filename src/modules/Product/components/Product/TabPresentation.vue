@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, computed} from "vue"
+import {ref, computed, inject} from "vue"
 import ModalPacking from '../../components/Product/ModalPacking.vue'
 
 const isOpenPanel = ref(false)
@@ -7,10 +7,12 @@ const isOpenModal = ref(false)
 
 const OpenOrCloseButton = computed(()=> isOpenPanel.value ? "Cerrar" : "Abrir")
 const OpenOrCloseClass = computed(()=> isOpenPanel.value ? "btn-default" : "btn-primary")
+
+const measureUnitText = inject('measureUnitText')
 </script>
 
 <template>
-  <div class="demo-tab">    
+  <div class="demo-tab"> {{measureUnitText}}   
     <div class="form-group row">
   <div class="col-sm-12">
     <div  align="center">    

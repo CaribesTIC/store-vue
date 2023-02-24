@@ -129,7 +129,7 @@ export default (productId?: string) => {
           if (!measureUnits.value.some(item => item.id === form.measure_unit_id)) {
             form.measure_unit_id = ""
           }
-          measureUnit.value = measureUnits.value.find((item)=> item.id === form.measure_unit_id).name
+          // measureUnit.value = measureUnits.value.find((item)=> item.id === form.measure_unit_id).name          
       })
       .catch((err) => {        
         errors.value = getError(err)
@@ -185,8 +185,9 @@ export default (productId?: string) => {
     () => form.measure_unit_type_id,
     (newMeasureUnitType, oldMeasureUnitType) => {
       //if (!measureUnit.value.includes(form.measure_unit_id)) form.measure_unit_id = ""
-      if (newMeasureUnitType !== "") { //emit('getMeasureUnits', newMeasureUnitType)
-        measureUnit.value = ""
+      measureUnit.value = ""      
+      if (newMeasureUnitType === "") form.measure_unit_id = ""
+      if (newMeasureUnitType !== "") { //emit('getMeasureUnits', newMeasureUnitType)        
         getMeasureUnits(form.measure_unit_type_id)
       }
     },
