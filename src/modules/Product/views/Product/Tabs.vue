@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { defineAsyncComponent, shallowRef } from 'vue'
+import { defineAsyncComponent, shallowRef, ref, provide } from 'vue'
 import AppPageHeader from "@/components/AppPageHeader.vue"
 //import useShow from '../composables/useShow'
 import { useRouter } from 'vue-router'
@@ -18,6 +18,17 @@ const router = useRouter();
 //const {
 //  router,  
 //} = useShow(props.id)
+
+const measureUnitText = ref("")
+
+const updateMeasureUnit = (val) => {
+  measureUnitText.value = val
+}
+
+provide('measureUnitText', {
+  measureUnitText,
+  updateMeasureUnit
+})
 </script>
 
 <template>
