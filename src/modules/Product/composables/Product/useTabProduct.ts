@@ -1,4 +1,4 @@
-import { onMounted, reactive, ref, watch } from 'vue'
+import { onMounted, reactive, ref, watch, inject } from 'vue'
 import { useRouter } from 'vue-router'
 import useHttp from "@/composables/useHttp";
 import * as CategoryService from "@/modules/Product/services/CategoryService";
@@ -8,6 +8,7 @@ import ProductService from "@/modules/Product/services/ProductService";
 //import type User from "../types/User"
 
 export default (productId?: string) => {
+  const { updateMeasureUnit } = inject('measureUnit')
   const router = useRouter();
   
   //const category = ref<Role[]>([])
@@ -15,7 +16,7 @@ export default (productId?: string) => {
   const mark = ref([])
   const measureUnitTypes = ref([])
   const measureUnits = ref([])
-  const measureUnit = ref("")
+  //const measureUnit = ref("")
   
   // const user: User = reactive({
   const form = reactive({
@@ -33,7 +34,7 @@ export default (productId?: string) => {
     getError
   } = useHttp()
   
-  onMounted(async () => {
+  onMounted(() => {
     if (productId) {
       pending.value = true
       ProductService.getProduct(productId)
@@ -43,6 +44,8 @@ export default (productId?: string) => {
           form.measure_unit_type_id = response.data.measure_unit_type_id;
           form.measure_unit_id = response.data.measure_unit_id;
           form.name = response.data.name
+          //measureUnit.value = response.data.measure_unit
+          updateMeasureUnit(response.data.measure_unit)
           if (form.measure_unit_type_id)
               getMeasureUnits(form.measure_unit_type_id)
         })
@@ -177,19 +180,17 @@ export default (productId?: string) => {
     !productId ? insertProduct (product)  : updateProduct(product, userId)
   }
 
-  const measureUnitUpdate = (event, selectedIndex) => {
-    measureUnit.value = selectedIndex ? event.target[selectedIndex].text : ""
-  }
+  //const measureUnitUpdate = (event, selectedIndex) => {
+  //  measureUnit.value = selectedIndex ? event.target[selectedIndex].text : ""
+  //}
 
   watch(
     () => form.measure_unit_type_id,
-    (newMeasureUnitType, oldMeasureUnitType) => {
-      //if (!measureUnit.value.includes(form.measure_unit_id)) form.measure_unit_id = ""
-      measureUnit.value = ""      
-      if (newMeasureUnitType === "") form.measure_unit_id = ""
-      if (newMeasureUnitType !== "") { //emit('getMeasureUnits', newMeasureUnitType)        
-        getMeasureUnits(form.measure_unit_type_id)
-      }
+    (newMeasureUnitType, oldMeasureUnitType) => { //emit('getMeasureUnits', newMeasureUnitType)        
+      if (newMeasureUnitType === "")
+        form.measure_unit_id = ""
+      if (newMeasureUnitType !== "")
+        getMeasureUnits(form.measure_unit_type_id)      
     },
     { immediate: false, deep: true },
   )
@@ -202,12 +203,16 @@ export default (productId?: string) => {
     mark,
     measureUnitTypes,
     measureUnits,
-    measureUnit,
+    //measureUnit,
     router,
 
     getMeasureUnits,
-    measureUnitUpdate,
+    //measureUnitUpdate,
     submit    
   }
 
 }
+
+
+
+// @change="measureUnitUpdate($event, $event.target.selectedIndex);updateMeasureUnit(measureUnit)"

@@ -8,11 +8,11 @@ const isOpenModal = ref(false)
 const OpenOrCloseButton = computed(()=> isOpenPanel.value ? "Cerrar" : "Abrir")
 const OpenOrCloseClass = computed(()=> isOpenPanel.value ? "btn-default" : "btn-primary")
 
-const measureUnitText = inject('measureUnitText')
+const { measureUnit } = inject('measureUnit')
 </script>
 
 <template>
-  <div class="demo-tab"> {{measureUnitText}}   
+  <div class="demo-tab"> {{measureUnit}}   
     <div class="form-group row">
   <div class="col-sm-12">
     <div  align="center">    
