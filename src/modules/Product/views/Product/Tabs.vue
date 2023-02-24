@@ -19,14 +19,14 @@ const router = useRouter();
 //  router,  
 //} = useShow(props.id)
 
-const measureUnitText = ref("")
+const measureUnit = ref("")
 
 const updateMeasureUnit = (val) => {
-  measureUnitText.value = val
+  measureUnit.value = val
 }
 
-provide('measureUnitText', {
-  measureUnitText,
+provide('measureUnit', {
+  measureUnit,
   updateMeasureUnit
 })
 </script>

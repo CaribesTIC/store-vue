@@ -3,7 +3,8 @@
 //https://gitlab.com/fdsoil/php_laravel_mybusiness_product/-/blob/master/resources/js/Product/Packing.js
 //https://gitlab.com/fdsoil/php_fdsoil_my_business_product/-/blob/master/modulos/product_aux/modalWindowEmpaque.html
 //https://gitlab.com/fdsoil/php_fdsoil_my_business_product/-/blob/master/modulos/product_aux/js/Empaque.js
-import {inject} from "vue"
+//https://logaretm.com/blog/making-the-most-out-of-vuejs-injections/
+import { inject } from "vue"
 import useTabProduct from "../../composables/Product/useTabProduct";
 
 const props = defineProps<{ id?: string }>()
@@ -21,7 +22,7 @@ const {
   mark,
   measureUnitTypes,
   measureUnits,
-  measureUnit,
+  //measureUnit,
   //router,
 
   getMeasureUnits,
@@ -29,13 +30,12 @@ const {
   submit    
 } = useTabProduct(props.id)
 
-const { measureUnitText, updateMeasureUnit } = inject('measureUnitText')
-
+const { updateMeasureUnit } = inject('measureUnit')
 
 </script>
 
 <template>
-  <div class="">{{measureUnit}} {{measureUnitText}}
+  <div class="">
     <div class="p-5 grid lg:grid-cols-2 gap-4">    
       <div class="block">      
         <AppSelect          
@@ -64,7 +64,7 @@ const { measureUnitText, updateMeasureUnit } = inject('measureUnitText')
         <label>Unidad de Medida</label> 
         <select
           v-model="form.measure_unit_id"
-          @change="measureUnitUpdate($event, $event.target.selectedIndex);updateMeasureUnit(measureUnit)"                  
+          @change="updateMeasureUnit($event.target[$event.target.selectedIndex].text)"                  
         >
         <option
           value=""
