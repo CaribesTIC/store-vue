@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted } from "vue"
+import { ref, reactive, onMounted, computed } from "vue"
 import CommonService from "../../services/CommonService"
+
+const props = defineProps<{
+  measureUnit: string
+}>()
 
 const emit = defineEmits<{
   (e: 'closeModal'): void
@@ -45,21 +49,40 @@ onMounted(async () => {
 
 let n = 0, i = 0;
 const aConect = [ ' DE ', ' CON ' ];    
-  
-const add = ()=> {
-  form.packing_description += `${form.packing} ${aConect[n++]} ${form.quantity}`  
-  form.packing_json[i++] = `{"packing":"${form.packing}","quantity":${form.quantity}}`;
-  if (n == 2) n = 0;
-  //`${empa} ${aConect[n++]} ${cant} `;
+
+const cleanAfter  = ()=> {        
+  form.quantity = ""
+  form.packing = ""
 }
 
-const remove = ()=> alert(form.packing)
+const add = ()=> {
+  let concatena1 = `${form.packing} ${aConect[n++]} ${form.quantity} `
+  let concatena2 = ((form.packing_description.trim() == "")
+        ? "Kilos"//element.medidaUnidad.[element.medidaUnidad.selectedIndex].text
+          : form.packing_description);
+  form.packing_description = concatena1 + concatena2;    
+  form.packing_json[i++] = `{"packing":"${form.packing}","quantity":${form.quantity}}`;
+  if (n == 2) n = 0;
+  cleanAfter()  
+}
+
+const remove = ()=> {      
+  cleanAfter()   
+  form.packing_description = "";
+  form.packing_json = "";
+}
+
+const lastPacking = computed(()=> form.packing_description.split(" ")[0])
+
+const labelOfquantity = computed(()=> "Cantidad de " + (form.packing_description=="" ? props.measureUnit : lastPacking.value))
+
+
 </script>
 
 <template>
   <Teleport to="body">
     <Transition mode="in-out">
-      <div class="modal transition duration-150 v-enter-active">        
+      <div class="modal transition duration-150 v-enter-active">
         <div class="modal-content rounded-lg shadow-xl">
           <span class="close" @click="closeModal">&times;</span>
           <h1 class="text-gray-900 text-xl font-semibold mb-4">Empacar</h1>
@@ -69,7 +92,7 @@ const remove = ()=> alert(form.packing)
             <div class="block">
               <AppInput
                 v-model="form.quantity"
-                label="Cantidad"
+                :label=labelOfquantity
                 type="number"
                 error=""
               />
@@ -77,6 +100,7 @@ const remove = ()=> alert(form.packing)
             
             <div class="block">
               <AppSelect
+                ref="xyz"
                 label="Empaque"
                 v-model="form.packing"
                 :options="containers"
