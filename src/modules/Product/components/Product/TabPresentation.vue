@@ -162,6 +162,7 @@ const { measureUnit } = inject('measureUnit')
 
 <ModalPacking
   v-if="isOpenModal"
+  :measureUnit="measureUnit"
   @closeModal="isOpenModal = false"
 />
 

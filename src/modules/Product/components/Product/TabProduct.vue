@@ -92,8 +92,8 @@ const { updateMeasureUnit } = inject('measureUnit')
       </div-->
 
       <div class="block">      
-        <AppInput      
-          name="name"
+        <AppInput          
+          v-model="form.name"          
           label="Nombre del Producto"
           type="text"
           error=""
