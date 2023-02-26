@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { defineAsyncComponent, shallowRef, ref, provide } from 'vue'
 import AppPageHeader from "@/components/AppPageHeader.vue"
-//import useShow from '../composables/useShow'
 import { useRouter } from 'vue-router'
+//import type { InjectionKey } from 'vue'
+// https://vuejs.org/guide/typescript/composition-api.html#typing-provide-inject
+//import useShow from '../composables/useShow'
 
 const TabProduct = defineAsyncComponent(() => import('../../components/Product/TabProduct.vue'))
 const TabPresentation = defineAsyncComponent(() => import('../../components/Product/TabPresentation.vue'))
@@ -15,12 +17,7 @@ const tabs = [
 ]
 const currentTab = shallowRef(tabs[0])
 const router = useRouter();  
-//const {
-//  router,  
-//} = useShow(props.id)
-
 const measureUnit = ref("")
-
 const updateMeasureUnit = (val) => {
   measureUnit.value = val
 }
@@ -29,6 +26,10 @@ provide('measureUnit', {
   measureUnit,
   updateMeasureUnit
 })
+
+//const {
+//  router,  
+//} = useShow(props.id)
 </script>
 
 <template>

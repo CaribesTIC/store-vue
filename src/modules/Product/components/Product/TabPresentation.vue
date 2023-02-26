@@ -15,7 +15,7 @@ const { measureUnit } = inject('measureUnit')
   <div class="demo-tab"> {{measureUnit}}   
     <div class="form-group row">
   <div class="col-sm-12">
-    <div  align="center">    
+    <div align="center">    
       <div>
         <table style="cursor:pointer;"  @click="isOpenPanel=!isOpenPanel">
           <tr>
