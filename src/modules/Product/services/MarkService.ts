@@ -4,7 +4,7 @@ export const getMarks = (query: string) => {
   return Http.get(`/api/marks/?${query}`);
 }
 
-export const getMarksSelect = (query: string) => {  
+export const getMarksSelect = () => {  
   return Http.get(`/api/marks/list`);
 }
 

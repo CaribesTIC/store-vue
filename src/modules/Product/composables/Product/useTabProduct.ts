@@ -15,8 +15,7 @@ export default (productId?: string) => {
   const category = ref([])
   const mark = ref([])
   const measureUnitTypes = ref([])
-  const measureUnits = ref([])
-  //const measureUnit = ref("")
+  const measureUnits = ref([])  
   
   // const user: User = reactive({
   const form = reactive({
@@ -43,8 +42,7 @@ export default (productId?: string) => {
           form.mark_id = response.data.mark_id;
           form.measure_unit_type_id = response.data.measure_unit_type_id;
           form.measure_unit_id = response.data.measure_unit_id;
-          form.name = response.data.name
-          //measureUnit.value = response.data.measure_unit
+          form.name = response.data.name          
           updateMeasureUnit(response.data.measure_unit)
           if (form.measure_unit_type_id)
               getMeasureUnits(form.measure_unit_type_id)
@@ -131,8 +129,7 @@ export default (productId?: string) => {
           })
           if (!measureUnits.value.some(item => item.id === form.measure_unit_id)) {
             form.measure_unit_id = ""
-          }
-          // measureUnit.value = measureUnits.value.find((item)=> item.id === form.measure_unit_id).name          
+          }                    
       })
       .catch((err) => {        
         errors.value = getError(err)
@@ -177,7 +174,7 @@ export default (productId?: string) => {
   //const submit = (user: User, userId?: string) => {
   //  !userId ? insertUser (user)  : updateUser(user, userId)
   const submit = (product, productId?) => {
-    !productId ? insertProduct (product)  : updateProduct(product, userId)
+    //!productId ? insertProduct (product)  : updateProduct(product, userId)
   }
 
   //const measureUnitUpdate = (event, selectedIndex) => {
@@ -202,17 +199,9 @@ export default (productId?: string) => {
     pending,
     mark,
     measureUnitTypes,
-    measureUnits,
-    //measureUnit,
-    router,
+    measureUnits,    
 
-    getMeasureUnits,
-    //measureUnitUpdate,
-    submit    
+    //submit    
   }
 
 }
-
-
-
-// @change="measureUnitUpdate($event, $event.target.selectedIndex);updateMeasureUnit(measureUnit)"

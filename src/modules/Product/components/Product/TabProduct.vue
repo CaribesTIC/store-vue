@@ -9,11 +9,6 @@ import useTabProduct from "../../composables/Product/useTabProduct";
 
 const props = defineProps<{ id?: string }>()
 
-//const emit = defineEmits<{
-//  (e: 'getMeasureUnits', measure_unit_type_id: string): void    
-//  //(e: 'submit', form: DireccionHabitacion): void  
-//}>()
-
 const {
   category,
   form,
@@ -21,17 +16,12 @@ const {
   pending,
   mark,
   measureUnitTypes,
-  measureUnits,
-  //measureUnit,
-  //router,
+  measureUnits,    
 
-  getMeasureUnits,
-  measureUnitUpdate,
-  submit    
+  //submit    
 } = useTabProduct(props.id)
 
 const { updateMeasureUnit } = inject('measureUnit')
-
 </script>
 
 <template>
