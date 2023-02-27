@@ -21,7 +21,9 @@ const {
   //submit    
 } = useTabProduct(props.id)
 
-const { updateMeasureUnit } = inject('measureUnit')
+const { updateMeasureUnit } = inject<{
+    updateMeasureUnit: (val: any) => void;
+}>('measureUnit')
 </script>
 
 <template>

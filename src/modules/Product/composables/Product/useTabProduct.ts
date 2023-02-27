@@ -8,7 +8,9 @@ import ProductService from "@/modules/Product/services/ProductService";
 //import type User from "../types/User"
 
 export default (productId?: string) => {
-  const { updateMeasureUnit } = inject('measureUnit')
+  const { updateMeasureUnit } = inject<{
+    updateMeasureUnit: (val: any) => void;
+  }>('measureUnit')
   const router = useRouter();
   
   //const category = ref<Role[]>([])
