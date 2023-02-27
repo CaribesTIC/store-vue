@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import {ref, computed, inject} from "vue"
+import type {Ref} from "vue"
+
 import ModalPacking from '../../components/Product/ModalPacking.vue'
 
 const isOpenPanel = ref(false)
@@ -8,7 +10,9 @@ const isOpenModal = ref(false)
 const OpenOrCloseButton = computed(()=> isOpenPanel.value ? "Cerrar" : "Abrir")
 const OpenOrCloseClass = computed(()=> isOpenPanel.value ? "btn-default" : "btn-primary")
 
-const { measureUnit } = inject('measureUnit')
+const { measureUnit } = inject<{
+    measureUnit: Ref<string>;
+}>('measureUnit')
 </script>
 
 <template>
