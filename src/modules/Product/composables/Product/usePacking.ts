@@ -44,12 +44,13 @@ export default (measureUnit) => {
 
   const add = ()=> {
     let concatena1 = `${form.packing} ${aConect[n++]} ${form.quantity} `
-    let concatena2 = ((form.packing_description.trim() == "")
-      ? "Kilos"//element.medidaUnidad.[element.medidaUnidad.selectedIndex].text
+    let concatena2 = ((form.packing_description.trim() === "")
+      ? measureUnit
         : form.packing_description);
     form.packing_description = concatena1 + concatena2;    
     form.packing_json[i++] = `{"packing":"${form.packing}","quantity":${form.quantity}}`;
-    if (n == 2) n = 0;
+    if (n == 2)
+      n = 0;
     cleanAfter()  
   }
 
