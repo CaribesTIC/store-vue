@@ -13,6 +13,11 @@ const OpenOrCloseClass = computed(()=> isOpenPanel.value ? "btn-default" : "btn-
 const { measureUnit } = inject<{
     measureUnit: Ref<string>;
 }>('measureUnit')
+
+const acceptModal = (payload) => {
+  console.log(payload)  
+}
+
 </script>
 
 <template>
@@ -168,6 +173,7 @@ const { measureUnit } = inject<{
   v-if="isOpenModal"
   :measureUnit="measureUnit"
   @closeModal="isOpenModal = false"
+  @acceptModal="acceptModal"
 />
 
 </div>

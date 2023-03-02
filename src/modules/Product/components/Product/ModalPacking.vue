@@ -6,11 +6,20 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'closeModal'): void
+  (e: 'closeModal'): void  
+  (e: 'acceptModal'): void
 }>()
 
 const closeModal = () => {
   emit('closeModal')
+}
+
+const accept = () => {  
+  emit('acceptModal', {
+    packing_description: form.packing_description,
+    packing_json: form.packing_json
+  })
+  closeModal()
 }
 
 const {
@@ -69,7 +78,8 @@ const {
           
           <div class="flex items-center justify-between mt-4">
             <AppBtn
-              type="button"       
+              type="button"
+              @click="accept"       
               data-testid="submit-btn"
               class="btn btn-primary"
               text="Aceptar"
