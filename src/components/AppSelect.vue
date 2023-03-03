@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import useUniqueId from '@/composables/useUniqueId'
+import type { Option } from '@/types/Option'
 
 withDefaults(defineProps<{
   label?: string 
   modelValue?: string | number
-  options: string[]
+  options: Option[]
   error?: string
 }>(), {
   label: '',
@@ -25,7 +26,7 @@ const uuid = useUniqueId().getID()
       ...$attrs,
       onChange: ($event) => { $emit(
         'update:modelValue',
-        ($event.target as HTMLInputElement).value
+        ($event.target as HTMLSelectElement).value
       ) }
     }"
     :id="uuid"

@@ -56,7 +56,9 @@ const { updateMeasureUnit } = inject<{
         <label>Unidad de Medida</label> 
         <select
           v-model="form.measure_unit_id"
-          @change="updateMeasureUnit($event.target[$event.target.selectedIndex].text)"                  
+          @change="updateMeasureUnit(
+            $event.target[($event.target as HTMLSelectElement).selectedIndex].text
+          )"          
         >
         <option
           value=""
