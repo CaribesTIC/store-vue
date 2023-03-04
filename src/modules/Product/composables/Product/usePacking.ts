@@ -1,19 +1,20 @@
 import { ref, reactive, onMounted, computed } from "vue"
 import CommonService from "../../services/CommonService"
+import useHttp from "@/composables/useHttp"
 
 export default (measureUnit) => {
+  const { errors, pending } = useHttp()
   const containers = ref([])
   const form = reactive({
     quantity: 0,
     packing: "",
     packing_description: "",
-    packing_json: [],
+    packing_json: "",
   })
 
   onMounted(async () => {
     CommonService.getContainers()
-      .then((response) => {
-        console.log(response)
+      .then((response) => {        
         containers.value=response.data.map(function(c) {
           return {
             id: c.description,
@@ -27,15 +28,15 @@ export default (measureUnit) => {
         })
       })
       .catch((err) => {        
-        //errors.value = getError(err)
+        errors.value = getError(err)
       })
       .finally(() => {
-        //pending.value = false;
+        pending.value = false;
       })
   })
 
-  let n = 0, i = 0;
-  const aConect = [ ' DE ', ' CON ' ];    
+  let n = 0, i = 0, packingJson = []
+  const aConect = [ ' DE ', ' CON ' ] 
 
   const cleanAfter  = ()=> {        
     form.quantity = 0
@@ -46,9 +47,11 @@ export default (measureUnit) => {
     let concatena1 = `${form.packing} ${aConect[n++]} ${form.quantity} `
     let concatena2 = ((form.packing_description.trim() === "")
       ? measureUnit
-        : form.packing_description);
-    form.packing_description = concatena1 + concatena2;    
-    form.packing_json[i++] = `{"packing":"${form.packing}","quantity":${form.quantity}}`;
+        : form.packing_description)
+    form.packing_description = concatena1 + concatena2
+    //form.packing_json[i++] = `{"packing":"${form.packing}","quantity":${form.quantity}}`
+    packingJson[i++] = `{"packing":"${form.packing}","quantity":${form.quantity}}`
+    form.packing_json = `[${packingJson}]`
     if (n == 2)
       n = 0;
     cleanAfter()  

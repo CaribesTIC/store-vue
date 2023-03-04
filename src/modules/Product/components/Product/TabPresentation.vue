@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, computed, inject} from "vue"
+import {ref, computed, inject, reactive} from "vue"
 import type {Ref} from "vue"
 
 import ModalPacking from '../../components/Product/ModalPacking.vue'
@@ -14,14 +14,36 @@ const { measureUnit } = inject<{
     measureUnit: Ref<string>;
 }>('measureUnit')
 
+const form = reactive({
+  sale_type: 0,
+  int_cod: "",
+  bar_cod: "",
+  packing_deployed: "",
+  packing_json: "",
+  stock_min: 0,
+  stock_max: 0,
+  price: "0.0",
+  status: 0
+})
+  
 const acceptModal = (payload) => {
-  console.log(payload)  
+  form.packing_deployed = payload.packing_description
+  form.packing = payload.packing_json
 }
 
+const saleTypeOptions = [
+  { label: 'Mayor', value: 0 },
+  { label: 'Detal', value: 1 }  
+]
+
+const statusOptions = [
+  { label: 'Inactivo', value: 0 },
+  { label: 'Activo', value: 1 }  
+]
 </script>
 
 <template>
-  <div class="demo-tab"> {{measureUnit}}   
+  <div class="demo-tab">
     <div class="form-group row">
   <div class="col-sm-12">
     <div align="center">    
@@ -46,81 +68,71 @@ const acceptModal = (payload) => {
           </tr>            
           <tr>
             <td><label>Tipo de Venta</label><br/>
-              <input type="radio"
-                     id="id_sale_type_major"
-                     name="sale_type"               
-                     value="t" checked> Mayor<br/>
-              <input type="radio"
-                     id="id_sale_type_detail"
-                     name="sale_type"              
-                     value="f"> Detal
+              <AppRadioGroup
+                v-model="form.sale_type"
+                name="sale_type"
+                :options="saleTypeOptions"
+              />
             </td>
-            <td><label>Empaque</label>
-              <input type="hidden" 
-                     name="packing" 
-                     id="packing">
-              <textarea id="packing_deployed"
-                        name="packing_deployed"
-                        type="text"
-                        autocomplete="off"
-                        style="width: 98%;"
-                        @focus="isOpenModal = !isOpenModal"
-                        data-format="uppercase"
-                        data-constraints=""
-                        data-validation="required"
-                        readonly
-                        placeholder='SELECCIONE...'></textarea>
+            <td>
+              <AppTextarea
+                label="Empaque"
+                v-model="form.packing_deployed"                
+                @focus="isOpenModal = !isOpenModal"                
+                readonly
+              />
+              <AppInput
+                v-model="form.packing"          
+                type="hidden"          
+              />                        
             </td>
           </tr>
           <tr>
-            <td><label>Código Interno</label>
-              <input id="int_cod"
-                     name="int_cod"
-                     type="text"
-                     autocomplete="off"
-                     style="width: 98%;">
+            <td>
+              <AppInput
+                label="Código Interno"
+                v-model="form.int_cod"                     
+                type="text"
+              />
             </td>
-            <td><label>Código de Barra</label>
-              <input id="bar_cod"
-                     name="bar_cod"
-                     type="text"
-                     autocomplete="off"
-                     style="width: 98%;">
+            <td>
+              <AppInput
+                label="Código de Barra"
+                v-model="form.bar_cod"                     
+                type="text"
+              />
             </td>
           </tr>
           <tr>
-            <td><label>Stock Mínimo</label>
-              <input id="stock_min"
-                     name="stock_min"
-                     type="text"
-                     autocomplete="off"
-                     style="width: 98%;">
+            <td>
+              <AppInput
+                label="Stock Mínimo"
+                v-model="form.stock_min"                     
+                type="number"
+              />
             </td>
-            <td><label>Stock Máximo</label>
-              <input id="stock_max"
-                     name="stock_max"
-                     type="text"
-                     autocomplete="off"
-                     style="width: 98%;">
+            <td>
+              <AppInput
+                label="Stock Máximo"
+                v-model="form.stock_max"                     
+                type="number"
+              />
             </td>
           </tr>          
           <tr>
-            <td><label>Precio</label>
-              <input id="price"
-                     name="price"
-                     type="text"
-                     autocomplete="off"
-                     style="width: 98%;">
+            <td>
+              <AppInput
+                label="Precio"
+                v-model="form.price"                     
+                type="text"
+              />
             </td>
-            <td><label>Estatus</label><br/>              
-              <input type="radio"
-                     id="id_status_active"
-                     name="status"               
-                     value="t" checked>Activo<br/>
-              <input type="radio"
-                     id="id_status_inactive"
-                     name="status"              
-                     value="f">Inactivo
+            <td>            
+              <AppRadioGroup
+                v-model="form.status"
+                name="status"
+                :options="statusOptions"
+              />
             </td>
           </tr>
         </table>
