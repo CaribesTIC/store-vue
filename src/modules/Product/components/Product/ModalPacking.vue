@@ -73,7 +73,7 @@ const {
                
           <AppInput
             v-model="form.packing_json"          
-            type="text"          
+            type="hidden"          
           />
           
           <div class="flex items-center justify-between mt-4">

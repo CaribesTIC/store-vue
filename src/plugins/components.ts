@@ -10,5 +10,7 @@ app
   .component('AppSelect', defineAsyncComponent(() => import('@/components/AppSelect.vue')))
   .component('AppTextarea', defineAsyncComponent(() => import('@/components/AppTextarea.vue')))
   .component('AppPending', defineAsyncComponent(() => import('@/components/AppPending.vue')))
+  .component('AppRadio', defineAsyncComponent(() => import('@/components/AppRadio.vue')))
+  .component('AppRadioGroup', defineAsyncComponent(() => import('@/components/AppRadioGroup.vue')))
   .component('DefaultLayout', defineAsyncComponent(() => import('@/layouts/DashboardLayout.vue')))
   .component('EmptyLayout', defineAsyncComponent(() => import('@/layouts/EmptyLayout.vue')))

@@ -17,5 +17,5 @@ withDefaults(defineProps<{
       v-bind="$attrs"
       @change="$emit('update:modelValue', value)"
     />
-  <label v-if="label">{{ label }}</label>
+  <label v-if="label" class="ml-1">{{ label }}</label>
 </template>
