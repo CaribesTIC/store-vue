@@ -18,7 +18,7 @@ const {
   measureUnitTypes,
   measureUnits,    
 
-  //submit    
+  submit    
 } = useTabProduct(props.id)
 
 const { updateMeasureUnit } = inject<{
@@ -28,6 +28,7 @@ const { updateMeasureUnit } = inject<{
 
 <template>
   <div class="">
+    <form @submit.prevent="submit">
     <div class="p-5 grid lg:grid-cols-2 gap-4">    
       <div class="block">      
         <AppSelect          
@@ -75,15 +76,7 @@ const { updateMeasureUnit } = inject<{
           {{ option.name }}
         </option>
         </select>
-      </div>      
-      
-      <!--div class="block"> 
-        <AppSelect
-          v-model="form.measure_unit_id"
-          label="Unidad de Medida"
-          :options="measureUnits"
-        />
-      </div-->
+      </div>
 
       <div class="block">      
         <AppInput          
@@ -102,5 +95,6 @@ const { updateMeasureUnit } = inject<{
         :isDisabled='pending'
       />
     </div>
+    </form>
   </div>
 </template>

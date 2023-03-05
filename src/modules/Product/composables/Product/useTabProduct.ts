@@ -176,7 +176,7 @@ export default (productId?: string) => {
   //const submit = (user: User, userId?: string) => {
   //  !userId ? insertUser (user)  : updateUser(user, userId)
   const submit = (product, productId?) => {
-    //!productId ? insertProduct (product)  : updateProduct(product, userId)
+    !productId ? alert("insertProduct (product)")  : alert("updateProduct(product, userId)")
   }
 
   //const measureUnitUpdate = (event, selectedIndex) => {
@@ -203,7 +203,7 @@ export default (productId?: string) => {
     measureUnitTypes,
     measureUnits,    
 
-    //submit    
+    submit    
   }
 
 }
