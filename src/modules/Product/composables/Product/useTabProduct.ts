@@ -179,17 +179,17 @@ export default (productId?: string) => {
     !productId ? alert("insertProduct (product)")  : alert("updateProduct(product, userId)")
   }
 
-  //const measureUnitUpdate = (event, selectedIndex) => {
-  //  measureUnit.value = selectedIndex ? event.target[selectedIndex].text : ""
-  //}
+  const initMeasureUnits = () => {
+    form.measure_unit_id = ""
+    measureUnits.value = []
+  }
 
   watch(
     () => form.measure_unit_type_id,
     (newMeasureUnitType, oldMeasureUnitType) => { //emit('getMeasureUnits', newMeasureUnitType)        
-      if (newMeasureUnitType === "")
-        form.measure_unit_id = ""
-      if (newMeasureUnitType !== "")
-        getMeasureUnits(form.measure_unit_type_id)      
+      newMeasureUnitType === ""
+        ? initMeasureUnits()
+          : getMeasureUnits(form.measure_unit_type_id)      
     },
     { immediate: false, deep: true },
   )
