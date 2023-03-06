@@ -141,42 +141,40 @@ export default (productId?: string) => {
       })
   }
 
-  /*const insertUser = async (user: User) => {
-    sending.value = true
-    return UserService.insertUser(user)
+  const insertProduct = async (product: Product) => {
+    pending.value = true
+    return ProductService.insertProduct(product)
       .then((response) => {         
         alert( response.data.message )
-        router.push( { path: '/users' } )
+        router.push( { path: '/products' } )
       })
       .catch((err) => {                
         console.log( err.response.data )
         errors.value = getError(err)
       })
       .finally(() => {
-        sending.value = false
+        pending.value = false
       })
-  }*/
+  }
 
-  /*const updateUser = async (user: User, userId: string) => {
-    sending.value= true
-    return UserService.updateUser(userId, user)
+  const updateProduct = async (product: Product, productId: string) => {
+    pending.value= true
+    return ProductService.updateProduct(productId, product)
       .then((response) => {
         alert( response.data.message )
-        router.push( { path: '/users' } )
+        router.push( { path: '/products' } )
       })
       .catch((err) => {                
         console.log( err.response.data )
         errors.value = getError(err)
       })
       .finally(() => {
-        sending.value = false
+        pending.value = false
       })
-  }*/
+  }
   
-  //const submit = (user: User, userId?: string) => {
-  //  !userId ? insertUser (user)  : updateUser(user, userId)
-  const submit = (product, productId?) => {
-    !productId ? alert("insertProduct (product)")  : alert("updateProduct(product, userId)")
+  const submit = (product: Product) => {
+    !productId ? insertProduct (product)  : updateProduct(product, productId)
   }
 
   const initMeasureUnits = () => {
