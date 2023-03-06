@@ -20,7 +20,7 @@ export default (productId?: string) => {
   const measureUnits = ref([])  
   
   // const user: User = reactive({
-  const product = reactive({
+  const form = reactive({
     category_id: "",
     mark_id: "",
     measure_unit_type_id: "",
@@ -40,14 +40,14 @@ export default (productId?: string) => {
       pending.value = true
       ProductService.getProduct(productId)
         .then((response) => {
-          product.category_id = response.data.category_id;
-          product.mark_id = response.data.mark_id;
-          product.measure_unit_type_id = response.data.measure_unit_type_id;
-          product.measure_unit_id = response.data.measure_unit_id;
-          product.name = response.data.name          
+          form.category_id = response.data.category_id;
+          form.mark_id = response.data.mark_id;
+          form.measure_unit_type_id = response.data.measure_unit_type_id;
+          form.measure_unit_id = response.data.measure_unit_id;
+          form.name = response.data.name          
           updateMeasureUnit(response.data.measure_unit)
-          if (product.measure_unit_type_id)
-              getMeasureUnits(product.measure_unit_type_id)
+          if (form.measure_unit_type_id)
+              getMeasureUnits(form.measure_unit_type_id)
         })
         .catch((err) => {        
           errors.value = getError(err)
@@ -129,8 +129,8 @@ export default (productId?: string) => {
             // a must be equal to b
             return 0;
           })
-          if (!measureUnits.value.some(item => item.id === product.measure_unit_id)) {
-            product.measure_unit_id = ""
+          if (!measureUnits.value.some(item => item.id === form.measure_unit_id)) {
+            form.measure_unit_id = ""
           }                    
       })
       .catch((err) => {        
@@ -178,23 +178,23 @@ export default (productId?: string) => {
   }
 
   const initMeasureUnits = () => {
-    product.measure_unit_id = ""
+    form.measure_unit_id = ""
     measureUnits.value = []
   }
 
   watch(
-    () => product.measure_unit_type_id,
+    () => form.measure_unit_type_id,
     (newMeasureUnitType, oldMeasureUnitType) => { //emit('getMeasureUnits', newMeasureUnitType)        
       newMeasureUnitType === ""
         ? initMeasureUnits()
-          : getMeasureUnits(product.measure_unit_type_id)      
+          : getMeasureUnits(form.measure_unit_type_id)      
     },
     { immediate: false, deep: true },
   )
 
   return {
     category,
-    product,
+    form,
     errors,
     pending,
     mark,

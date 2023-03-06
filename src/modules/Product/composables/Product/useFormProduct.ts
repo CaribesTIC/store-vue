@@ -1,32 +1,33 @@
 import { onMounted, reactive, ref, watch, inject } from 'vue'
 import { useRouter } from 'vue-router'
 import useHttp from "@/composables/useHttp";
-import * as CategoryService from "@/modules/Product/services/CategoryService";
-import * as MarkService from "@/modules/Product/services/MarkService";
-import * as CommonService from "@/modules/Product/services/CommonService";
-import ProductService from "@/modules/Product/services/ProductService";
+//import * as CategoryService from "@/modules/Product/services/CategoryService";
+//import * as MarkService from "@/modules/Product/services/MarkService";
+//import * as CommonService from "@/modules/Product/services/CommonService";
+//import ProductService from "@/modules/Product/services/ProductService";
 //import type User from "../types/User"
 
-export default (productId?: string) => {
+export default (product: Product) => {
   const { updateMeasureUnit } = inject<{
     updateMeasureUnit: (val: any) => void;
   }>('measureUnit')
   const router = useRouter();
   
   //const category = ref<Role[]>([])
-  const category = ref([])
+  //const category = ref([])
   const mark = ref([])
   const measureUnitTypes = ref([])
-  const measureUnits = ref([])  
+  const measureUnits = ref([])
   
-  // const user: User = reactive({
-  const product = reactive({
+  const form = reactive({
     category_id: "",
     mark_id: "",
     measure_unit_type_id: "",
     measure_unit_id: "",
     name:""
   }) 
+
+  console.log("form.category_id", form.category_id)
 
   const {  
     errors,
@@ -35,32 +36,16 @@ export default (productId?: string) => {
     getError
   } = useHttp()
   
-  onMounted(() => {
-    if (productId) {
-      pending.value = true
-      ProductService.getProduct(productId)
-        .then((response) => {
-          product.category_id = response.data.category_id;
-          product.mark_id = response.data.mark_id;
-          product.measure_unit_type_id = response.data.measure_unit_type_id;
-          product.measure_unit_id = response.data.measure_unit_id;
-          product.name = response.data.name          
-          updateMeasureUnit(response.data.measure_unit)
-          if (product.measure_unit_type_id)
-              getMeasureUnits(product.measure_unit_type_id)
-        })
-        .catch((err) => {        
-          errors.value = getError(err)
-        })
-        .finally(() => {
-          pending.value = false;
-        })
-    }
+  form.category_id = product.category_id
 
-    pending.value = true
+  console.log("xxx", product.category_id)
+  onMounted(() => {
+    form.category_id = product.category_id
+
+    /*pending.value = true
     CategoryService.getCategoriesSelect()
       .then((response) => {
-        category.value =   response.data.map(function(c) {
+        category.value = response.data.map(function(c) {
           return {
             id: c.id,
             name: c.family
@@ -71,15 +56,17 @@ export default (productId?: string) => {
           // a must be equal to b
           return 0;
         })
+        form.category_id = product.category_id
+        console.log(form.category_id, product.category_id)
       })
       .catch((err) => {
         errors.value = getError(err)
       })
       .finally(() => {
         pending.value = false
-      })
+      })*/
     
-    pending.value = true
+    /*pending.value = true
     MarkService.getMarksSelect()
       .then((response) => {         
          mark.value =   response.data
@@ -89,9 +76,9 @@ export default (productId?: string) => {
       })
       .finally(() => {
         pending.value = false
-      })
+      })*/
 
-    pending.value = true
+    /*pending.value = true
     CommonService.getMeasureUnitTypes()
      .then((response) => {
         measureUnitTypes.value = response.data.map(function(mut) {
@@ -111,10 +98,10 @@ export default (productId?: string) => {
       })
       .finally(() => {
         pending.value = false;
-      })
+      })*/
   })
   
-  const getMeasureUnits = async (measureUnitTypeId) => {    
+  /*const getMeasureUnits = async (measureUnitTypeId) => {    
     pending.value = true
       CommonService.getMeasureUnits(measureUnitTypeId)
         .then((response) => {          
@@ -129,8 +116,8 @@ export default (productId?: string) => {
             // a must be equal to b
             return 0;
           })
-          if (!measureUnits.value.some(item => item.id === product.measure_unit_id)) {
-            product.measure_unit_id = ""
+          if (!measureUnits.value.some(item => item.id === form.measure_unit_id)) {
+            form.measure_unit_id = ""
           }                    
       })
       .catch((err) => {        
@@ -139,9 +126,9 @@ export default (productId?: string) => {
       .finally(() => {
         pending.value = false;
       })
-  }
+  }*/
 
-  const insertProduct = async (product: Product) => {
+  /*const insertProduct = async (product: Product) => {
     pending.value = true
     return ProductService.insertProduct(product)
       .then((response) => {         
@@ -171,37 +158,39 @@ export default (productId?: string) => {
       .finally(() => {
         pending.value = false
       })
-  }
+  }*/
   
-  const submit = (product: Product) => {
+  /*const submit = (product: Product) => {
     !productId ? insertProduct (product)  : updateProduct(product, productId)
-  }
+  }*/
 
-  const initMeasureUnits = () => {
-    product.measure_unit_id = ""
+  /*const initMeasureUnits = () => {
+    form.measure_unit_id = ""
     measureUnits.value = []
   }
 
   watch(
-    () => product.measure_unit_type_id,
+    () => form.measure_unit_type_id,
     (newMeasureUnitType, oldMeasureUnitType) => { //emit('getMeasureUnits', newMeasureUnitType)        
       newMeasureUnitType === ""
         ? initMeasureUnits()
-          : getMeasureUnits(product.measure_unit_type_id)      
+          : getMeasureUnits(form.measure_unit_type_id)      
     },
     { immediate: false, deep: true },
-  )
+  )*/
+
+
 
   return {
-    category,
-    product,
-    errors,
+    //category,
+    form,
+    /*errors,
     pending,
     mark,
     measureUnitTypes,
-    measureUnits,    
+    measureUnits,  */  
 
-    submit    
+    //submit    
   }
 
 }
