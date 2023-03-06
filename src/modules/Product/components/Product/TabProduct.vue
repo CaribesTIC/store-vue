@@ -90,7 +90,8 @@ const { updateMeasureUnit } = inject<{
 
     <div class="mt-4 px-2 border-gray-100 flex justify-end space-x-2">
       <AppBtn
-        type="submit"
+        type="button"
+        @click="submit(form)"        
         :text="pending ? 'Guardando...' : 'Guardar'"
         :isDisabled='pending'
       />

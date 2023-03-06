@@ -8,12 +8,14 @@ export const getProduct = (productId: string) => {
   return Http.get(`/api/products/${productId}`);
 }
 
-export const insertProduct = (payload) => {  
-  return Http.post(`/api/users`, payload);
+export const insertProduct = (payload: any) => {
+  console.log(payload) 
+  alert("return Http.post(`/api/products`, payload);")
 }
 
-export const updateProduct = (userId: string, payload:any) => { 
-  return Http.put(`/api/users/${userId}`, payload);
+export const updateProduct = (payload:any, productId: string) => {
+  console.log(payload, productId) 
+  alert("return Http.put(`/api/products/${productId}`, payload);")
 }
 
 export const deleteProduct = (userId: string) => { 
