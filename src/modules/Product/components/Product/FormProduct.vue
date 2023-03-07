@@ -1,81 +1,42 @@
-<script lang="ts">
-import { onMounted, reactive, inject, watch, computed } from "vue"
+<script setup lang="ts">
+import { inject } from "vue"
 import useFormProduct from "../../composables/Product/useFormProduct";
 
-export default {
+const props = defineProps<{
+  product: Product
+  errors?: String | Object
+  sending: Boolean  
+}>()
 
-  props: ['all'],
+const {
+  form,
+  categories,
+  marks,
+  measureUnitTypes,
+  measureUnits,
+  pending
+} = useFormProduct(props.product)
 
-  setup(props) {
-    
-    const {
-      form  
-    } = useFormProduct(props.all.product)
-
-
-    const { updateMeasureUnit } = inject<{
+const { updateMeasureUnit } = inject<{
     updateMeasureUnit: (val: any) => void;
-    }>('measureUnit')
-
-    const submit = ()=> alert("abc")
-
-
-    console.log(props.all.product.category_id)
-
-    const xyz = computed (()=> props.all.product)
-    console.log("xyz", xyz.value.category_id)
-
-
-    return {
-      form,
-      props,
-      xyz
-    }
-  }
-}
-
-
-
-
-
-/*const form = reactive({
-  category_id: "",
-  mark_id: "",
-  measure_unit_type_id: "",
-  measure_unit_id: "",
-  name: ""
-})*/
-
-
-
-
-//console.log("props.product", props.product)
-//onMounted(async () => {
-
-//})
-
-
-
-
-
+}>('measureUnit')
 </script>
 
 <template>
-{{xyz.category_id}}
   <form @submit.prevent="submit">
     <div class="p-5 grid lg:grid-cols-2 gap-4">    
       <div class="block">      
         <AppSelect          
           v-model="form.category_id"          
           label="Categoría"
-          :options="props.all.category"
+          :options="categories"
         />
-      </div> </div>     
-      <!--div class="block">      
+      </div>      
+      <div class="block">      
         <AppSelect
           v-model="form.mark_id"
           label="Marca"
-          :options="mark"
+          :options="marks"
         />
       </div>
 
@@ -129,6 +90,6 @@ export default {
         :text="pending ? 'Guardando...' : 'Guardar'"
         :isDisabled='pending'
       />
-    </div-->
+    </div>
   </form>
 </template>

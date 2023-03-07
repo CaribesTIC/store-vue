@@ -1,33 +1,25 @@
 import { onMounted, reactive, ref, watch, inject } from 'vue'
 import { useRouter } from 'vue-router'
 import useHttp from "@/composables/useHttp";
-//import * as CategoryService from "@/modules/Product/services/CategoryService";
-//import * as MarkService from "@/modules/Product/services/MarkService";
-//import * as CommonService from "@/modules/Product/services/CommonService";
-//import ProductService from "@/modules/Product/services/ProductService";
-//import type User from "../types/User"
+import * as CategoryService from "@/modules/Product/services/CategoryService";
+import * as MarkService from "@/modules/Product/services/MarkService";
+import * as CommonService from "@/modules/Product/services/CommonService";
 
 export default (product: Product) => {
-  const { updateMeasureUnit } = inject<{
-    updateMeasureUnit: (val: any) => void;
-  }>('measureUnit')
   const router = useRouter();
   
-  //const category = ref<Role[]>([])
-  //const category = ref([])
-  const mark = ref([])
-  const measureUnitTypes = ref([])
-  const measureUnits = ref([])
+  const categories = ref<Category[]>([])
+  const marks = ref<Mark[]>([])
+  const measureUnitTypes = ref<measureUnitType[]>([])
+  const measureUnits = ref<measureUnit>([])
   
   const form = reactive({
-    category_id: "",
-    mark_id: "",
-    measure_unit_type_id: "",
-    measure_unit_id: "",
-    name:""
-  }) 
-
-  console.log("form.category_id", form.category_id)
+    category_id: product.category_id,
+    mark_id: product.mark_id,
+    measure_unit_type_id: product.measure_unit_type_id,
+    measure_unit_id: product.measure_unit_id,
+    name: product.name
+  })
 
   const {  
     errors,
@@ -36,16 +28,11 @@ export default (product: Product) => {
     getError
   } = useHttp()
   
-  form.category_id = product.category_id
-
-  console.log("xxx", product.category_id)
   onMounted(() => {
-    form.category_id = product.category_id
-
-    /*pending.value = true
+    pending.value = true
     CategoryService.getCategoriesSelect()
       .then((response) => {
-        category.value = response.data.map(function(c) {
+        categories.value = response.data.map(function(c) {
           return {
             id: c.id,
             name: c.family
@@ -56,29 +43,27 @@ export default (product: Product) => {
           // a must be equal to b
           return 0;
         })
-        form.category_id = product.category_id
-        console.log(form.category_id, product.category_id)
       })
       .catch((err) => {
         errors.value = getError(err)
       })
       .finally(() => {
         pending.value = false
-      })*/
+      })
     
-    /*pending.value = true
+    pending.value = true
     MarkService.getMarksSelect()
       .then((response) => {         
-         mark.value =   response.data
+         marks.value =   response.data
       })
       .catch((err) => {
         errors.value = getError(err)
       })
       .finally(() => {
         pending.value = false
-      })*/
+      })
 
-    /*pending.value = true
+    pending.value = true
     CommonService.getMeasureUnitTypes()
      .then((response) => {
         measureUnitTypes.value = response.data.map(function(mut) {
@@ -98,10 +83,13 @@ export default (product: Product) => {
       })
       .finally(() => {
         pending.value = false;
-      })*/
+      })
+
+      if (product.measure_unit_type_id)
+        getMeasureUnits(product.measure_unit_type_id)
   })
   
-  /*const getMeasureUnits = async (measureUnitTypeId) => {    
+  const getMeasureUnits = async (measureUnitTypeId) => {    
     pending.value = true
       CommonService.getMeasureUnits(measureUnitTypeId)
         .then((response) => {          
@@ -126,69 +114,37 @@ export default (product: Product) => {
       .finally(() => {
         pending.value = false;
       })
-  }*/
-
-  /*const insertProduct = async (product: Product) => {
-    pending.value = true
-    return ProductService.insertProduct(product)
-      .then((response) => {         
-        alert( response.data.message )
-        router.push( { path: '/products' } )
-      })
-      .catch((err) => {                
-        console.log( err.response.data )
-        errors.value = getError(err)
-      })
-      .finally(() => {
-        pending.value = false
-      })
   }
 
-  const updateProduct = async (product: Product, productId: string) => {
-    pending.value= true
-    return ProductService.updateProduct(productId, product)
-      .then((response) => {
-        alert( response.data.message )
-        router.push( { path: '/products' } )
-      })
-      .catch((err) => {                
-        console.log( err.response.data )
-        errors.value = getError(err)
-      })
-      .finally(() => {
-        pending.value = false
-      })
-  }*/
+
   
   /*const submit = (product: Product) => {
     !productId ? insertProduct (product)  : updateProduct(product, productId)
   }*/
 
-  /*const initMeasureUnits = () => {
+  const initMeasureUnits = () => {
     form.measure_unit_id = ""
     measureUnits.value = []
   }
 
   watch(
     () => form.measure_unit_type_id,
-    (newMeasureUnitType, oldMeasureUnitType) => { //emit('getMeasureUnits', newMeasureUnitType)        
+    (newMeasureUnitType, oldMeasureUnitType) => {        
       newMeasureUnitType === ""
         ? initMeasureUnits()
-          : getMeasureUnits(form.measure_unit_type_id)      
+          : getMeasureUnits(form.measure_unit_type_id)
     },
     { immediate: false, deep: true },
-  )*/
-
-
+  )
 
   return {
-    //category,
+    categories,
     form,
-    /*errors,
-    pending,
-    mark,
+    marks,
     measureUnitTypes,
-    measureUnits,  */  
+    measureUnits,
+    errors,
+    pending,
 
     //submit    
   }

@@ -9,21 +9,21 @@ import FormProduct from './FormProduct.vue';
 
 const props = defineProps<{ id?: string }>()
 
-const {
-  category,
+const {  
   product,
-  //errors,
-  //pending,
-  //mark,
-  //measureUnitTypes,
-  //measureUnits,    
-
+  errors,
+  pending,      
   //submit    
 } = useTabProduct(props.id)
 </script>
 
 <template>
-  <div class="">    
-      <FormProduct v-if="product && product.category_id" :all="{ product ,category }"/>
+  <div class="">
+    <FormProduct
+      v-if="product && product.category_id"
+      :product="product"
+      :errors="errors"
+      :sending="pending"      
+    />
   </div>
 </template>
