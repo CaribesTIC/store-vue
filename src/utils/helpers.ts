@@ -1,3 +1,10 @@
+export const ascBubble = function (a, b) {
+  if (a.name > b.name) { return 1; }
+  if (a.name < b.name) { return -1; }
+  // a must be equal to b
+  return 0;
+}
+
 export const getError = (error) => {
   const errorMessage = "API Error, please try again.";
 

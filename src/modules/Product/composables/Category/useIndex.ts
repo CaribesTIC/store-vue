@@ -1,13 +1,13 @@
-import { reactive, onMounted } from "vue"
-import { onBeforeRouteUpdate } from "vue-router"
-import useTableGrid from "@/composables/useTableGrid"
-import useHttp from "@/composables/useHttp"
-import ProductService from "../../services"
+//import { reactive, onMounted } from "vue"
+//import { onBeforeRouteUpdate } from "vue-router"
+//import useTableGrid from "@/composables/useTableGrid"
+//import useHttp from "@/composables/useHttp"
+//import ProductService from "../../services"
 
-type Params =  string | string[][] | Record<string, string> | URLSearchParams | undefined
+//type Params =  string | string[][] | Record<string, string> | URLSearchParams | undefined
 
 export default () => {
-  const data = reactive({
+  /*const data = reactive({
     rows: [],
     links: [],
     search: "",
@@ -19,17 +19,17 @@ export default () => {
     errors,
 
     getError     
-  } = useHttp()
+  } = useHttp()*/
 
-  const {
+  /*const {
     route,
     router,
 
     setSearch,
     setSort, 
-  } = useTableGrid(data, "/users")
+  } = useTableGrid(data, "/users")*/
 
-  const getUsers = (routeQuery: string) => {  
+  /*const getUsers = (routeQuery: string) => {  
     return ProductService.getCategories(routeQuery)
       .then((response) => {        
         errors.value = {}        
@@ -43,9 +43,9 @@ export default () => {
       .catch((error) => {
         console.log(error)
       })
-  }
+  }*/
 
-  const deleteRow = (rowId?: string) => {
+  /*const deleteRow = (rowId?: string) => {
     if (rowId === undefined)
       return
     else if (confirm(`¿Estás seguro que desea eliminar el registro ${rowId}?`)) {    
@@ -59,30 +59,30 @@ export default () => {
           errors.value = getError(err)
         })
     }
-  }
+  }*/
 
-  onBeforeRouteUpdate(async (to, from) => {      
+  /*onBeforeRouteUpdate(async (to, from) => {      
     if (to.query !== from.query) {        
       await getUsers(
         new URLSearchParams(to.query as Params).toString()
       )
     }
-  })
+  })*/
 
-  onMounted(() => {
+  /*onMounted(() => {
     getUsers(
       new URLSearchParams(route.query as Params).toString()
     )
-  })
+  })*/
 
   return {
-    errors,
+    /*errors,
     data,
     router,
 
     deleteRow,
     setSearch,
-    setSort
+    setSort*/
   }
 }
 

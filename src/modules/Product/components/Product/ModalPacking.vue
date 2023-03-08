@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import usePacking from "../../composables/Product/usePacking"
+import type { Packing } from "../../types/Packing"
 
 const props = defineProps<{
   measureUnit: string
@@ -7,7 +8,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'closeModal'): void  
-  (e: 'acceptModal'): void
+  (e: 'acceptModal', payload: Packing): void
 }>()
 
 const closeModal = () => {

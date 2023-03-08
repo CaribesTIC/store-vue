@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import {ref, computed, inject, reactive} from "vue"
-import type {Ref} from "vue"
-
+import { ref, computed, inject, reactive } from "vue"
 import ModalPacking from '../../components/Product/ModalPacking.vue'
+import type { Ref } from "vue"
+import type { Packing } from "../../types/Packing";
+
 
 const isOpenPanel = ref(false)
 const isOpenModal = ref(false)
@@ -26,9 +27,9 @@ const form = reactive({
   status: 0
 })
   
-const acceptModal = (payload) => {
+const acceptModal = (payload: Packing) => {
   form.packing_deployed = payload.packing_description
-  form.packing = payload.packing_json
+  form.packing_json = payload.packing_json
 }
 
 const saleTypeOptions = [
@@ -82,7 +83,7 @@ const statusOptions = [
                 readonly
               />
               <AppInput
-                v-model="form.packing"          
+                v-model="form.packing_json"          
                 type="hidden"          
               />                        
             </td>
@@ -137,7 +138,12 @@ const statusOptions = [
           </tr>
         </table>
         <div style="margin:2%">
-          <button id="addReg" type="button" class="btn btn-primary" onClick="Product.Presentation.valEnvio();">Agregar</button>
+          <!--button 
+            id="addReg"
+            type="button"
+            class="btn btn-primary"
+            onClick="Product.Presentation.valEnvio();"
+          >Agregar</button-->
         </div>
       </div>     
       <table id="id_tab_presentacion" class="mt-4" width="100%">

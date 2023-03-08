@@ -17,7 +17,9 @@ const {
   submit    
 } = useTabProduct(props.id)
 
-const isTrue = computed(() => (product && product.category_id || !props.id)) 
+const isTrue = computed(
+  () => product && product.category_id || !props.id
+) 
 </script>
 
 <template>

@@ -40,5 +40,5 @@ export interface MeasureUnitType {
 
 export interface MeasureUnit {
   id:          string;
-  description: string;
+  name: string;
 }

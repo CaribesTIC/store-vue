@@ -1,5 +1,6 @@
 import { onMounted, reactive, ref, watch } from 'vue'
 import useHttp from "@/composables/useHttp";
+import { ascBubble } from "@/utils/helpers";
 import * as CategoryService from "@/modules/Product/services/CategoryService";
 import * as MarkService from "@/modules/Product/services/MarkService";
 import * as CommonService from "@/modules/Product/services/CommonService";
@@ -11,12 +12,12 @@ import type {
   MeasureUnitType
 } from "../../types/Product";
 
-export default (product: Product) => {  
+export default (product: Product) => {
   const categories = ref<Category[]>()
   const marks = ref<Mark[]>()
   const measureUnitTypes = ref<MeasureUnitType[]>()
   const measureUnits = ref<MeasureUnit[]>()
-  
+
   const form = reactive({
     category_id: product.category_id,
     mark_id: product.mark_id,
@@ -25,28 +26,23 @@ export default (product: Product) => {
     name: product.name
   })
 
-  const {  
+  const {
     errors,
     pending,
 
     getError
   } = useHttp()
-  
+
   onMounted(() => {
     pending.value = true
     CategoryService.getCategoriesSelect()
       .then((response) => {
-        categories.value = response.data.map(function(c) {
+        categories.value = response.data.map(function (c) {
           return {
             id: c.id,
             name: c.family
           }
-        }).sort(function (a, b) {
-          if (a.name > b.name) { return  1; }
-          if (a.name < b.name) { return -1; }
-          // a must be equal to b
-          return 0;
-        })
+        }).sort(ascBubble)
       })
       .catch((err) => {
         errors.value = getError(err)
@@ -54,11 +50,11 @@ export default (product: Product) => {
       .finally(() => {
         pending.value = false
       })
-    
+
     pending.value = true
     MarkService.getMarksSelect()
-      .then((response) => {         
-         marks.value =   response.data
+      .then((response) => {
+        marks.value = response.data.sort(ascBubble)
       })
       .catch((err) => {
         errors.value = getError(err)
@@ -69,50 +65,40 @@ export default (product: Product) => {
 
     pending.value = true
     CommonService.getMeasureUnitTypes()
-     .then((response) => {
-        measureUnitTypes.value = response.data.map(function(mut) {
+      .then((response) => {
+        measureUnitTypes.value = response.data.map(function (mut) {
           return {
             id: mut.id,
             name: mut.description
           }
-        }).sort(function (a, b) {
-          if (a.name > b.name) { return  1; }
-          if (a.name < b.name) { return -1; }
-          // a must be equal to b
-          return 0;
-        })
+        }).sort(ascBubble)
       })
-      .catch((err) => {        
+      .catch((err) => {
         errors.value = getError(err)
       })
       .finally(() => {
         pending.value = false;
       })
 
-      if (product.measure_unit_type_id)
-        getMeasureUnits(product.measure_unit_type_id)
+    if (product.measure_unit_type_id)
+      getMeasureUnits(product.measure_unit_type_id)
   })
-  
-  const getMeasureUnits = async (measureUnitTypeId) => {    
+
+  const getMeasureUnits = async (measureUnitTypeId) => {
     pending.value = true
-      CommonService.getMeasureUnits(measureUnitTypeId)
-        .then((response) => {          
-          measureUnits.value = response.data.map(function(mu) {
-            return {
-              id: mu.id,
-              name: mu.description
-            }
-          }).sort(function (a, b) {
-            if (a.name > b.name) { return  1; }
-            if (a.name < b.name) { return -1; }
-            // a must be equal to b
-            return 0;
-          })
-          if (!measureUnits.value.some(item => item.id === form.measure_unit_id)) {
-            form.measure_unit_id = ""
-          }                    
+    CommonService.getMeasureUnits(measureUnitTypeId)
+      .then((response) => {
+        measureUnits.value = response.data.map(function (mu) {
+          return {
+            id: mu.id,
+            name: mu.description
+          }
+        }).sort(ascBubble)
+        if (!measureUnits.value.some(item => item.id === form.measure_unit_id)) {
+          form.measure_unit_id = ""
+        }
       })
-      .catch((err) => {        
+      .catch((err) => {
         errors.value = getError(err)
       })
       .finally(() => {
@@ -127,10 +113,10 @@ export default (product: Product) => {
 
   watch(
     () => form.measure_unit_type_id,
-    (newMeasureUnitType, oldMeasureUnitType) => {        
+    (newMeasureUnitType, oldMeasureUnitType) => {
       newMeasureUnitType === ""
         ? initMeasureUnits()
-          : getMeasureUnits(form.measure_unit_type_id)
+        : getMeasureUnits(form.measure_unit_type_id)
     },
     { immediate: false, deep: true },
   )
@@ -144,5 +130,4 @@ export default (product: Product) => {
     errors,
     pending
   }
-
 }

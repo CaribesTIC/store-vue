@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { reactive } from "vue"
-import type Mark from "../../types/Mark"
+import type { Mark } from "../../types/Mark"
+
 // import type Errors from "../../types/Errors"
 
 const props = defineProps<{
