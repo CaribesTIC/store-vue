@@ -81,7 +81,7 @@ export default (productId?: string) => {
   }
   
   const submit = (product: Product) => {
-    !productId ? insertProduct (product)  : updateProduct(product, productId)
+    !productId ? alert("insertProduct (product)")  : alert("updateProduct(product, productId)")
   }
 
   return {    

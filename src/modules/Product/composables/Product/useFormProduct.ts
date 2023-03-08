@@ -120,10 +120,6 @@ export default (product: Product) => {
       })
   }
 
-  const submit = async () => {
-    //emit('submit', { }, props.id)
-  }
-
   const initMeasureUnits = () => {
     form.measure_unit_id = ""
     measureUnits.value = []
@@ -146,9 +142,7 @@ export default (product: Product) => {
     measureUnitTypes,
     measureUnits,
     errors,
-    pending,
-
-    submit    
+    pending
   }
 
 }

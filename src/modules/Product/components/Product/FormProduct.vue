@@ -9,21 +9,26 @@ const props = defineProps<{
   sending: Boolean  
 }>()
 
+const emits = defineEmits<{
+  (e: 'submit', form: Product): void
+}>()
+
 const {
   form,
   categories,
   marks,
   measureUnitTypes,
   measureUnits,
-  pending,
-  submit
+  pending
 } = useFormProduct(props.product)
 
+const submit = async () => {
+    emits('submit', form)
+}
+ 
 const { updateMeasureUnit } = inject<{
     updateMeasureUnit: (val: any) => void;
 }>('measureUnit')
-
-//@click="submit(form)"   
 </script>
 
 <template>

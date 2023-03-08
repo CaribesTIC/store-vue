@@ -4,6 +4,7 @@
 //https://gitlab.com/fdsoil/php_fdsoil_my_business_product/-/blob/master/modulos/product_aux/modalWindowEmpaque.html
 //https://gitlab.com/fdsoil/php_fdsoil_my_business_product/-/blob/master/modulos/product_aux/js/Empaque.js
 //https://logaretm.com/blog/making-the-most-out-of-vuejs-injections/
+import { computed } from "vue"
 import useTabProduct from "../../composables/Product/useTabProduct";
 import FormProduct from './FormProduct.vue';
 
@@ -13,17 +14,20 @@ const {
   product,
   errors,
   pending,      
-  //submit    
+  submit    
 } = useTabProduct(props.id)
+
+const isTrue = computed(() => (product && product.category_id || !props.id)) 
 </script>
 
 <template>
   <div class="">
     <FormProduct
-      v-if="product && product.category_id"
+      v-if="isTrue"
       :product="product"
       :errors="errors"
-      :sending="pending"      
+      :sending="pending"
+      @submit="submit"    
     />
   </div>
 </template>
