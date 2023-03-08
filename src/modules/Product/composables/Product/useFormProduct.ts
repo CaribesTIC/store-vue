@@ -1,17 +1,21 @@
-import { onMounted, reactive, ref, watch, inject } from 'vue'
-import { useRouter } from 'vue-router'
+import { onMounted, reactive, ref, watch } from 'vue'
 import useHttp from "@/composables/useHttp";
 import * as CategoryService from "@/modules/Product/services/CategoryService";
 import * as MarkService from "@/modules/Product/services/MarkService";
 import * as CommonService from "@/modules/Product/services/CommonService";
+import type {
+  Product,
+  Category,
+  Mark,
+  MeasureUnit,
+  MeasureUnitType
+} from "../../types/Product";
 
-export default (product: Product) => {
-  const router = useRouter();
-  
-  const categories = ref<Category[]>([])
-  const marks = ref<Mark[]>([])
-  const measureUnitTypes = ref<measureUnitType[]>([])
-  const measureUnits = ref<measureUnit>([])
+export default (product: Product) => {  
+  const categories = ref<Category[]>()
+  const marks = ref<Mark[]>()
+  const measureUnitTypes = ref<MeasureUnitType[]>()
+  const measureUnits = ref<MeasureUnit[]>()
   
   const form = reactive({
     category_id: product.category_id,
@@ -116,11 +120,9 @@ export default (product: Product) => {
       })
   }
 
-
-  
-  /*const submit = (product: Product) => {
-    !productId ? insertProduct (product)  : updateProduct(product, productId)
-  }*/
+  const submit = async () => {
+    //emit('submit', { }, props.id)
+  }
 
   const initMeasureUnits = () => {
     form.measure_unit_id = ""
@@ -146,7 +148,7 @@ export default (product: Product) => {
     errors,
     pending,
 
-    //submit    
+    submit    
   }
 
 }

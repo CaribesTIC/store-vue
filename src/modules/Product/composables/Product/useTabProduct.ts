@@ -2,6 +2,7 @@ import { onMounted, reactive, inject } from 'vue'
 import { useRouter } from 'vue-router'
 import useHttp from "@/composables/useHttp";
 import ProductService from "@/modules/Product/services/ProductService";
+import type { Product } from "../../types/Product";
 
 export default (productId?: string) => {
 
@@ -11,7 +12,7 @@ export default (productId?: string) => {
 
   const router = useRouter();    
 
-  const product = reactive({
+  const product:Product = reactive({  
     category_id: "",
     mark_id: "",
     measure_unit_type_id: "",

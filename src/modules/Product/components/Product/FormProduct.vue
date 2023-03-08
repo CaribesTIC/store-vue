@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { inject } from "vue"
 import useFormProduct from "../../composables/Product/useFormProduct";
+import type { Product } from "../../types/Product";
 
 const props = defineProps<{
   product: Product
@@ -14,12 +15,15 @@ const {
   marks,
   measureUnitTypes,
   measureUnits,
-  pending
+  pending,
+  submit
 } = useFormProduct(props.product)
 
 const { updateMeasureUnit } = inject<{
     updateMeasureUnit: (val: any) => void;
 }>('measureUnit')
+
+//@click="submit(form)"   
 </script>
 
 <template>
@@ -85,8 +89,7 @@ const { updateMeasureUnit } = inject<{
 
     <div class="mt-4 px-2 border-gray-100 flex justify-end space-x-2">
       <AppBtn
-        type="button"
-        @click="submit(form)"        
+        type="submit"             
         :text="pending ? 'Guardando...' : 'Guardar'"
         :isDisabled='pending'
       />
