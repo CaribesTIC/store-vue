@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import { inject } from "vue"
 import useFormProduct from "../../composables/Product/useFormProduct";
+import type { Product } from "../../types/Product";
 
 const props = defineProps<{
   product: Product
   errors?: String | Object
   sending: Boolean  
+}>()
+
+const emits = defineEmits<{
+  (e: 'submit', form: Product): void
 }>()
 
 const {
@@ -17,6 +22,10 @@ const {
   pending
 } = useFormProduct(props.product)
 
+const submit = async () => {
+    emits('submit', form)
+}
+ 
 const { updateMeasureUnit } = inject<{
     updateMeasureUnit: (val: any) => void;
 }>('measureUnit')
@@ -26,7 +35,8 @@ const { updateMeasureUnit } = inject<{
   <form @submit.prevent="submit">
     <div class="p-5 grid lg:grid-cols-2 gap-4">    
       <div class="block">      
-        <AppSelect          
+        <AppSelect
+          v-if="categories"        
           v-model="form.category_id"          
           label="Categoría"
           :options="categories"
@@ -34,6 +44,7 @@ const { updateMeasureUnit } = inject<{
       </div>      
       <div class="block">      
         <AppSelect
+          v-if="marks"
           v-model="form.mark_id"
           label="Marca"
           :options="marks"
@@ -42,6 +53,7 @@ const { updateMeasureUnit } = inject<{
 
       <div class="block">      
         <AppSelect
+          v-if="measureUnitTypes"
           v-model="form.measure_unit_type_id"
           label="Tipo de Unidad de Medida"
           :options="measureUnitTypes"
@@ -85,8 +97,7 @@ const { updateMeasureUnit } = inject<{
 
     <div class="mt-4 px-2 border-gray-100 flex justify-end space-x-2">
       <AppBtn
-        type="button"
-        @click="submit(form)"        
+        type="submit"             
         :text="pending ? 'Guardando...' : 'Guardar'"
         :isDisabled='pending'
       />

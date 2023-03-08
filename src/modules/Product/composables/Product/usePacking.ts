@@ -3,7 +3,7 @@ import CommonService from "../../services/CommonService"
 import useHttp from "@/composables/useHttp"
 
 export default (measureUnit) => {
-  const { errors, pending } = useHttp()
+  const { errors, pending, getError } = useHttp()
   const containers = ref([])
   const form = reactive({
     quantity: 0,
@@ -60,7 +60,7 @@ export default (measureUnit) => {
   const remove = ()=> {      
     cleanAfter()   
     form.packing_description = "";
-    form.packing_json = [];
+    form.packing_json = "";
   }
 
   const lastPacking = computed(()=> form.packing_description.split(" ")[0])

@@ -2,7 +2,7 @@ import { onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import useHttp from "@/composables/useHttp";
 import * as MarkService from "@/modules/Product/services/MarkService";
-import type User from "../../types/Mark"
+import type { Mark } from "../../types/Mark"
 
 export default (markId?: string) => {
   const router = useRouter();
