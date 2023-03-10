@@ -19,6 +19,7 @@ select {
 }
 
 [data-theme="winter"] input[type="text"],
+[data-theme="winter"] input[type="number"],
 [data-theme="winter"] input[type="email"],
 [data-theme="winter"] input[type="password"],
 [data-theme="winter"] textarea,
@@ -27,6 +28,7 @@ select {
 }
 
 [data-theme="night"] input[type="text"],
+[data-theme="night"] input[type="number"],
 [data-theme="night"] input[type="email"],
 [data-theme="night"] input[type="password"],
 [data-theme="night"] textarea,
