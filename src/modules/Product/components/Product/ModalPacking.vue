@@ -37,9 +37,9 @@ const {
   <Teleport to="body">
     <Transition mode="in-out">
       <div class="modal transition duration-150 v-enter-active">
-        <div class="modal-content rounded-lg shadow-xl">
+        <div class="modal-content rounded-lg shadow-xl bg-base-200">
           <span class="close" @click="closeModal">&times;</span>
-          <h1 class="text-gray-900 text-xl font-semibold mb-4">Empacar</h1>
+          <h1 class="text-xl font-semibold mb-4">Empacar</h1>
 
           <div class="p-5 grid lg:grid-cols-3 gap-4">
 
@@ -108,7 +108,6 @@ const {
 
 .modal-content {
   @apply m-auto w-4/5 sm:w-9/12 md:w-4/6 lg:w-3/6;
-  background-color: #fefefe;
   padding: 20px;
   border: 1px solid #888;
 }
