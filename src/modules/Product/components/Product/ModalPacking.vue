@@ -91,3 +91,50 @@ const {
     </Transition>
   </Teleport>
 </template>
+
+<style scoped>
+.modal {  
+  @apply fixed z-30 pt-28; 
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+  
+}
+
+.modal-content {
+  @apply m-auto w-4/5 sm:w-9/12 md:w-4/6 lg:w-3/6;
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.25s ease-in-out;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+  transform: translate3d(-10vw);
+}
+
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+</style>
