@@ -9,18 +9,16 @@ export const getProduct = (productId: string) => {
   return Http.get(`/api/products/${productId}`);
 }
 
-export const insertProduct = (payload: any) => {
-  console.log(payload) 
+export const insertProduct = (payload: any) => {   
   return Http.post(`/api/products`, payload);
 }
 
-export const updateProduct = (payload:any, productId: Product) => {
-  console.log(payload, productId) 
+export const updateProduct = (productId: string, payload:any) => {   
   return Http.put(`/api/products/${productId}`, payload);
 }
 
-export const deleteProduct = (userId: string) => { 
-  return Http.delete(`/api/users/${userId}`);
+export const deleteProduct = (productId: string) => { 
+  return Http.delete(`/api/products/${productId}`);
 }
 
 export default {
