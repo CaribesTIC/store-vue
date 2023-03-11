@@ -66,6 +66,7 @@ export default (productId?: string) => {
 
   const updateProduct = async (product: Product, productId: string) => {
     pending.value= true
+    product._method = 'PUT'
     return ProductService.updateProduct(productId, product)
       .then((response) => {
         alert( response.data.message )
@@ -81,7 +82,7 @@ export default (productId?: string) => {
   }
   
   const submit = (product: Product) => {
-    !productId ? alert("insertProduct (product)")  : alert("updateProduct(product, productId)")
+    !productId ? insertProduct (product)  : updateProduct(product, productId)
   }
 
   return {    
