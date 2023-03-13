@@ -7,6 +7,7 @@ import type { Product } from "../../types/Product";
 export default (productId?: string) => {
 
   const { measureUnit, updateMeasureUnit } = inject<{
+    measureUnit: string,
     updateMeasureUnit: (val: any) => void;
   }>('measureUnit')
 
@@ -50,7 +51,7 @@ export default (productId?: string) => {
 
   const insertProduct = async (product: Product) => {
     pending.value = true
-    product.measure_unit = 'measureUnit'
+    product.measure_unit = measureUnit
     return ProductService.insertProduct(product)
       .then((response) => {         
         alert( response.data.message )
@@ -72,7 +73,7 @@ export default (productId?: string) => {
     return ProductService.updateProduct(productId, product)
       .then((response) => {
         alert( response.data.message )
-        router.push( { path: '/products' } )
+        //router.push( { path: '/products' } )
       })
       .catch((err) => {                
         console.log( err.response.data )
