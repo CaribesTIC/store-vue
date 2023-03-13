@@ -4,7 +4,6 @@ import useIndex from "../../composables/Product/useIndex";
 import AppPaginationB from "@/components/AppPaginationB.vue";
 import AppPageHeader from "@/components/AppPageHeader.vue"
 import AppBtn from "@/components/AppBtn.vue"
-import AvatarIcon from "@/icons/AvatarIcon.vue"
 
 const {
   errors,

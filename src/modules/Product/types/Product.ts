@@ -14,6 +14,7 @@ export interface Product{
   editing?:              boolean | null;
   created_at?:           Date | null;
   updated_at?:           Date | null;
+  _method?:              'PUT'
 }
 
 export interface Category {
