@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { inject } from "vue"
+import { computed, inject } from "vue"
+import useIsErrorShowIt from "@/composables/useIsErrorShowIt"
 import useFormProduct from "../../composables/Product/useFormProduct";
 import type { Product } from "../../types/Product";
 
@@ -29,6 +30,8 @@ const submit = async () => {
 const { updateMeasureUnit } = inject<{
     updateMeasureUnit: (val: any) => void;
 }>('measureUnit')
+
+const { isErrorShowIt } = useIsErrorShowIt(props)
 </script>
 
 <template>
@@ -40,6 +43,7 @@ const { updateMeasureUnit } = inject<{
           v-model="form.category_id"          
           label="Categoría"
           :options="categories"
+          :error="isErrorShowIt('category_id')"
         />
       </div>      
       <div class="block">      
@@ -47,7 +51,8 @@ const { updateMeasureUnit } = inject<{
           v-if="marks"
           v-model="form.mark_id"
           label="Marca"
-          :options="marks"
+          :options="marks"          
+          :error="isErrorShowIt('mark_id')"
         />
       </div>
 
@@ -57,6 +62,7 @@ const { updateMeasureUnit } = inject<{
           v-model="form.measure_unit_type_id"
           label="Tipo de Unidad de Medida"
           :options="measureUnitTypes"
+          :error="isErrorShowIt('measure_unit_type_id')"
         />
       </div>
 
@@ -83,14 +89,15 @@ const { updateMeasureUnit } = inject<{
           {{ option.name }}
         </option>
         </select>
+        <p class="text-red-500">{{isErrorShowIt('measure_unit_id')}}</p>
       </div>
 
       <div class="block">      
         <AppInput          
           v-model="form.name"          
           label="Nombre del Producto"
-          type="text"
-          error=""
+          type="text"          
+          :error="isErrorShowIt('name')"
         />   
       </div>
     </div>
