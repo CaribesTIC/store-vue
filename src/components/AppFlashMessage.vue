@@ -1,39 +1,8 @@
-<template>
-  <div>
-    <transition-group name="fade">
-      <p v-if="message" class="mt-2 text-sm text-green-500" key="message">
-        {{ message }}
-      </p>
-      <p
-        v-if="error && getType(error) === 'string'"
-        key="error"
-        class="mt-2 text-sm text-red-500"
-      >
-        {{ error }}
-      </p>
-      <ul
-        v-if="getType(error) === 'object'"
-        class="mt-2 text-sm text-red-500"
-        key="error-list"
-      >
-        <li v-for="key in errorKeys" :key="key">
-          <b class="font-bold capitalize">{{ filterTitleCase(key) }}</b>
-          <ul class="ml-2">
-            <li v-for="(item, index) in getErrors(key)" :key="`${index}-error`">
-              {{ item }}
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </transition-group>
-  </div>
-</template>
-
 <script lang="ts">
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: "FlashMessage",
+  name: "AppFlashMessage",
   props: {
     message: {
       type: String,
@@ -65,3 +34,36 @@ export default defineComponent({
   }
 });
 </script>
+
+<template>
+  <div>
+    <transition-group name="fade">
+      <p v-if="message" class="mt-2 text-sm text-green-500" key="message">
+        {{ message }}
+      </p>
+      <p
+        v-if="error && getType(error) === 'string'"
+        key="error"
+        class="mt-2 text-sm text-red-500"
+      >
+        {{ error }}
+      </p>
+      <ul
+        v-if="getType(error) === 'object'"
+        class="mt-2 text-sm text-red-500"
+        key="error-list"
+      >
+        <li v-for="key in errorKeys" :key="key">
+          <b class="font-bold capitalize">{{ filterTitleCase(key) }}</b>
+          <ul class="ml-2">
+            <li v-for="(item, index) in getErrors(key)" :key="`${index}-error`">
+              {{ item }}
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </transition-group>
+  </div>
+</template>
+
+

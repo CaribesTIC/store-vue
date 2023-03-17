@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, inject } from "vue"
-import useIsErrorShowIt from "@/composables/useIsErrorShowIt"
+import { useVuelidate } from "@vuelidate/core";
+import { required, helpers } from "@vuelidate/validators";
 import useFormProduct from "../../composables/Product/useFormProduct";
 import type { Product } from "../../types/Product";
 
@@ -23,18 +24,43 @@ const {
   pending
 } = useFormProduct(props.product)
 
-const submit = async () => {
-    emits('submit', form)
-}
+const rules = computed(() => {
+  return {
+    category_id: {
+      required: helpers.withMessage("Campo requerido", required),
+    },
+    mark_id: {
+      required: helpers.withMessage("Campo requerido", required),
+    },
+    measure_unit_type_id: {
+      required: helpers.withMessage("Campo requerido", required),
+    },
+    measure_unit_id: {
+      required: helpers.withMessage("Campo requerido", required),
+    },
+    name: {
+      required: helpers.withMessage("Campo requerido", required),
+    },
+  };
+});
+
+const v$ = useVuelidate(rules, form);
+
+const submit = async () => {  
+  const result = await v$.value.$validate();
+  if (result) {    
+    emits("submit", form);
+  }
+};
  
 const { updateMeasureUnit } = inject<{
     updateMeasureUnit: (val: any) => void;
 }>('measureUnit')
 
-const { isErrorShowIt } = useIsErrorShowIt(props)
 </script>
 
 <template>
+  <AppFlashMessage :error="errors"/>
   <form @submit.prevent="submit">
     <div class="p-5 grid lg:grid-cols-2 gap-4">    
       <div class="block">      
@@ -43,7 +69,7 @@ const { isErrorShowIt } = useIsErrorShowIt(props)
           v-model="form.category_id"          
           label="Categoría"
           :options="categories"
-          :error="isErrorShowIt('category_id')"
+          :error="v$.category_id.$error ? v$.category_id.$errors[0].$message : null"
         />
       </div>      
       <div class="block">      
@@ -52,7 +78,7 @@ const { isErrorShowIt } = useIsErrorShowIt(props)
           v-model="form.mark_id"
           label="Marca"
           :options="marks"          
-          :error="isErrorShowIt('mark_id')"
+          :error="v$.mark_id.$error ? v$.mark_id.$errors[0].$message : null"
         />
       </div>
 
@@ -62,7 +88,7 @@ const { isErrorShowIt } = useIsErrorShowIt(props)
           v-model="form.measure_unit_type_id"
           label="Tipo de Unidad de Medida"
           :options="measureUnitTypes"
-          :error="isErrorShowIt('measure_unit_type_id')"
+          :error="v$.measure_unit_type_id.$error ? v$.measure_unit_type_id.$errors[0].$message : null"
         />
       </div>
 
@@ -89,7 +115,7 @@ const { isErrorShowIt } = useIsErrorShowIt(props)
           {{ option.name }}
         </option>
         </select>
-        <p class="text-red-500">{{isErrorShowIt('measure_unit_id')}}</p>
+        <p class="text-red-500">{{v$.measure_unit_id.$error ? v$.measure_unit_id.$errors[0].$message : null}}</p>
       </div>
 
       <div class="block">      
@@ -97,7 +123,7 @@ const { isErrorShowIt } = useIsErrorShowIt(props)
           v-model="form.name"          
           label="Nombre del Producto"
           type="text"          
-          :error="isErrorShowIt('name')"
+          :error="v$.name.$error ? v$.name.$errors[0].$message : null"
         />   
       </div>
     </div>
