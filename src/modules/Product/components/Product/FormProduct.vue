@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { computed, inject } from "vue"
-import { useVuelidate } from "@vuelidate/core";
-import { required, helpers } from "@vuelidate/validators";
+import { inject } from "vue"
 import useFormProduct from "../../composables/Product/useFormProduct";
 import type { Product } from "../../types/Product";
 
@@ -21,30 +19,10 @@ const {
   marks,
   measureUnitTypes,
   measureUnits,
-  pending
+  pending,  
+
+  v$  
 } = useFormProduct(props.product)
-
-const rules = computed(() => {
-  return {
-    category_id: {
-      required: helpers.withMessage("Campo requerido", required),
-    },
-    mark_id: {
-      required: helpers.withMessage("Campo requerido", required),
-    },
-    measure_unit_type_id: {
-      required: helpers.withMessage("Campo requerido", required),
-    },
-    measure_unit_id: {
-      required: helpers.withMessage("Campo requerido", required),
-    },
-    name: {
-      required: helpers.withMessage("Campo requerido", required),
-    },
-  };
-});
-
-const v$ = useVuelidate(rules, form);
 
 const submit = async () => {  
   const result = await v$.value.$validate();

@@ -1,6 +1,8 @@
-import { onMounted, reactive, ref, watch } from 'vue'
+import { onMounted, reactive, ref, watch, computed } from 'vue'
 import useHttp from "@/composables/useHttp";
 import { ascBubble } from "@/utils/helpers";
+import { useVuelidate } from "@vuelidate/core";
+import { required, helpers } from "@vuelidate/validators";
 import * as CategoryService from "@/modules/Product/services/CategoryService";
 import * as MarkService from "@/modules/Product/services/MarkService";
 import * as CommonService from "@/modules/Product/services/CommonService";
@@ -111,6 +113,28 @@ export default (product: Product) => {
     measureUnits.value = []
   }
 
+  const rules = computed(() => {
+    return {
+      category_id: {
+        required: helpers.withMessage("Campo requerido", required),
+      },
+      mark_id: {
+        required: helpers.withMessage("Campo requerido", required),
+      },
+      measure_unit_type_id: {
+        required: helpers.withMessage("Campo requerido", required),
+      },
+      measure_unit_id: {
+        required: helpers.withMessage("Campo requerido", required),
+      },
+      name: {
+        required: helpers.withMessage("Campo requerido", required),
+      },
+    };
+  });
+
+  const v$ = useVuelidate(rules, form);
+
   watch(
     () => form.measure_unit_type_id,
     (newMeasureUnitType, oldMeasureUnitType) => {
@@ -128,6 +152,8 @@ export default (product: Product) => {
     measureUnitTypes,
     measureUnits,
     errors,
-    pending
+    pending,
+
+    v$      
   }
 }

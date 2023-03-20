@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { inject, reactive, ref } from "vue"
 import ModalPacking from './ModalPacking.vue'
+import useFormPresentation from "../../composables/Product/useFormPresentation";
 import type { Ref } from "vue"
 import type { RadioOption } from "@/types/RadioOption";
 import type { Presentation } from "../../types/Presentation";
-import type { Packing } from "../../types/Packing";
 
 const props = defineProps<{
   presentation: Presentation
@@ -12,30 +12,24 @@ const props = defineProps<{
   statusOptions: RadioOption[]
 }>()
 
-const form = reactive<Presentation>({
-  sale_type: props.presentation.sale_type,
-  int_cod: props.presentation.int_cod,
-  bar_cod: props.presentation.bar_cod,
-  packing_deployed: props.presentation.packing_deployed,
-  packing_json: props.presentation.packing_json,
-  stock_min: props.presentation.stock_min,
-  stock_max: props.presentation.stock_max,
-  price: props.presentation.price,
-  status: props.presentation.status
-})
+const {
+  form,
+  isOpenModal,
 
-const isOpenModal = ref(false)
+  acceptModal
+} = useFormPresentation(props.presentation)
+
+const emits = defineEmits<{
+  (e: 'submit', form: Presentation): void
+}>()
 
 const { measureUnit } = inject<{
     measureUnit: Ref<string>;
 }>('measureUnit')
 
-const acceptModal = (payload: Packing) => {
-  form.packing_deployed = payload.packing_description
-  form.packing_json = payload.packing_json
-}
-
-const submit = ()=> alert('Emit')
+const submit = async () => {
+  emits("submit", form);
+};
 </script>
 
 <template>

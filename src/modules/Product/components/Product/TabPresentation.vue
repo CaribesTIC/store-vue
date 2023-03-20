@@ -2,6 +2,7 @@
 import { ref, computed, reactive } from "vue"
 import FormPresentation from './FormPresentation.vue'
 import TablePresentation from './TablePresentation.vue'
+import useTabPresentation from '../../composables/Product/useTabPresentation'
 
 const isOpenPanel = ref(false)
 const OpenOrCloseButton = computed(()=> isOpenPanel.value ? "Cerrar" : "Abrir")
@@ -19,15 +20,12 @@ const presentation = reactive({
   status: 0
 })
 
-const saleTypeOptions = [
-  { label: 'Mayor', value: 0 },
-  { label: 'Detal', value: 1 }  
-]
+const {
+  saleTypeOptions,
+  statusOptions,
 
-const statusOptions = [
-  { label: 'Inactivo', value: 0 },
-  { label: 'Activo', value: 1 }  
-]
+  submit
+} = useTabPresentation()
 </script>
 
 <template>
@@ -49,6 +47,7 @@ const statusOptions = [
             :presentation="presentation"
             :saleTypeOptions="saleTypeOptions"
             :statusOptions="statusOptions"
+            @submit="submit"
           />
           <TablePresentation />
         </div>
