@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { inject, reactive, ref } from "vue"
 import ModalPacking from './ModalPacking.vue'
+import useFormPresentation from "../../composables/Presentation"
 import type { Ref } from "vue"
 import type { RadioOption } from "@/types/RadioOption";
 import type { Presentation } from "../../types/Presentation";
@@ -24,6 +25,10 @@ const form = reactive<Presentation>({
   status: props.presentation.status
 })
 
+const emits = defineEmits<{
+  (e: 'submit', form: Presentation): void
+}>()
+
 const isOpenModal = ref(false)
 
 const { measureUnit } = inject<{
@@ -35,7 +40,9 @@ const acceptModal = (payload: Packing) => {
   form.packing_json = payload.packing_json
 }
 
-const submit = ()=> alert('Emit')
+const submit = async () => {
+  emits("submit", form);
+};
 </script>
 
 <template>
