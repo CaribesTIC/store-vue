@@ -1,7 +1,7 @@
 //import { onMounted, reactive, ref, watch } from 'vue'
 import type { Presentation } from "../../types/Presentation";
 
-export default (presentation: Presentation) => {
+export default () => {
   const saleTypeOptions = [
     { label: 'Mayor', value: 0 },
     { label: 'Detal', value: 1 }  
