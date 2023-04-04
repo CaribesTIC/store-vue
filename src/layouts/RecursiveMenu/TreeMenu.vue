@@ -47,7 +47,7 @@ const toggleChildren = ()=> showChildren.value = !showChildren.value
       class="mb-2 py-1 px-2"
       :class="routePathRoot ? 'activeClass' : 'inactiveClass'"      
     >      
-      <AppLink :to="{ path: menu.path }">
+      <AppLink :to="{ name: menu.path }">
         <span class="flex items-center group py-0">
           <Component v-if="menu && menu.icon!==''"
             :is="iconName"
