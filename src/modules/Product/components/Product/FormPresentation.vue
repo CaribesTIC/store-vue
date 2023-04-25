@@ -23,10 +23,6 @@ const emits = defineEmits<{
   (e: 'submit', form: Presentation): void
 }>()
 
-const { measureUnit } = inject<{
-    measureUnit: Ref<string>;
-}>('measureUnit')
-
 const submit = async () => {
   emits("submit", form);
 };
@@ -115,8 +111,7 @@ const submit = async () => {
       </div> 
     </form>
     <ModalPacking
-      v-if="isOpenModal"
-      :measureUnit="measureUnit"
+      v-if="isOpenModal"      
       @closeModal="isOpenModal = false"
       @acceptModal="acceptModal"
     />

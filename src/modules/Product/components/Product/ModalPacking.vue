@@ -1,36 +1,41 @@
 <script setup lang="ts">
+import { inject } from "vue"
+import FormPacking from "./FormPacking.vue"
 import usePacking from "../../composables/Product/usePacking"
 import type { Packing } from "../../types/Packing"
 
-const props = defineProps<{
-  measureUnit: string
-}>()
-
-const emit = defineEmits<{
+const emits = defineEmits<{
   (e: 'closeModal'): void  
   (e: 'acceptModal', payload: Packing): void
 }>()
 
 const closeModal = () => {
-  emit('closeModal')
+  emits('closeModal')
 }
 
-const accept = () => {  
-  emit('acceptModal', {
-    packing_description: form.packing_description,
-    packing_json: form.packing_json
-  })
-  closeModal()
+const accept = async () => {  
+  const result = await v$.value.$validate();  
+  if (result) {  
+    emits('acceptModal', {
+      packing_description: form.packing_description,
+      packing_json: form.packing_json
+    })
+    closeModal()    
+  }
 }
+
+const { measureUnit } = inject<{
+    measureUnit: Ref<string>;
+}>('measureUnit')
 
 const {
-  containers,
   form,
   labelOfquantity,
 
   add,
-  remove
-} = usePacking(props.measureUnit)
+  remove,  
+  v$
+} = usePacking(measureUnit)
 </script>
 
 <template>
@@ -41,40 +46,22 @@ const {
           <span class="close" @click="closeModal">&times;</span>
           <h1 class="text-xl font-semibold mb-4">Empacar</h1>
 
-          <div class="p-5 grid lg:grid-cols-3 gap-4">
-
-            <div class="block">
-              <AppInput
-                v-model="form.quantity"
-                :label=labelOfquantity
-                type="number"
-                error=""
-              />
-            </div>
-            
-            <div class="block">
-              <AppSelect
-                ref="xyz"
-                label="Empaque"
-                v-model="form.packing"
-                :options="containers"
-              />
-            </div>
-
-            <div class="block mt-5">
-              <AppBtn class="btn btn-primary mx-1" @click="add">+</AppBtn>
-              <AppBtn class="btn btn-danger mx-1" @click="remove">-</AppBtn>
-            </div>
-          </div>
+          <FormPacking
+            :labelOfquantity='labelOfquantity'
+            @add='add'
+            @remove='remove'
+          />
           
           <AppTextarea
             label="Descripcción"
             v-model="form.packing_description"
-            readonly/>
+            :error="v$.packing_description.$error ? v$.packing_description.$errors[0].$message : null"
+            readonly
+          />
                
           <AppInput
-            v-model="form.packing_json"          
-            type="hidden"          
+            v-model="form.packing_json"   
+            type="hidden"
           />
           
           <div class="flex items-center justify-between mt-4">
