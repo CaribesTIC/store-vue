@@ -6,21 +6,25 @@ const props = defineProps<{
   measureUnit: string
 }>()
 
-const emit = defineEmits<{
+const emits = defineEmits<{
   (e: 'closeModal'): void  
   (e: 'acceptModal', payload: Packing): void
 }>()
 
 const closeModal = () => {
-  emit('closeModal')
+  emits('closeModal')
 }
 
-const accept = () => {  
-  emit('acceptModal', {
-    packing_description: form.packing_description,
-    packing_json: form.packing_json
-  })
-  closeModal()
+const accept = async () => {  
+  const result = await v$.value.$validate();
+  
+  if (result) {  
+    emits('acceptModal', {
+      packing_description: form.packing_description,
+      packing_json: form.packing_json
+    })
+    closeModal()
+  }
 }
 
 const {
@@ -29,7 +33,8 @@ const {
   labelOfquantity,
 
   add,
-  remove
+  remove,
+  v$
 } = usePacking(props.measureUnit)
 </script>
 
@@ -48,7 +53,8 @@ const {
                 v-model="form.quantity"
                 :label=labelOfquantity
                 type="number"
-                error=""
+                min="1"
+                
               />
             </div>
             
@@ -58,6 +64,7 @@ const {
                 label="Empaque"
                 v-model="form.packing"
                 :options="containers"
+                
               />
             </div>
 
@@ -70,11 +77,13 @@ const {
           <AppTextarea
             label="Descripcción"
             v-model="form.packing_description"
-            readonly/>
+            :error="v$.packing_description.$error ? v$.packing_description.$errors[0].$message : null"
+            readonly
+          />
                
           <AppInput
             v-model="form.packing_json"          
-            type="hidden"          
+            type="hidden"                     
           />
           
           <div class="flex items-center justify-between mt-4">

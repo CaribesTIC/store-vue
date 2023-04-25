@@ -1,4 +1,6 @@
 import { ref, reactive, onMounted, computed } from "vue"
+import { useVuelidate } from "@vuelidate/core";
+import { required, helpers, numeric, minValue } from "@vuelidate/validators";
 import CommonService from "../../services/CommonService"
 import useHttp from "@/composables/useHttp"
 
@@ -33,7 +35,27 @@ export default (measureUnit) => {
       .finally(() => {
         pending.value = false;
       })
-  })
+  })  
+
+  const rules = computed(() => {
+    return {
+      /*quantity: {
+        required: helpers.withMessage("Campo requerido", required),         
+        minValue: helpers.withMessage("El valor mínimo permitido es 1", minValue(1)) 
+      },
+      packing: {
+        required: helpers.withMessage("Campo requerido", required),
+      },*/
+      packing_description: {
+        required: helpers.withMessage("Campo requerido", required),
+      },
+      /*packing_json: {
+        required: helpers.withMessage("Campo requerido", required),
+      }*/
+    };
+  });
+
+  const v$ = useVuelidate(rules, form);
 
   let n = 0, i = 0, packingJson = []
   const aConect = [ ' DE ', ' CON ' ] 
@@ -73,6 +95,7 @@ export default (measureUnit) => {
     labelOfquantity,
 
     add,
-    remove
+    remove,
+    v$   
   }
 }

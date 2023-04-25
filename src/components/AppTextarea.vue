@@ -1,11 +1,17 @@
 <script setup lang="ts">
+import useUniqueId from '@/composables/useUniqueId'
+
 withDefaults(defineProps<{
   label?: string
   modelValue?: string | number
+  error?: string
 }>(), {
   label: '',
-  modelValue: ''
+  modelValue: '',
+  error: ''
 })
+
+const uuid = useUniqueId().getID()
 </script>
 
 <template>
@@ -17,4 +23,10 @@ withDefaults(defineProps<{
     @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"    
     class="field"
   ></textarea>
+  <AppErrorMessage
+    v-if="error"
+    :id="`${uuid}-error`"
+  >
+    {{ error }}
+  </AppErrorMessage>
 </template>
