@@ -7,9 +7,12 @@ import useHttp from "@/composables/useHttp"
 export default (measureUnit) => {
   const { errors, pending, getError } = useHttp()
   const containers = ref([])
-  const form = reactive({
+  const form1 = reactive({
     quantity: 0,
-    packing: "",
+    packing: ""
+  })
+  
+  const form2 = reactive({
     packing_description: "",
     packing_json: "",
   })
@@ -37,65 +40,78 @@ export default (measureUnit) => {
       })
   })  
 
-  const rules = computed(() => {
+  const rules1 = computed(() => {
     return {
-      /*quantity: {
+      quantity: {
         required: helpers.withMessage("Campo requerido", required),         
         minValue: helpers.withMessage("El valor mínimo permitido es 1", minValue(1)) 
       },
       packing: {
         required: helpers.withMessage("Campo requerido", required),
-      },*/
+      }      
+    };
+  });  
+  
+  const rules2 = computed(() => {
+    return {      
       packing_description: {
         required: helpers.withMessage("Campo requerido", required),
       },
-      /*packing_json: {
+      packing_json: {
         required: helpers.withMessage("Campo requerido", required),
-      }*/
+      }
     };
   });
+  
 
-  const v$ = useVuelidate(rules, form);
+  const v1$ = useVuelidate(rules1, form1);
+  const v2$ = useVuelidate(rules2, form2);
 
   let n = 0, i = 0, packingJson = []
   const aConect = [ ' DE ', ' CON ' ] 
 
   const cleanAfter  = ()=> {        
-    form.quantity = 0
-    form.packing = ""
+    form1.quantity = 0
+    form1.packing = ""    
+    v1$.value.$reset()
   }
 
-  const add = ()=> {
-    let concatena1 = `${form.packing} ${aConect[n++]} ${form.quantity} `
-    let concatena2 = ((form.packing_description.trim() === "")
-      ? measureUnit
-        : form.packing_description)
-    form.packing_description = concatena1 + concatena2
-    //form.packing_json[i++] = `{"packing":"${form.packing}","quantity":${form.quantity}}`
-    packingJson[i++] = `{"packing":"${form.packing}","quantity":${form.quantity}}`
-    form.packing_json = `[${packingJson}]`
-    if (n == 2)
-      n = 0;
-    cleanAfter()  
-  }
+  const add = async ()=> {
+    const result = await v1$.value.$validate();
+    if (result) {
+      let concatena1 = `${form1.packing} ${aConect[n++]} ${form1.quantity} `
+      let concatena2 = ((form2.packing_description.trim() === "")
+        ? measureUnit
+          : form2.packing_description)
+      form2.packing_description = concatena1 + concatena2
+      //form2.packing_json[i++] = `{"packing":"${form1.packing}","quantity":${form1.quantity}}`
+      packingJson[i++] = `{"packing":"${form1.packing}","quantity":${form1.quantity}}`
+      form2.packing_json = `[${packingJson}]`
+      if (n == 2)
+        n = 0;
+      cleanAfter()
+    }  
+  }  
 
   const remove = ()=> {      
     cleanAfter()   
-    form.packing_description = "";
-    form.packing_json = "";
+    form2.packing_description = "";
+    form2.packing_json = "";
   }
 
-  const lastPacking = computed(()=> form.packing_description.split(" ")[0])
+  const lastPacking = computed(()=> form2.packing_description.split(" ")[0])
 
-  const labelOfquantity = computed(()=> "Cantidad de " + (form.packing_description=="" ? measureUnit : lastPacking.value))
+  const labelOfquantity = computed(()=> "Cantidad de " + (form2.packing_description=="" ? measureUnit : lastPacking.value))
 
   return {
     containers,
-    form,
+    form1,
+    form2,
     labelOfquantity,
 
     add,
     remove,
-    v$   
+    v1$,
+    v2$
   }
 }
