@@ -20,8 +20,8 @@ const accept = async () => {
   
   if (result) {  
     emits('acceptModal', {
-      packing_description: form2.packing_description,
-      packing_json: form2.packing_json
+      packing_description: form.packing_description,
+      packing_json: form.packing_json
     })
     closeModal()
   }
@@ -29,8 +29,8 @@ const accept = async () => {
 
 const {
   containers,
-  form1,
-  form2,
+  preForm,
+  form,
   labelOfquantity,
 
   add,
@@ -52,7 +52,7 @@ const {
 
             <div class="block">
               <AppInput
-                v-model="form1.quantity"
+                v-model="preForm.quantity"
                 :label=labelOfquantity
                 type="number"
                 min="1"
@@ -64,7 +64,7 @@ const {
               <AppSelect
                 ref="xyz"
                 label="Empaque"
-                v-model="form1.packing"
+                v-model="preForm.packing"
                 :options="containers"
                 :error="v1$.packing.$error ? v1$.packing.$errors[0].$message : null"
               />
@@ -78,14 +78,14 @@ const {
           
           <AppTextarea
             label="Descripcción"
-            v-model="form2.packing_description"
+            v-model="form.packing_description"
             :error="v2$.packing_description.$error ? v2$.packing_description.$errors[0].$message : null"
             readonly
           />
                
           <AppInput
-            v-model="form2.packing_json"          
-            type="hidden"                     
+            v-model="form.packing_json"   
+            type="hidden"
           />
           
           <div class="flex items-center justify-between mt-4">
