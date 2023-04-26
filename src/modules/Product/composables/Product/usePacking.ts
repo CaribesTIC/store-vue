@@ -1,9 +1,8 @@
-import { ref, reactive, onMounted, computed } from "vue"
+import { reactive, computed } from "vue"
 import { useVuelidate } from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
 
-export default (measureUnit) => {
-  
+export default (measureUnit) => {  
   const form = reactive({
     packing_description: "",
     packing_json: "",
@@ -25,7 +24,7 @@ export default (measureUnit) => {
   let n = 0, i = 0, packingJson = []
   const aConect = [ ' DE ', ' CON ' ] 
 
-  const add = async (payload: object)=> {
+  const add = async (payload: { packing: string, quantity: number })=> {
       let concatena1 = `${payload.packing} ${aConect[n++]} ${payload.quantity} `
       let concatena2 = ((form.packing_description.trim() === "")
         ? measureUnit.value
@@ -37,8 +36,7 @@ export default (measureUnit) => {
         n = 0;  
   }  
 
-  const remove = ()=> {      
-    //cleanAfter()   
+  const remove = ()=> { //cleanAfter()   
     form.packing_description = "";
     form.packing_json = "";
   }
@@ -46,7 +44,6 @@ export default (measureUnit) => {
   const lastPacking = computed(()=> form.packing_description.split(" ")[0])
 
   const labelOfquantity = computed(()=> "Cantidad de " + (form.packing_description=="" ? measureUnit.value : lastPacking.value))
-
 
   return {
     form,
