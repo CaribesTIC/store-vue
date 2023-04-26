@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { inject } from "vue"
+import type { Ref } from "vue"
+
 import FormPacking from "./FormPacking.vue"
 import usePacking from "../../composables/Product/usePacking"
 import type { Packing } from "../../types/Packing"

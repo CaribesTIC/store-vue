@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { inject } from "vue"
 import useFormPacking from "../../composables/Product/useFormPacking";
 
 const emits = defineEmits<{
@@ -11,19 +10,13 @@ const props = defineProps<{
   labelOfquantity: string
 }>()
 
-const { measureUnit } = inject<{
-    measureUnit: Ref<string>;
-}>('measureUnit')
-
 const {
   containers,
   preForm,
-  labelOfquantity,
 
   cleanAfter,
   v$
-} = useFormPacking(measureUnit)
-
+} = useFormPacking()
 
 const add = async () => {  
   const result = await v$.value.$validate();  

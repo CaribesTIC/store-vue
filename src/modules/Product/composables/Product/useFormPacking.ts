@@ -4,7 +4,7 @@ import { required, helpers, numeric, minValue } from "@vuelidate/validators";
 import CommonService from "../../services/CommonService"
 import useHttp from "@/composables/useHttp"
 
-export default (measureUnit) => {
+export default () => {
   const { errors, pending, getError } = useHttp()
   const containers = ref([])
   const preForm = reactive({
@@ -49,9 +49,6 @@ export default (measureUnit) => {
   
   const v$ = useVuelidate(rules, preForm, { $scope: false });
   
-  let n = 0, i = 0, packingJson = []
-  const aConect = [ ' DE ', ' CON ' ] 
-
   const cleanAfter  = ()=> {        
     preForm.quantity = 0
     preForm.packing = ""    
