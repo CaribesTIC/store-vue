@@ -1,9 +1,10 @@
-import { reactive, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
+import { useVuelidate } from "@vuelidate/core";
+import { required, helpers, minValue } from "@vuelidate/validators";
 import type { Presentation } from "../../types/Presentation";
 import type { Packing } from "../../types/Packing";
 
-export default (presentation: Presentation) => {
-  
+export default (presentation: Presentation) => {  
   const form = reactive<Presentation>({
     sale_type: presentation.sale_type,
     int_cod: presentation.int_cod,
@@ -23,10 +24,36 @@ export default (presentation: Presentation) => {
     form.packing_json = payload.packing_json
   }
 
+  const rules = computed(() => {
+    return {
+      sale_type: { required: helpers.withMessage("Campo requerido", required) },
+      int_cod: { required: helpers.withMessage("Campo requerido", required) },
+      bar_cod: { required: helpers.withMessage("Campo requerido", required) },
+      packing_deployed: { required: helpers.withMessage("Campo requerido", required) },
+      packing_json: { required: helpers.withMessage("Campo requerido", required) },
+      stock_min: {
+        required: helpers.withMessage("Campo requerido", required),
+        minValue: helpers.withMessage("El valor mínimo permitido es 1", minValue(1)) 
+      },
+      stock_max: {
+        required: helpers.withMessage("Campo requerido", required),
+        minValue: helpers.withMessage("El valor mínimo permitido es 1", minValue(1)) 
+      },
+      price: {
+        required: helpers.withMessage("Campo requerido", required),
+        minValue: helpers.withMessage("El valor mínimo permitido es 1", minValue(1))
+      },
+      status: { required: helpers.withMessage("Campo requerido", required) }
+    };
+  });
+
+  const v$ = useVuelidate(rules, form);
+
   return {
     form,
     isOpenModal,
 
-    acceptModal  
+    acceptModal,
+    v$ 
   }
 }

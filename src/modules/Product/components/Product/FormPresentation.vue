@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { inject, reactive, ref } from "vue"
+import { toRaw } from "vue"
 import ModalPacking from './ModalPacking.vue'
 import useFormPresentation from "../../composables/Product/useFormPresentation";
-import type { Ref } from "vue"
 import type { RadioOption } from "@/types/RadioOption";
 import type { Presentation } from "../../types/Presentation";
 
@@ -16,7 +15,8 @@ const {
   form,
   isOpenModal,
 
-  acceptModal
+  acceptModal,
+  v$
 } = useFormPresentation(props.presentation)
 
 const emits = defineEmits<{
@@ -24,7 +24,10 @@ const emits = defineEmits<{
 }>()
 
 const submit = async () => {
-  emits("submit", form);
+  const result = await v$.value.$validate();
+  if (result) {
+    emits("submit", toRaw(form));
+  }
 };
 </script>
 
@@ -38,6 +41,7 @@ const submit = async () => {
             v-model="form.sale_type"
             name="sale_type"
             :options="props.saleTypeOptions"
+            :error="v$.sale_type.$error ? v$.sale_type.$errors[0].$message : null"            
           />
         </div>      
         <div class="block">
@@ -46,6 +50,7 @@ const submit = async () => {
             v-model="form.packing_deployed"                
             @focus="isOpenModal = !isOpenModal"                
             readonly
+            :error="v$.packing_deployed.$error ? v$.packing_deployed.$errors[0].$message : null"
           />
           <AppInput
             v-model="form.packing_json"          
@@ -57,6 +62,7 @@ const submit = async () => {
             label="Código Interno"
             v-model="form.int_cod"                     
             type="text"
+            :error="v$.int_cod.$error ? v$.int_cod.$errors[0].$message : null"
           />
         </div>      
         <div class="block">
@@ -64,6 +70,7 @@ const submit = async () => {
             label="Código de Barra"
             v-model="form.bar_cod"                     
             type="text"
+            :error="v$.bar_cod.$error ? v$.bar_cod.$errors[0].$message : null"
           />
         </div>      
         <div class="block">
@@ -71,6 +78,7 @@ const submit = async () => {
             label="Stock Mínimo"
             v-model="form.stock_min"                     
             type="number"
+            :error="v$.stock_min.$error ? v$.stock_min.$errors[0].$message : null"
           />
         </div>      
         <div class="block">        
@@ -78,6 +86,7 @@ const submit = async () => {
             label="Stock Máximo"
             v-model="form.stock_max"                     
             type="number"
+            :error="v$.stock_max.$error ? v$.stock_max.$errors[0].$message : null"
           />
         </div>      
         <div class="block"> 
@@ -85,6 +94,7 @@ const submit = async () => {
             label="Precio"
             v-model="form.price"                     
             type="text"
+            :error="v$.price.$error ? v$.price.$errors[0].$message : null"
           />
         </div>      
         <div class="block">             
@@ -92,6 +102,7 @@ const submit = async () => {
             v-model="form.status"
             name="status"
             :options="props.statusOptions"
+            :error="v$.status.$error ? v$.status.$errors[0].$message : null"
           />
         </div>
       </div>
@@ -101,13 +112,7 @@ const submit = async () => {
           data-testid="submit-btn"
           class="btn btn-primary"
           text="Agregar"
-        />
-        <!--button 
-          id="addReg"
-          type="button"
-          class="btn btn-primary"
-          onClick="Product.Presentation.valEnvio();"
-        >Agregar</button-->
+        />        
       </div> 
     </form>
     <ModalPacking

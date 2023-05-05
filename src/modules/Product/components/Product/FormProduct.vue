@@ -26,7 +26,7 @@ const {
 
 const submit = async () => {  
   const result = await v$.value.$validate();
-  if (result) {    
+  if (result) {
     emits("submit", form);
   }
 };
