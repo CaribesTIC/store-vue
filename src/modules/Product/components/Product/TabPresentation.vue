@@ -23,6 +23,7 @@ const presentation = reactive({
 })
 
 const {
+  presentations,
   saleTypeOptions,
   statusOptions,
 
@@ -51,7 +52,10 @@ const {
             :statusOptions="statusOptions"
             @submit="submit"
           />
-          <TablePresentation />
+          <TablePresentation
+            v-if="presentations"
+            :presentations="presentations"
+          />
         </div>
       </div>
     </div>

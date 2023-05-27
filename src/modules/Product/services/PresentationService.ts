@@ -1,12 +1,8 @@
 import Http from "@/utils/Http";
 import type { Presentation } from "../types/Presentation";
 
-export const getPresentations = (query: string) => {  
-  return Http.get(`/api/presentations/?${query}`);
-}
-
-export const getPresentation = (presentationId: string) => { 
-  return Http.get(`/api/presentations/${presentationId}`);
+export const getPresentations = (productId: string) => {  
+  return Http.get(`/api/presentations/${productId}`);
 }
 
 export const insertPresentation = (payload: any) => {   
@@ -23,7 +19,6 @@ export const deletePresentation = (presentationId: string) => {
 
 export default {
   getPresentations,
-  getPresentation,
   insertPresentation,
   updatePresentation,
   deletePresentation

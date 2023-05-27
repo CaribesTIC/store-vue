@@ -1,45 +1,47 @@
 <script setup lang="ts">
-
+  const props = defineProps<{ presentations: [] }>()
 </script>
 
-<template>  
-  <table id="id_tab_presentacion" class="mt-4" width="100%">
-    <thead class="table-success text-center">
-      <tr>  
-        <th>Venta</th>
-        <th>IntCod</th>           
-        <th>BarCod</th>            
-        <th>Empaque</th>          
-        <th>Precio</th>
-        <th>StockMin</th>
-        <th>StockMax</th>
-        <th>Estatus</th>                  
-        <th>Acción(es)</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- BEGIN: tab_presentacion >
-      <tr id={ID} class={CLASS_TR}>                
-        <td id='{EMPAQUE_JSON}'>{EMPAQUE_DESPLEGADO}</td>
-        <td>{PRECIO_COSTO}</td>
-        <td>{PRECIO_VENTA}</td>
-        <td>{BAR_COD}</td>
-        <td>{INT_COD}</td>
-        <td>
-          <img class="accion"
-            src="../img/edit.png"
-            title="Editar datos..."
-            onclick="Presentation.edit(this);valBtnClose();">
-          <img class="accion"
-            src="../img/cross.png"
-            title="Eliminar/Borrar datos..."
-            onclick="Presentation.rqsRemove({ID});valBtnClose();">
-        </td>
-      </tr>
-      <END: tab_presentacion -->
-    </tbody>
-  </table>
+<template>
+  <div class="mt-4 relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table id="id_tab_presentacion" class="w-full text-sm text-left text-gray-500 dark:text-gray-400" width="100%">
+      <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
+        <tr>       
+          <th class="px-6 py-3 bg-gray-50 bg-base-200">IntCod</th>           
+          <th class="px-6 py-3">BarCod</th>        
+          <th class="px-6 py-3 bg-gray-50 bg-base-200">Precio</th>
+          <th class="px-6 py-3">StockMin</th>
+          <th class="px-6 py-3 bg-gray-50 bg-base-200">StockMax</th>
+          <th class="px-6 py-3">Estatus</th>                  
+          <th class="px-6 py-3 bg-gray-50 bg-base-200">Acción(es)</th>
+        </tr>
+      </thead>
+      <tbody>      
+        <tr v-for="presentation in presentations" :key="presentation.id">                
+          <td class="px-6 py-3 bg-gray-50 bg-base-200">{{presentation.bar_cod}}</td>
+          <td class="px-6 py-3">{{presentation.int_cod}}</td>
+          <td class="px-6 py-3 bg-gray-50 bg-base-200" :id='presentation.packing'>{{presentation.packing_deployed}}</td>
+          <td class="px-6 py-3">{{presentation.stock_min}}</td>
+          <td class="px-6 py-3 bg-gray-50 bg-base-200">{{presentation.stock_max}}</td>
+          <td class="px-6 py-3">{{presentation.status}}</td>
+          <td class="px-6 py-3 bg-gray-50 bg-base-200">
+            <div class="flex items-center space-x-1">                
+              <AppBtn
+                class="btn btn-primary btn-xs"                    
+                @click=""
+              >
+                Editar
+              </AppBtn>
+              <AppBtn
+                @click=""                    
+                class="btn btn-danger btn-xs"                    
+              >
+                Eliminar
+              </AppBtn>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
-
-
-
