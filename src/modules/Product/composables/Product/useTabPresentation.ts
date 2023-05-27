@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import useHttp from "@/composables/useHttp";
 import PresentationService from "@/modules/Product/services/PresentationService";
 import type { Presentation } from "../../types/Presentation";
@@ -12,6 +12,8 @@ export default (productId: string, presentationId?: string) => {
     { label: 'Inactivo', value: 0 },
     { label: 'Activo', value: 1 }  
   ]
+  
+  const presentations = ref([])
 
   const {  
     errors,
@@ -19,6 +21,21 @@ export default (productId: string, presentationId?: string) => {
 
     getError
   } = useHttp()
+
+  onMounted(() => {    
+    pending.value = true
+    PresentationService.getPresentations(productId)
+      .then((response) => {
+        console.log(response.data)
+        presentations.value = response.data      
+      })
+      .catch((err) => {        
+        errors.value = getError(err)
+      })
+      .finally(() => {
+        pending.value = false;
+      })      
+  })
 
   const insertPresentation = async (presentation: Presentation) => {
     pending.value = true
@@ -58,6 +75,7 @@ export default (productId: string, presentationId?: string) => {
   }
 
   return {
+    presentations,
     saleTypeOptions,
     statusOptions,
     
