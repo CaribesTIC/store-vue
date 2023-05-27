@@ -4,6 +4,8 @@ import FormPresentation from './FormPresentation.vue'
 import TablePresentation from './TablePresentation.vue'
 import useTabPresentation from '../../composables/Product/useTabPresentation'
 
+const props = defineProps<{ id?: string }>()
+
 const isOpenPanel = ref(false)
 const OpenOrCloseButton = computed(()=> isOpenPanel.value ? "Cerrar" : "Abrir")
 const OpenOrCloseClass = computed(()=> isOpenPanel.value ? "btn-default" : "btn-primary")
@@ -25,11 +27,11 @@ const {
   statusOptions,
 
   submit
-} = useTabPresentation()
+} = useTabPresentation(props.id)
 </script>
 
 <template>
-  <div class="demo-tab">    
+  <div class="demo-tab">
     <div class="form-group row">
       <div class="col-sm-12">
         <div align="center">     
