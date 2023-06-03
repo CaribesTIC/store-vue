@@ -1,6 +1,7 @@
-import { ref, onMounted } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import useHttp from "@/composables/useHttp";
 import PresentationService from "@/modules/Product/services/PresentationService";
+import type { Ref } from "vue";
 import type { Presentation } from "../../types/Presentation";
 
 export default (productId: string, presentationId?: string) => {
@@ -13,7 +14,22 @@ export default (productId: string, presentationId?: string) => {
     { label: 'Activo', value: 1 }  
   ]
   
-  const presentations = ref([])
+  const presentation: Presentation = reactive({
+    sale_type: 0,
+    int_cod: "",
+    bar_cod: "",
+    packing_deployed: "",
+    packing_json: "",
+    stock_min: 0,
+    stock_max: 0,
+    price: "0.0",
+    status: 0
+  })
+  
+  const presentations: Ref<Presentation[]>  = ref([])
+  const panelOpened = ref(false)
+  const closeButtonOpened = computed(()=> panelOpened.value ? "Cerrar" : "Abrir")
+  const closeClassOpened = computed(()=> panelOpened.value ? "btn-default" : "btn-primary")
 
   const {  
     errors,
@@ -22,27 +38,25 @@ export default (productId: string, presentationId?: string) => {
     getError
   } = useHttp()
 
-  onMounted(() => {    
+  onMounted(() => getPresentations())
+  
+  const getPresentations = async () => {
     pending.value = true
     PresentationService.getPresentations(productId)
-      .then((response) => {
-        console.log(response.data)
-        presentations.value = response.data      
-      })
-      .catch((err) => {        
-        errors.value = getError(err)
-      })
-      .finally(() => {
-        pending.value = false;
-      })      
-  })
+      .then(res => presentations.value = res.data)
+      .catch(err => errors.value = getError(err))
+      .finally(() => pending.value = false) 
+  }
 
   const insertPresentation = async (presentation: Presentation) => {
     pending.value = true
     presentation.product_id = productId
     return PresentationService.insertPresentation(presentation)
-      .then((response) => {         
-        alert( response.data.message )        
+      .then((response) => {
+        panelOpened.value = false
+        getPresentations()    
+        alert( response.data.message )
+              
       })
       .catch((err) => {                
         console.log( err.response.data )
@@ -71,11 +85,15 @@ export default (productId: string, presentationId?: string) => {
   }
   
   const submit = (presentation: Presentation) => {    
-    !presentationId ? insertPresentation (presentation)  : updatePresentation(presentation, presentationId)
+    !presentationId ? insertPresentation (presentation)  : updatePresentation(presentation)
   }
 
   return {
+    panelOpened,
+    closeButtonOpened,
+    closeClassOpened,
     presentations,
+    presentation,
     saleTypeOptions,
     statusOptions,
     

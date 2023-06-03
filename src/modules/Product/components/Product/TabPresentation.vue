@@ -1,29 +1,16 @@
 <script setup lang="ts">
-import { ref, computed, reactive } from "vue"
 import FormPresentation from './FormPresentation.vue'
 import TablePresentation from './TablePresentation.vue'
 import useTabPresentation from '../../composables/Product/useTabPresentation'
 
 const props = defineProps<{ id?: string }>()
 
-const isOpenPanel = ref(false)
-const OpenOrCloseButton = computed(()=> isOpenPanel.value ? "Cerrar" : "Abrir")
-const OpenOrCloseClass = computed(()=> isOpenPanel.value ? "btn-default" : "btn-primary")
-
-const presentation = reactive({
-  sale_type: 0,
-  int_cod: "",
-  bar_cod: "",
-  packing_deployed: "",
-  packing_json: "",
-  stock_min: 0,
-  stock_max: 0,
-  price: "0.0",
-  status: 0
-})
-
 const {
+  panelOpened,
+  closeButtonOpened,
+  closeClassOpened,  
   presentations,
+  presentation,
   saleTypeOptions,
   statusOptions,
 
@@ -40,12 +27,12 @@ const {
             class="btn p-8"
             type="text"                 
             data-testid="click-btn"
-            :class="OpenOrCloseClass"
-            :text="`${OpenOrCloseButton} panel para agregar Presentación`"
-            @click="isOpenPanel=!isOpenPanel"
+            :class="closeClassOpened"
+            :text="`${closeButtonOpened} panel para agregar Presentación`"
+            @click="panelOpened=!panelOpened"
           />      
           <FormPresentation
-            v-if="isOpenPanel"
+            v-if="panelOpened"
             class="bg-base-200 py-4 mt-2 rounded"
             :presentation="presentation"
             :saleTypeOptions="saleTypeOptions"
