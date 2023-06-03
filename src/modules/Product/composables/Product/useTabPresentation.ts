@@ -88,6 +88,19 @@ export default (productId: string, presentationId?: string) => {
     !presentationId ? insertPresentation (presentation)  : updatePresentation(presentation)
   }
 
+  const edit = (presentationEdit: Presentation) => {
+    presentation.sale_type = presentationEdit.sale_type ? 1 : 0
+    presentation.int_cod = presentationEdit.int_cod
+    presentation.bar_cod = presentationEdit.bar_cod
+    presentation.packing_deployed = presentationEdit.packing_deployed
+    presentation.packing_json = presentationEdit.packing
+    presentation.stock_min = presentationEdit.stock_min
+    presentation.stock_max = presentationEdit.stock_max
+    presentation.price = presentationEdit.price
+    presentation.status = presentationEdit.status ? 1 : 0
+    panelOpened.value = true    
+  }
+
   return {
     panelOpened,
     closeButtonOpened,
@@ -96,7 +109,8 @@ export default (productId: string, presentationId?: string) => {
     presentation,
     saleTypeOptions,
     statusOptions,
-    
+
+    edit,
     submit
   }
 }

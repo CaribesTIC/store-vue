@@ -28,7 +28,7 @@ const submit = async () => {
   if (result) {
     emits("submit", toRaw(form));
   }
-};
+}
 </script>
 
 <template>
