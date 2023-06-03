@@ -1,4 +1,4 @@
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import { useVuelidate } from "@vuelidate/core";
 import { required, helpers, minValue } from "@vuelidate/validators";
 import type { Presentation } from "../../types/Presentation";
@@ -48,6 +48,18 @@ export default (presentation: Presentation) => {
   });
 
   const v$ = useVuelidate(rules, form);
+  
+  watch(presentation, (newPresentation) => {
+    form.sale_type = newPresentation.sale_type
+    form.int_cod = newPresentation.int_cod
+    form.bar_cod = newPresentation.bar_cod
+    form.packing_deployed = newPresentation.packing_deployed
+    form.packing_json = newPresentation.packing_json
+    form.stock_min = newPresentation.stock_min
+    form.stock_max = newPresentation.stock_max
+    form.price = newPresentation.price
+    form.status = newPresentation.status
+  })
 
   return {
     form,

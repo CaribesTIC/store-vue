@@ -1,7 +1,16 @@
 <script setup lang="ts">
+import { toRaw } from "vue"
 import type { Presentation } from "../../types/Presentation";
 
 const props = defineProps<{ presentations: Presentation[] }>()
+
+const emits = defineEmits<{
+  (e: 'edit', presentationId: object): void
+}>()
+
+const edit =  (presentation: object) => {
+    emits("edit", toRaw(presentation))
+};
 </script>
 
 <template>
@@ -11,11 +20,12 @@ const props = defineProps<{ presentations: Presentation[] }>()
         <tr>       
           <th class="px-6 py-3 bg-gray-50 bg-base-200">IntCod</th>           
           <th class="px-6 py-3">BarCod</th>        
-          <th class="px-6 py-3 bg-gray-50 bg-base-200">Precio</th>
-          <th class="px-6 py-3">StockMin</th>
-          <th class="px-6 py-3 bg-gray-50 bg-base-200">StockMax</th>
-          <th class="px-6 py-3">Estatus</th>                  
-          <th class="px-6 py-3 bg-gray-50 bg-base-200">Acción(es)</th>
+          <th class="px-6 py-3 bg-gray-50 bg-base-200">Empaque</th>
+          <th class="px-6 py-3">Precio</th>
+          <th class="px-6 py-3 bg-gray-50 bg-base-200">StockMin</th>
+          <th class="px-6 py-3">StockMax</th>
+          <th class="px-6 py-3 bg-gray-50 bg-base-200">Estatus</th>                  
+          <th class="px-6 py-3">Acción(es)</th>
         </tr>
       </thead>
       <tbody>      
@@ -23,14 +33,15 @@ const props = defineProps<{ presentations: Presentation[] }>()
           <td class="px-6 py-3 bg-gray-50 bg-base-200">{{presentation.bar_cod}}</td>
           <td class="px-6 py-3">{{presentation.int_cod}}</td>
           <td class="px-6 py-3 bg-gray-50 bg-base-200" :id='presentation.packing'>{{presentation.packing_deployed}}</td>
-          <td class="px-6 py-3">{{presentation.stock_min}}</td>
-          <td class="px-6 py-3 bg-gray-50 bg-base-200">{{presentation.stock_max}}</td>
-          <td class="px-6 py-3">{{presentation.status}}</td>
-          <td class="px-6 py-3 bg-gray-50 bg-base-200">
+          <td class="px-6 py-3 text-right">{{presentation.price}}</td>
+          <td class="px-6 py-3 bg-gray-50 bg-base-200 text-right">{{presentation.stock_min}}</td>
+          <td class="px-6 py-3 text-right">{{presentation.stock_max}}</td>
+          <td class="px-6 py-3 bg-gray-50 bg-base-200">{{presentation.status}}</td>
+          <td class="px-6 py-3">
             <div class="flex items-center space-x-1">                
               <AppBtn
                 class="btn btn-primary btn-xs"                    
-                @click=""
+                @click="edit(presentation)"
               >
                 Editar
               </AppBtn>

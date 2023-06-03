@@ -14,6 +14,7 @@ const {
   saleTypeOptions,
   statusOptions,
 
+  edit,
   submit
 } = useTabPresentation(props.id)
 </script>
@@ -42,6 +43,7 @@ const {
           <TablePresentation
             v-if="presentations"
             :presentations="presentations"
+            @edit="edit"
           />
         </div>
       </div>
