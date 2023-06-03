@@ -1,5 +1,7 @@
 <script setup lang="ts">
-  const props = defineProps<{ presentations: [] }>()
+import type { Presentation } from "../../types/Presentation";
+
+const props = defineProps<{ presentations: Presentation[] }>()
 </script>
 
 <template>
@@ -17,7 +19,7 @@
         </tr>
       </thead>
       <tbody>      
-        <tr v-for="presentation in presentations" :key="presentation.id">                
+        <tr v-for="presentation in props.presentations" :key="presentation.id">                
           <td class="px-6 py-3 bg-gray-50 bg-base-200">{{presentation.bar_cod}}</td>
           <td class="px-6 py-3">{{presentation.int_cod}}</td>
           <td class="px-6 py-3 bg-gray-50 bg-base-200" :id='presentation.packing'>{{presentation.packing_deployed}}</td>
