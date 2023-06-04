@@ -4,7 +4,7 @@ import PresentationService from "@/modules/Product/services/PresentationService"
 import type { Ref } from "vue";
 import type { Presentation } from "../../types/Presentation";
 
-export default (productId: string, presentationId?: string) => {
+export default (productId: string) => {
   const saleTypeOptions = [
     { label: 'Mayor', value: 0 },
     { label: 'Detal', value: 1 }  
@@ -15,6 +15,7 @@ export default (productId: string, presentationId?: string) => {
   ]
   
   const presentation: Presentation = reactive({
+    id: '',
     sale_type: 0,
     int_cod: "",
     bar_cod: "",
@@ -48,10 +49,10 @@ export default (productId: string, presentationId?: string) => {
       .finally(() => pending.value = false) 
   }
 
-  const insertPresentation = async (presentation: Presentation) => {
+  const insertPresentation = async (payload: Presentation) => {
     pending.value = true
-    presentation.product_id = productId
-    return PresentationService.insertPresentation(presentation)
+    payload.product_id = productId
+    return PresentationService.insertPresentation(payload)
       .then((response) => {
         panelOpened.value = false
         getPresentations()    
@@ -67,13 +68,15 @@ export default (productId: string, presentationId?: string) => {
       })
   }
 
-  const updatePresentation = async (presentation: Presentation) => {
-    pending.value= true
-    presentation.product_id = productId
-    presentation._method = 'PUT'        
-    return PresentationService.updatePresentation(presentationId, presentation)
-      .then((response) => {
-        alert( response.data.message )        
+  const updatePresentation = async (payload: Presentation, presentationId: string) => {
+    pending.value = true
+    payload.product_id = productId
+    payload._method = 'PUT'        
+    return PresentationService.updatePresentation(payload, presentationId)
+      .then((response) => {        
+        panelOpened.value = false
+        getPresentations()    
+        alert( response.data.message )     
       })
       .catch((err) => {                
         console.log( err.response.data )
@@ -84,11 +87,12 @@ export default (productId: string, presentationId?: string) => {
       })
   }
   
-  const submit = (presentation: Presentation) => {    
-    !presentationId ? insertPresentation (presentation)  : updatePresentation(presentation)
+  const submit = (payload: Presentation) => {    
+    !presentation.id ? insertPresentation (payload)  : updatePresentation(payload, presentation.id)
   }
 
   const edit = (presentationEdit: Presentation) => {
+    presentation.id = presentationEdit.id
     presentation.sale_type = presentationEdit.sale_type ? 1 : 0
     presentation.int_cod = presentationEdit.int_cod
     presentation.bar_cod = presentationEdit.bar_cod
@@ -98,7 +102,7 @@ export default (productId: string, presentationId?: string) => {
     presentation.stock_max = presentationEdit.stock_max
     presentation.price = presentationEdit.price
     presentation.status = presentationEdit.status ? 1 : 0
-    panelOpened.value = true    
+    panelOpened.value = true
   }
 
   return {

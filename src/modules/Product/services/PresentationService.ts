@@ -5,11 +5,11 @@ export const getPresentations = (productId: string) => {
   return Http.get(`/api/presentations/${productId}`);
 }
 
-export const insertPresentation = (payload: any) => {   
+export const insertPresentation = (payload: Presentation) => {   
   return Http.post(`/api/presentations`, payload);
 }
 
-export const updatePresentation = (presentationId: string, payload:any) => {   
+export const updatePresentation = (payload: Presentation, presentationId: string) => {   
   return Http.put(`/api/presentations/${presentationId}`, payload);
 }
 
