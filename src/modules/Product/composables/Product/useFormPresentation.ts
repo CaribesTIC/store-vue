@@ -6,6 +6,7 @@ import type { Packing } from "../../types/Packing";
 
 export default (presentation: Presentation) => {  
   const form = reactive<Presentation>({
+    id: presentation.id,
     sale_type: presentation.sale_type,
     int_cod: presentation.int_cod,
     bar_cod: presentation.bar_cod,
