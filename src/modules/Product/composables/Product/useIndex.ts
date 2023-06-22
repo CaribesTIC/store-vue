@@ -45,7 +45,8 @@ export default () => {
   }
 
   const deleteRow = (rowId?: string) => {
-    if (rowId === undefined)
+    alert(rowId)
+    /*if (rowId === undefined)
       return
     else if (confirm(`¿Estás seguro que desea eliminar el registro ${rowId}?`)) {    
       return ProductService.deleteProduct(rowId)
@@ -57,7 +58,7 @@ export default () => {
           console.log( err.response.data )
           errors.value = getError(err)
         })
-    }
+    }*/
   }
 
   onBeforeRouteUpdate(async (to, from) => {      
