@@ -6,10 +6,15 @@ const props = defineProps<{ presentations: Presentation[] }>()
 
 const emits = defineEmits<{
   (e: 'edit', presentationId: object): void
+  (e: 'remove', presentationId: string): void
 }>()
 
 const edit =  (presentation: object) => {
     emits("edit", toRaw(presentation))
+};
+
+const remove =  (presentationId: string) => {
+    emits("remove", presentationId)
 };
 </script>
 
@@ -46,7 +51,7 @@ const edit =  (presentation: object) => {
                 Editar
               </AppBtn>
               <AppBtn
-                @click=""                    
+                @click="remove(presentation.id)"                    
                 class="btn btn-danger btn-xs"                    
               >
                 Eliminar

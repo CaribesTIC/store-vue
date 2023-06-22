@@ -104,6 +104,27 @@ export default (productId: string) => {
     presentation.status = presentationEdit.status ? 1 : 0
     panelOpened.value = true
   }
+  
+  const remove = async (presentationId: string) => {
+    if (presentationId === undefined)
+      return
+    else if (confirm(`¿Estás seguro que desea eliminar el registro ${presentationId}?`)) {  
+      pending.value = true    
+      return PresentationService.deletePresentation(presentationId)
+        .then((response) => {        
+          getPresentations()
+        })
+        .catch((err) => {                
+          console.log( err.response.data )
+          errors.value = getError(err)
+        })
+        .finally(() => {
+          pending.value = false
+        })
+    }
+  }
+  
+  
 
   return {
     panelOpened,
@@ -115,6 +136,7 @@ export default (productId: string) => {
     statusOptions,
 
     edit,
+    remove,
     submit
   }
 }
