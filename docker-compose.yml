@@ -8,4 +8,4 @@ services:
       - "81:80"
     environment:
       NODE_ENV: production
-    container_name: laravuel_node
+    container_name: store_node
