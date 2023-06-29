@@ -2,6 +2,30 @@
 
 Store Vue
 
+1. Download the project or clone it.
+2. Copy and paste the file `.env.example` or `.env.example.docker` to `.env`.
+3. If you want to containerize this application and you already have docker and docker-compose installed then run:
+For development and tests:
+```
+docker-compose -f docker-compose.dev.yml up
+```
+For production:
+```
+docker-compose up -d --build
+```
+4. Review the settings in the `vite.config.ts` file.
+5. If you are containerizing the app then get the IPAddress with the command:
+```
+docker inspect store_node
+```
+6. Set up a domain in your `etc/hosts` with the IPAddress of the container `store_node`:
+```
+sudo vim /etc/hosts
+###.##.#.#  store.dev.com
+```
+
+---
+
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
