@@ -6,10 +6,10 @@ import vue from '@vitejs/plugin-vue'
 // https://vitejs.dev/config/
 export default defineConfig({
   // uncomment these lines to containerize
-   server: { 
-     host: '0.0.0.0',
-     port: '80'
-  }, 
+  // server: { 
+  //   host: '0.0.0.0',
+  //   port: '80'
+  //}, 
   plugins: [vue()],
   resolve: {
     alias: {
