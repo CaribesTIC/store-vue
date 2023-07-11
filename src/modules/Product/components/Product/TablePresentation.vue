@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { toRaw } from "vue"
+import { toRaw, ref } from "vue"
+import ModalImage from './ModalImage.vue'
 import type { Presentation } from "../../types/Presentation";
 
 const props = defineProps<{ presentations: Presentation[] }>()
@@ -10,12 +11,22 @@ const emits = defineEmits<{
 }>()
 
 const edit =  (presentation: object) => {
-    emits("edit", toRaw(presentation))
+  emits("edit", toRaw(presentation))
 };
 
 const remove =  (presentationId: string) => {
-    emits("remove", presentationId)
+  emits("remove", presentationId)
 };
+
+const imageUpload = (presentationId: string) => {
+  isOpenModal.value = true
+}
+const isOpenModal = ref(false)
+
+const acceptModal= (files) => {
+  console.log(files)
+  alert("subir imagen")
+}
 </script>
 
 <template>
@@ -43,12 +54,18 @@ const remove =  (presentationId: string) => {
           <td class="px-6 py-3 text-right">{{presentation.stock_max}}</td>
           <td class="px-6 py-3 bg-gray-50 bg-base-200">{{presentation.status}}</td>
           <td class="px-6 py-3">
-            <div class="flex items-center space-x-1">                
-              <AppBtn
+            <div class="flex items-center space-x-1">
+             <AppBtn
                 class="btn btn-primary btn-xs"                    
                 @click="edit(presentation)"
               >
                 Editar
+              </AppBtn>
+              <AppBtn
+                class="btn btn-success btn-xs"                    
+                @click="imageUpload(presentation.id)"
+              >
+                Imagen
               </AppBtn>
               <AppBtn
                 @click="remove(presentation.id)"                    
@@ -61,5 +78,10 @@ const remove =  (presentationId: string) => {
         </tr>
       </tbody>
     </table>
-  </div>
+    <ModalImage
+      v-if="isOpenModal"
+      @closeModal="isOpenModal = false"
+      @acceptModal="acceptModal"
+    />
+  </div>  
 </template>
