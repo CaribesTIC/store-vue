@@ -1,9 +1,15 @@
 <script setup lang="ts">
 import { ref } from "vue"
 
+const image = ref({
+  preview: null,
+  image: null
+})
+
 const emits = defineEmits<{
   (e: 'closeModal'): void  
-  (e: 'acceptModal', payload: Packing): void
+  (e: 'acceptModal', payload: any): void
+//  (e: 'acceptModal', payload: Packing): void
 }>()
 
 const closeModal = () => {
@@ -25,26 +31,35 @@ const filelist = ref([]) // Store our uploaded files
 const file = ref(null);
 
 const onChange = () => {
-  filelist.value = [...file.value.files];  
+  if(file.value) {
+    const reader = new FileReader()
+    reader.onload = e => image.value.preview = e.target.result
+    image.value.image = file.value.files[0]
+    reader.readAsDataURL(file.value.files[0])
+    // filelist.value = [...file.value.files];
+    filelist.value = [file.value.files[0]]
+  }  
 }
 
 const remove = (i) => {
   filelist.value.splice(i, 1);
+  image.value.preview = null
+  image.value.image = null
 }
 
 const dragover = (event) => {
   event.preventDefault();
   // Add some visual fluff to show the user can drop its files
-  if (!event.currentTarget.classList.contains('bg-green-300')) {
-    event.currentTarget.classList.remove('bg-gray-100');
-    event.currentTarget.classList.add('bg-green-300');
+  if (!event.currentTarget.classList.contains('bg-base-100')) {
+    event.currentTarget.classList.add('bg-base-100');
+    event.currentTarget.classList.remove('bg-base-200');    
   }
 }
 
 const dragleave = (event) => {
-  // Clean up
-  event.currentTarget.classList.add('bg-gray-100');
-  event.currentTarget.classList.remove('bg-green-300');
+  // Clean up  
+  event.currentTarget.classList.remove('bg-base-100');
+  event.currentTarget.classList.add('bg-base-200');
 }
 
 const drop = (event) => {
@@ -52,8 +67,8 @@ const drop = (event) => {
   file.value.files = event.dataTransfer.files;
   onChange(); // Trigger the onChange event manually
   // Clean up
-  event.currentTarget.classList.add('bg-gray-100');
-  event.currentTarget.classList.remove('bg-green-300');
+  event.currentTarget.classList.add('bg-base-200');
+  event.currentTarget.classList.remove('bg-base-100');
 }
 </script>
 
@@ -64,15 +79,15 @@ const drop = (event) => {
       <div class="modal-content rounded-lg shadow-xl bg-base-200">
         <span class="close" @click="closeModal">&times;</span>
         <h1 class="text-xl font-semibold mb-4">Subir Imagen</h1>
-        <div class="flex w-full h-auto items-center justify-center text-center">
+        <div class="flex w-full h-auto items-center justify-center text-center" v-if="!image.preview">        
           <div
             @dragover="dragover"
             @dragleave="dragleave"
             @drop="drop"
-            class="p-12 bg-base-100 border border-gray-300 w-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-400 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+            class="p-12 bg-base-200 border border-gray-300 w-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50"
           >
             <input
-              type="file" multiple
+              type="file"
               name="fields[assetsFieldHandle][]"
               id="assetsFieldHandle" 
               class="w-px h-px opacity-0 overflow-hidden absolute"
@@ -103,22 +118,38 @@ const drop = (event) => {
                 <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
               </div>
             </label>
-            <ul class="mt-4" v-if="filelist.length" v-cloak>
-              <li class="text-sm p-1" v-for="file in filelist">
-                {{ file.name }}<button class="ml-2" type="button" @click="remove(filelist.indexOf(file))" title="Remove file">remove</button>
-              </li>
-            </ul>
           </div>
         </div>
-        <div class="flex items-center justify-between mt-4" v-if="filelist.length>0">
-            <AppBtn
-              type="button"
-              @click="accept"       
-              data-testid="submit-btn"
-              class="btn btn-primary"
-              text="Aceptar"
-            />
-          </div> 
+        <div
+          class="border p-2 w-56 m-auto items-center justify-center text-center" v-if="image.preview"
+        >
+          <img :src="image.preview" class="img-fluid"/>
+          <ul class="mt-4" v-if="filelist.length" v-cloak>
+            <li class="text-sm p-1" v-for="file in filelist">
+              {{ file.name }}
+              <!--AppBtn class="btn btn-danger" type="button" @click="remove(filelist.indexOf(file))" title="Remove file">remove</AppBtn-->
+            </li>
+          </ul>
+        </div>
+        <div
+          v-if="filelist.length>0"
+          class="flex items-center justify-between mt-4"          
+        >
+          <AppBtn
+            type="button"
+            @click="accept"       
+            data-testid="submit-btn"
+            class="btn btn-primary"
+            text="Guardar"
+          />
+           <AppBtn
+             type="button"
+             @click="remove(filelist.indexOf(file))"
+             data-testid="remove-btn"
+             class="btn btn-danger"             
+             text="Remover"
+           />
+        </div> 
       </div>
     </div>
   </Transition>
