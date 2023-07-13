@@ -8,22 +8,19 @@ export const ascBubble = function (a, b) {
 export const getError = (error) => {
   const errorMessage = "API Error, please try again.";
 
-  if (error.name === "Fetch User") {
-    return error.message;
+  if (!error.response.data) {
+    console.error(
+      `API ${error.config.baseURL}${error.config.url} not found`
+    );    
   }
-
-  if (!error.response) {
-    console.error(`API ${error.config.url} not found`);
-    return errorMessage;
-  }
-  if (process.env.NODE_ENV === "development") {
-    console.error(error.response.data);
-    console.error(error.response.status);
-    console.error(error.response.headers);
+  if (import.meta.env.DEV) {     
+    console.error(error.response.data ?? "There is no Data");    
+    console.error(error.response.headers?? "No Headers");
+    console.error(errorMessage);
+    console.error("Status", error.response.status);      
   }
   if (error.response.data && error.response.data.errors) {
     return error.response.data.errors;
   }
-
   return errorMessage;
 };
