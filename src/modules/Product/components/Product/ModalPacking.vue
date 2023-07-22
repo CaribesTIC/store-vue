@@ -83,7 +83,7 @@ const {
 
 <style scoped>
 .modal {  
-  @apply fixed z-30 pt-28; 
+  @apply fixed z-50 pt-28; 
   padding-top: 100px;
   left: 0;
   top: 0;
