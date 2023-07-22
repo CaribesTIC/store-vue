@@ -17,9 +17,14 @@ export const deletePresentation = (presentationId: string) => {
   return Http.delete(`/api/presentations/${presentationId}`);
 }
 
+export const uploadFilePresentation = (payload: any, presentationId: string) => { 
+  return Http.post(`/api/presentation-fileupload/${presentationId}`, payload.file);
+}
+
 export default {
   getPresentations,
   insertPresentation,
   updatePresentation,
-  deletePresentation
+  deletePresentation,
+  uploadFilePresentation
 }
