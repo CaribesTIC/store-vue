@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue"
 
+const props = defineProps<{ presentationId: string }>()
+
 const image = ref({
   preview: null,
   image: null
@@ -16,12 +18,15 @@ const closeModal = () => {
   emits('closeModal')
 }
 
-const accept = () => {
+const submit = () => {
   //const accept = async () => {
   //const result = await v$.value.$validate();  
-  //if (result) {
-  if (true) {  
-    emits('acceptModal', {files:  filelist.value })
+  //if (result) {  
+  if (true) {
+    emits('acceptModal', {
+      presentationId: props.presentationId,
+      files: image.value
+    })
     closeModal()    
   }
 }
@@ -33,9 +38,9 @@ const file = ref(null);
 const onChange = () => {
   if(file.value) {
     const reader = new FileReader()
-    reader.onload = e => image.value.preview = e.target.result
-    image.value.image = file.value.files[0]
+    reader.onload = e => image.value.preview = e.target.result    
     reader.readAsDataURL(file.value.files[0])
+    image.value.image = file.value.files[0]    
     // filelist.value = [...file.value.files];
     filelist.value = [file.value.files[0]]
   }  
@@ -78,8 +83,9 @@ const drop = (event) => {
     <div class="modal transition duration-150 v-enter-active">
       <div class="modal-content rounded-lg shadow-xl bg-base-200">
         <span class="close" @click="closeModal">&times;</span>
-        <h1 class="text-xl font-semibold mb-4">Subir Imagen</h1>
-        <div class="flex w-full h-auto items-center justify-center text-center" v-if="!image.preview">        
+        <h1 class="text-xl font-semibold mb-4">Subir Imagen</h1> 
+        <form @submit.prevent="submit">
+        <div class="flex w-full h-auto items-center justify-center text-center" v-if="!image.preview">       
           <div
             @dragover="dragover"
             @dragleave="dragleave"
@@ -136,8 +142,7 @@ const drop = (event) => {
           class="flex items-center justify-between mt-4"          
         >
           <AppBtn
-            type="button"
-            @click="accept"       
+            type="submit"                               
             data-testid="submit-btn"
             class="btn btn-primary"
             text="Guardar"
@@ -149,7 +154,8 @@ const drop = (event) => {
              class="btn btn-danger"             
              text="Remover"
            />
-        </div> 
+        </div>
+        </form> 
       </div>
     </div>
   </Transition>

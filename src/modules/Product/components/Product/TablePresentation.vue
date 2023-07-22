@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { toRaw, ref } from "vue"
 import ModalImage from './ModalImage.vue'
+import PresentationService from "@/modules/Product/services/PresentationService"
 import type { Presentation } from "../../types/Presentation";
 
 const props = defineProps<{ presentations: Presentation[] }>()
@@ -18,15 +19,35 @@ const remove =  (presentationId: string) => {
   emits("remove", presentationId)
 };
 
-const imageUpload = (presentationId: string) => {
+const imageUpload = (id: string) => {
+  presentationId.value=id.toString()
   isOpenModal.value = true
 }
 const isOpenModal = ref(false)
+const presentationId = ref("")
 
-const acceptModal= (files) => {
-  console.log(files)
+const acceptModal= (f) => {
+  
+  console.log(f)
   alert("subir imagen")
+  uploadFile(f)
 }
+
+const uploadFile = (file) => {
+  const payload = {};
+  const formData = new FormData();
+  formData.append("file", file);
+  payload.file = formData;
+  //payload.endpoint = this.endpoint;
+  //this.clearMessage();
+  PresentationService.uploadFilePresentation(payload, presentationId.value)
+  .then(() => {
+    //this.message = "File uploaded.";
+    //this.$emit("fileUploaded");
+  })
+  .catch((error) => (this.error = getError(error)));
+}
+
 </script>
 
 <template>
@@ -80,6 +101,7 @@ const acceptModal= (files) => {
     </table>
     <ModalImage
       v-if="isOpenModal"
+      :presentationId="presentationId"
       @closeModal="isOpenModal = false"
       @acceptModal="acceptModal"
     />
