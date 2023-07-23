@@ -34,13 +34,16 @@ const acceptModal= (f) => {
 }
 
 const uploadFile = (file) => {
-  const payload = {};
+  //const payload = {};
+  
+  console.log(file.files)
+  
   const formData = new FormData();
-  formData.append("file", file);
-  payload.file = formData;
+  formData.append("file", file.files.preview);
+  //payload.file = formData;
   //payload.endpoint = this.endpoint;
   //this.clearMessage();
-  PresentationService.uploadFilePresentation(payload, presentationId.value)
+  PresentationService.uploadFilePresentation(formData, presentationId.value)
   .then(() => {
     //this.message = "File uploaded.";
     //this.$emit("fileUploaded");
@@ -48,13 +51,16 @@ const uploadFile = (file) => {
   .catch((error) => (this.error = getError(error)));
 }
 
+const imgPath = (presentationId) => `http://127.0.0.1:8000/storage/Product/presentations/presentation-${presentationId}`
+
 </script>
 
 <template>
   <div class="mt-4 relative overflow-x-auto shadow-md sm:rounded-lg">
     <table id="id_tab_presentacion" class="w-full text-sm text-left text-gray-500 dark:text-gray-400" width="100%">
       <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
-        <tr>       
+        <tr>
+          <th class="px-6 py-3 bg-gray-50 bg-base-200">Imagen</th>
           <th class="px-6 py-3 bg-gray-50 bg-base-200">IntCod</th>           
           <th class="px-6 py-3">BarCod</th>        
           <th class="px-6 py-3 bg-gray-50 bg-base-200">Empaque</th>
@@ -66,7 +72,18 @@ const uploadFile = (file) => {
         </tr>
       </thead>
       <tbody>      
-        <tr v-for="presentation in props.presentations" :key="presentation.id">                
+        <tr v-for="presentation in props.presentations" :key="presentation.id">
+          <td class="px-6 py-3 bg-gray-50 bg-base-200">
+            <AppBtn
+                class="btn btn-success btn-xs"                    
+                @click="imageUpload(presentation.id)"
+              >
+                Imagen
+            </AppBtn>
+            
+            <img :src=imgPath(presentation.id)>
+            
+          </td>               
           <td class="px-6 py-3 bg-gray-50 bg-base-200">{{presentation.bar_cod}}</td>
           <td class="px-6 py-3">{{presentation.int_cod}}</td>
           <td class="px-6 py-3 bg-gray-50 bg-base-200" :id='presentation.packing'>{{presentation.packing_deployed}}</td>
@@ -81,12 +98,6 @@ const uploadFile = (file) => {
                 @click="edit(presentation)"
               >
                 Editar
-              </AppBtn>
-              <AppBtn
-                class="btn btn-success btn-xs"                    
-                @click="imageUpload(presentation.id)"
-              >
-                Imagen
               </AppBtn>
               <AppBtn
                 @click="remove(presentation.id)"                    
