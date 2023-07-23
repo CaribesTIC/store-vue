@@ -18,7 +18,7 @@ export const deletePresentation = (presentationId: string) => {
 }
 
 export const uploadFilePresentation = (payload: any, presentationId: string) => { 
-  return Http.post(`/api/presentation-fileupload/${presentationId}`, payload.file);
+  return Http.post(`/api/presentation-fileupload/${presentationId}`, payload);
 }
 
 export default {
