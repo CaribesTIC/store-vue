@@ -42,6 +42,7 @@ export default (productId: string) => {
   onMounted(() => getPresentations())
   
   const getPresentations = async () => {
+    console.log("aqui")
     pending.value = true
     PresentationService.getPresentations(productId)
       .then(res => presentations.value = res.data)
@@ -123,8 +124,6 @@ export default (productId: string) => {
         })
     }
   }
-  
-  
 
   return {
     panelOpened,
@@ -136,7 +135,8 @@ export default (productId: string) => {
     statusOptions,
 
     edit,
-    remove,
+    getPresentations,
+    remove, 
     submit
   }
 }
