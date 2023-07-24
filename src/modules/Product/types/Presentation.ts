@@ -11,5 +11,6 @@ export interface Presentation {
     stock_max: number;
     price: string;
     status: number;
+    photo_path?: string;
     _method?: 'PUT' 
   }

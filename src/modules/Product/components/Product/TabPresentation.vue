@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import {ref} from 'vue'
 import FormPresentation from './FormPresentation.vue'
 import TablePresentation from './TablePresentation.vue'
 import useTabPresentation from '../../composables/Product/useTabPresentation'
+const componentKey = ref(0);
 
 const props = defineProps<{ id?: string }>()
 
@@ -15,6 +17,7 @@ const {
   statusOptions,
 
   edit,
+  getPresentations,
   remove,  
   submit
 } = useTabPresentation(props.id)
@@ -42,10 +45,12 @@ const {
             @submit="submit"
           />
           <TablePresentation
+            :key="componentKey"
             v-if="presentations"
             :presentations="presentations"
             @edit="edit"
-            @remove="remove"
+            @getPresentations="getPresentations"
+            @remove="remove"            
           />
         </div>
       </div>
