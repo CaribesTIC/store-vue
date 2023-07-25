@@ -45,20 +45,24 @@ export default () => {
   }
 
   const deleteRow = (rowId?: string) => {
-    alert(rowId)
-    /*if (rowId === undefined)
+    //alert(rowId)
+    if (rowId === undefined)
       return
     else if (confirm(`¿Estás seguro que desea eliminar el registro ${rowId}?`)) {    
       return ProductService.deleteProduct(rowId)
         .then((response) => {
           errors.value = {}
-          router.push( { path: '/products' } )        
+          //router.push( { path: '/products' } )
+          getProducts(
+            new URLSearchParams(route.query as Params).toString()
+          )       
         })
         .catch((err) => {                
           console.log( err.response.data )
+          alert( err.response.data.message )
           errors.value = getError(err)
         })
-    }*/
+    }
   }
 
   onBeforeRouteUpdate(async (to, from) => {      
