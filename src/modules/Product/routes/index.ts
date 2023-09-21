@@ -19,11 +19,6 @@ export default [{
     component: () => import("@/modules/Product/views/Product/Tabs.vue").then(m => m.default),
     props: true
 }, {
-    path: "/articles",
-    name: "articles",
-    meta: { middleware: [auth, admin] },
-    component: () => import("@/modules/Auth/components/InConstruction.vue").then(m => m.default),
-}, {
     path: "/categories",
     name: "categories",
     meta: { middleware: [auth, admin] },
