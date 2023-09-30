@@ -13,7 +13,7 @@ const {
 } = useTabArticle(props.id)
 
 const isTrue = computed(
-  () => article|| !props.id
+  () => article && article.int_cod || !props.id
 ) 
 </script>
 
