@@ -14,7 +14,7 @@ withDefaults(defineProps<{
     type="checkbox"
     :checked="modelValue"
     @change="$emit('update:modelValue', ($event.target as HTMLInputElement).checked)"
-    class="field"
+    class="mr-1"
   />
   <label v-if="label">{{ label }}</label>
 </template>

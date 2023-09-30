@@ -11,7 +11,7 @@ const props = defineProps<{
 const emits = defineEmits<{
   (e: 'submit', form: Article): void
 }>()
-
+//console.log(props.article)
 const {
   form,
   errors,
@@ -54,6 +54,32 @@ const submit = async () => {
       
       
       
+      <div class="block">
+          <AppInput
+            label="Stock Mínimo"
+            v-model="form.stock_min"                     
+            type="number"
+            :error="v$.stock_min.$error ? v$.stock_min.$errors[0].$message : null"
+          />
+        </div>      
+        <div class="block">        
+          <AppInput
+            label="Stock Máximo"
+            v-model="form.stock_max"                     
+            type="number"
+            :error="v$.stock_max.$error ? v$.stock_max.$errors[0].$message : null"
+          />
+        </div>      
+        <div class="block"> 
+          <AppInput
+            label="Precio"
+            v-model="form.price"                     
+            type="text"
+            :error="v$.price.$error ? v$.price.$errors[0].$message : null"
+          />
+        </div>      
+      
+      
       
         <div class="block">     
           <AppInput           
@@ -64,6 +90,13 @@ const submit = async () => {
           />
         </div>
         
+    <div class="block">     
+      <AppCheckbox
+        v-model="form.status"
+        label="status"
+        :error="errors && errors.type ? errors.type[0] : ''"
+      />
+    </div>
       
       
       </div>
