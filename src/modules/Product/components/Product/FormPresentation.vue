@@ -35,7 +35,7 @@ const submit = async () => {
   <div>
     <form @submit.prevent="submit">
       <div class="p-5 grid lg:grid-cols-2 gap-4">    
-        <div class="block">  
+        <!--div class="block">  
           <label>Tipo de Venta</label><br/>
           <AppRadioGroup
             v-model="form.sale_type"
@@ -43,7 +43,7 @@ const submit = async () => {
             :options="props.saleTypeOptions"
             :error="v$.sale_type.$error ? v$.sale_type.$errors[0].$message : null"            
           />
-        </div>      
+        </div-->      
         <div class="block">
           <AppTextarea
             label="Empaque"
@@ -57,14 +57,14 @@ const submit = async () => {
             type="hidden"          
           />                        
         </div>      
-        <div class="block">
+        <!--div class="block">
           <AppInput
             label="Código Interno"
             v-model="form.int_cod"                     
             type="text"
             :error="v$.int_cod.$error ? v$.int_cod.$errors[0].$message : null"
           />
-        </div>      
+        </div-->      
         <div class="block">
           <AppInput
             label="Código de Barra"
@@ -73,7 +73,7 @@ const submit = async () => {
             :error="v$.bar_cod.$error ? v$.bar_cod.$errors[0].$message : null"
           />
         </div>      
-        <div class="block">
+        <!--div class="block">
           <AppInput
             label="Stock Mínimo"
             v-model="form.stock_min"                     
@@ -88,7 +88,7 @@ const submit = async () => {
             type="number"
             :error="v$.stock_max.$error ? v$.stock_max.$errors[0].$message : null"
           />
-        </div>      
+        </div-->      
         <div class="block"> 
           <AppInput
             label="Precio"
