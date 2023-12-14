@@ -3,6 +3,7 @@ import { toRaw } from "vue"
 import useFormArticleDetail from "../../composables/Article/useFormArticleDetail";
 // import type { RadioOption } from "@/types/RadioOption";
 import type { ArticleDetail } from "../../types/Article/ArticleDetail";
+import TableSearchArticleDetail from "./TableSearchArticleDetail.vue";
 
 const props = defineProps<{
   article_detail: ArticleDetail
@@ -33,20 +34,6 @@ const submitArticleDetail = async () => {
     <form @submit.prevent="submitArticleDetail"> 
       <div class="p-5 grid lg:grid-cols-2 gap-4">
 
-          
-            
-            
-            
-            
-            
-            
-
-
-
-
-
-
-
 
 
 
@@ -59,6 +46,7 @@ const submitArticleDetail = async () => {
           /-->    
       
       </div>
+      
       <div class="block flex justify-center">
         <AppBtn
           type="submit"                 
@@ -67,6 +55,8 @@ const submitArticleDetail = async () => {
           text="Agregar"
         />        
       </div> 
-    </form>    
+    </form>
+    <TableSearchArticleDetail />
+  
   </div>
 </template>
