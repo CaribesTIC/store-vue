@@ -31,23 +31,9 @@ const submitArticleDetail = async () => {
 
 <template>
   <div>
-    <form @submit.prevent="submitArticleDetail"> 
-      <div class="p-5 grid lg:grid-cols-2 gap-4">
-
-
-
-
-          <!--label>Tipo de Venta</label><br/>
-          <AppRadioGroup
-            v-model="form.status"
-            name="status"
-            :options="props.statusOptions"
-            :error="v$.status.$error ? v$.status.$errors[0].$message : null"           
-          /-->    
-      
-      </div>
-      
-      <div class="block flex justify-center">
+    <form @submit.prevent="submitArticleDetail">       
+      <TableSearchArticleDetail />      
+      <div class="block flex justify-center mt-4">
         <AppBtn
           type="submit"                 
           data-testid="submit-btn"
@@ -56,7 +42,5 @@ const submitArticleDetail = async () => {
         />        
       </div> 
     </form>
-    <TableSearchArticleDetail />
-  
   </div>
 </template>
