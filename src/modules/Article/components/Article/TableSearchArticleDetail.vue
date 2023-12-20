@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { toRaw, ref, reactive } from "vue"
+import useTableGrid from "../../composables/Article/useTableGrid"
 import AppPaginationB from "@/components/AppPaginationB.vue";
 import IconCamera from "@/components/icons/IconCamera.vue"
 //import ArticleDetailService from "@/modules/Article/services/ArticleDetail"
 import type { ArticleDetail } from "../../types/Article/ArticleDetail";
+
+import { getPresentations } from '../../services/Presentation'
 
 const props = defineProps<{ article_details: ArticleDetail[] }>()
 
@@ -22,14 +25,18 @@ const removeArticleDetail =  (article_detailId: string) => {
 };
 
 const article_detailId = ref("")
-
-
-const setSearch = ()=>({})
+  
+const {
+  setSearch,
+  setSort, 
+} = useTableGrid(/*data*/  {})
 
 const data = reactive({
   search: "",
   links: []  
 })
+
+getPresentations(data)
 
 </script>
 
