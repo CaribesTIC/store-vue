@@ -2,7 +2,7 @@
 //import type { RouteLocationNormalizedLoaded, Router } from 'vue-router'
 
 interface Data {
-  rows: string[];
+  //rows: string[];
   links: string[];
   search: string;
   sort: string;
@@ -45,6 +45,8 @@ export default (data: Data): TableGrid => {
   // setLoad
   const load = (newParams: object): void => {
     const params = {
+      //page: data.links || "1",
+      page: 1,
       search: data.search || "",
       sort: data.sort || "",
       direction: data.direction || "",

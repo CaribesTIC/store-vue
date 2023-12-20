@@ -21,10 +21,15 @@ export const uploadFilePresentation = (payload: any, presentationId: string) => 
   return Http.post(`/api/presentation-fileupload/${presentationId}`, payload);
 }
 
+export const getPresentationSearch = (query: string) => {
+  return Http.get(`/api/presentation-search?${query}`);
+}
+
 export default {
   getPresentations,
   insertPresentation,
   updatePresentation,
   deletePresentation,
-  uploadFilePresentation
+  uploadFilePresentation,
+  getPresentationSearch
 }

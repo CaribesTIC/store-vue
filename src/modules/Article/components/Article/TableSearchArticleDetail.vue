@@ -1,24 +1,27 @@
 <script setup lang="ts">
-import { toRaw, ref, reactive } from "vue"
+import { toRaw, ref, reactive, onMounted } from "vue"
 import useTableGrid from "../../composables/Article/useTableGrid"
 import AppPaginationB from "@/components/AppPaginationB.vue";
 import IconCamera from "@/components/icons/IconCamera.vue"
 //import ArticleDetailService from "@/modules/Article/services/ArticleDetail"
 import type { ArticleDetail } from "../../types/Article/ArticleDetail";
 
-import { getPresentations } from '../../services/Presentation'
+import { getPresentationSearch } from '@/modules/Product/services/PresentationService'
+
+type Params =  string | string[][] | Record<string, string> | URLSearchParams | undefined
+
 
 const props = defineProps<{ article_details: ArticleDetail[] }>()
 
 const emits = defineEmits<{
-  (e: 'editArticleDetail', article_detailId: object): void
+  //(e: 'editArticleDetail', article_detailId: object): void
   (e: 'removeArticleDetail', article_detailId: string): void
   (e: 'getArticleDetails' ): void
 }>()
 
-const editArticleDetail =  (article_detail: object) => {
+/*const editArticleDetail =  (article_detail: object) => {
   emits("editArticleDetail", toRaw(article_detail))
-};
+};*/
 
 const removeArticleDetail =  (article_detailId: string) => {
   emits("removeArticleDetail", article_detailId)
@@ -26,17 +29,36 @@ const removeArticleDetail =  (article_detailId: string) => {
 
 const article_detailId = ref("")
   
-const {
-  setSearch,
-  setSort, 
-} = useTableGrid(/*data*/  {})
+
 
 const data = reactive({
+  rows: [],
+  page: "1",
   search: "",
+  sort: "",
+  direction: "",
   links: []  
 })
 
-getPresentations(data)
+const {
+  setSearch,
+  setSort, 
+} = useTableGrid(data)
+
+onMounted(async () => {
+    const resp = await getPresentationSearch(
+      new URLSearchParams(data as unknown as Params).toString()
+    )
+    console.log("resp-x", resp.data.rows.data)
+    data.rows = resp.data.rows.data
+    data.page = resp.data.rows.page
+    data.search = resp.data.rows.search
+    data.sort = resp.data.rows.sort
+    data.direction = resp.data.rows.direction
+    data.links = resp.data.rows.links
+
+    console.log("data-x", data)
+  })
 
 </script>
 
@@ -72,7 +94,7 @@ getPresentations(data)
         </tr>
       </thead>
       <tbody>      
-        <tr v-for="presentation in props.presentations" :key="presentation.id">             
+        <tr v-for="presentation in data.rows" :key="presentation.id">             
           <td class="px-6 py-3 bg-gray-50 bg-base-200">{{presentation.bar_cod}}</td>
           <td class="px-6 py-3">{{presentation.category}}</td>
           <td class="px-6 py-3 bg-gray-50 bg-base-200" :id='presentation.packing'>{{presentation.product}}</td>
