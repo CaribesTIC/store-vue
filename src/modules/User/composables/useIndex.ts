@@ -10,6 +10,7 @@ export default () => {
   const data = reactive({
     rows: [],
     links: [],
+    page: "1",
     search: "",
     sort: "",
     direction: ""
