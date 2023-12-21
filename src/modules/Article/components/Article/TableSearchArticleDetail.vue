@@ -60,6 +60,7 @@ onMounted(async () => {
     console.log("data-x", data)
   })
 
+const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${presentation.photo_path}`
 </script>
 
 <template>
@@ -88,7 +89,7 @@ onMounted(async () => {
           <th class="px-6 py-3">Marca</th>
           <th class="px-6 py-3 bg-gray-50 bg-base-200">Empaque</th>
           <th class="px-6 py-3">Precio</th>
-          <th class="px-6 py-3 bg-gray-50 bg-base-200">Estatus</th>
+          <!--th class="px-6 py-3 bg-gray-50 bg-base-200">Estatus</th-->
           <th class="px-6 py-3">Imagen</th>               
           <th class="px-6 py-3 bg-gray-50 bg-base-200">Acción(es)</th>
         </tr>
@@ -96,23 +97,21 @@ onMounted(async () => {
       <tbody>      
         <tr v-for="presentation in data.rows" :key="presentation.id">             
           <td class="px-6 py-3 bg-gray-50 bg-base-200">{{presentation.bar_cod}}</td>
-          <td class="px-6 py-3">{{presentation.category}}</td>
-          <td class="px-6 py-3 bg-gray-50 bg-base-200" :id='presentation.packing'>{{presentation.product}}</td>
-          <td class="px-6 py-3 text-right">{{presentation.mark}}</td>
-          <td class="px-6 py-3 bg-gray-50 bg-base-200 text-right">{{presentation.packing}}</td>
+          <td class="px-6 py-3 text-justify">{{presentation.product.category.name}}</td>
+          <td class="px-6 py-3 bg-gray-50 bg-base-200" :id='presentation.packing'>{{presentation.product.name}}</td>
+          <td class="px-6 py-3 text-justify">{{presentation.product.mark.name}}</td>
+          <td class="px-6 py-3 bg-gray-50 bg-base-200 text-justify">{{presentation.packing_deployed}}</td>
           <td class="px-6 py-3 text-right">{{presentation.price}}</td>
-          <td class="px-6 py-3 bg-gray-50 bg-base-200">{{presentation.status}}</td>
+          <!--td class="px-6 py-3 bg-gray-50 bg-base-200">{{presentation.status}}</td-->
           <td class="px-6 py-3 bg-gray-50 bg-base-200">
             <img
               v-if="presentation.photo_path"
-              class="m-auto hover:cursor-pointer"
-              :src=imgPath(presentation)
-              @click="imageUpload(presentation.id)"
+              class="m-auto hover:cursor-pointer w-7 h-7"
+              :src=imgPath(presentation)              
             />
             <IconCamera
               v-else
-              class="w-7 h-7 m-auto fill-current hover:cursor-pointer"
-              @click="imageUpload(presentation.id)"
+              class="w-7 h-7 m-auto fill-current hover:cursor-pointer"              
             />
           </td>  
           <td class="px-6 py-3">
@@ -123,12 +122,12 @@ onMounted(async () => {
               >
                 Editar
               </AppBtn>
-              <AppBtn
+              <!--AppBtn
                 @click="remove(presentation.id)"                    
                 class="btn btn-danger btn-xs"                    
               >
                 Eliminar
-              </AppBtn>
+              </AppBtn-->
             </div>
           </td>
         </tr>
