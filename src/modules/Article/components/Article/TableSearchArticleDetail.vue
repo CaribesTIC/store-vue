@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { toRaw, ref, reactive, onMounted } from "vue"
 import useTableGrid from "../../composables/Article/useTableGrid"
-import AppPaginationB from "@/components/AppPaginationB.vue";
+import AppPaginationC from "@/components/AppPaginationC.vue";
 import IconCamera from "@/components/icons/IconCamera.vue"
 //import ArticleDetailService from "@/modules/Article/services/ArticleDetail"
 import type { ArticleDetail } from "../../types/Article/ArticleDetail";
@@ -11,26 +11,24 @@ import { getPresentationSearch } from '@/modules/Product/services/PresentationSe
 type Params =  string | string[][] | Record<string, string> | URLSearchParams | undefined
 
 
-const props = defineProps<{ article_details: ArticleDetail[] }>()
+//const props = defineProps<{ article_details: ArticleDetail[] }>()
 
 const emits = defineEmits<{
   //(e: 'editArticleDetail', article_detailId: object): void
-  (e: 'removeArticleDetail', article_detailId: string): void
-  (e: 'getArticleDetails' ): void
+  //(e: 'removeArticleDetail', article_detailId: string): void
+  //(e: 'getArticleDetails' ): void
 }>()
 
 /*const editArticleDetail =  (article_detail: object) => {
   emits("editArticleDetail", toRaw(article_detail))
 };*/
 
-const removeArticleDetail =  (article_detailId: string) => {
-  emits("removeArticleDetail", article_detailId)
-};
+//const removeArticleDetail =  (article_detailId: string) => {
+//  emits("removeArticleDetail", article_detailId)
+//};
 
 const article_detailId = ref("")
   
-
-
 const data = reactive({
   rows: [],
   page: "1",
@@ -45,20 +43,26 @@ const {
   setSort, 
 } = useTableGrid(data)
 
-onMounted(async () => {
-    const resp = await getPresentationSearch(
-      new URLSearchParams(data as unknown as Params).toString()
-    )
-    console.log("resp-x", resp.data.rows.data)
-    data.rows = resp.data.rows.data
-    data.page = resp.data.rows.page
-    data.search = resp.data.rows.search
-    data.sort = resp.data.rows.sort
-    data.direction = resp.data.rows.direction
-    data.links = resp.data.rows.links
 
-    console.log("data-x", data)
-  })
+const getSearch = async (pageNum?: string = "1") => {    
+  data.page = pageNum   
+  const {data: { rows }} = await getPresentationSearch(
+    new URLSearchParams(data as unknown as Params).toString()
+  )  
+  data.rows = rows.data ?? []
+  data.links = rows.links ?? []
+  data.page = rows.page ?? "1"
+  data.search = rows.search ?? ""
+  data.sort = rows.sort ?? ""
+  data.direction = rows.direction ?? "asc"
+}
+
+const classTr = (index) => {
+  let num = (index%2 == 1) ? '100' : '200'
+  return  `bg-base-${num}`
+}
+
+onMounted(async () => await getSearch())
 
 const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${presentation.photo_path}`
 </script>
@@ -82,28 +86,28 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
   <div class="mt-4 relative overflow-x-auto shadow-md sm:rounded-lg">     
     <table id="id_tab_presentacion" class="w-full text-sm text-left text-gray-500 dark:text-gray-400" width="100%">
       <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
-        <tr>          
-          <th class="px-6 py-3 bg-gray-50 bg-base-200">barcode</th>      
-          <th class="px-6 py-3">Categoría</th>        
-          <th class="px-6 py-3 bg-gray-50 bg-base-200">Producto</th>
-          <th class="px-6 py-3">Marca</th>
-          <th class="px-6 py-3 bg-gray-50 bg-base-200">Empaque</th>
-          <th class="px-6 py-3">Precio</th>
-          <!--th class="px-6 py-3 bg-gray-50 bg-base-200">Estatus</th-->
-          <th class="px-6 py-3">Imagen</th>               
-          <th class="px-6 py-3 bg-gray-50 bg-base-200">Acción(es)</th>
+        <tr class="bg-base-100">          
+          <th class="px-4 py-1">barcode</th>      
+          <th class="px-4 py-1">Categoría</th>        
+          <th class="px-4 py-1">Producto</th>
+          <th class="px-4 py-1">Marca</th>
+          <th class="px-4 py-1">Empaque</th>
+          <th class="px-4 py-1">Precio</th>
+          <!--th class="px-4">Estatus</th-->
+          <th class="px-4 py-1">Imagen</th>               
+          <th class="px-4 py-1">Acción(es)</th>
         </tr>
       </thead>
-      <tbody>      
-        <tr v-for="presentation in data.rows" :key="presentation.id">             
-          <td class="px-6 py-3 bg-gray-50 bg-base-200">{{presentation.bar_cod}}</td>
-          <td class="px-6 py-3 text-justify">{{presentation.product.category.name}}</td>
-          <td class="px-6 py-3 bg-gray-50 bg-base-200" :id='presentation.packing'>{{presentation.product.name}}</td>
-          <td class="px-6 py-3 text-justify">{{presentation.product.mark.name}}</td>
-          <td class="px-6 py-3 bg-gray-50 bg-base-200 text-justify">{{presentation.packing_deployed}}</td>
-          <td class="px-6 py-3 text-right">{{presentation.price}}</td>
-          <!--td class="px-6 py-3 bg-gray-50 bg-base-200">{{presentation.status}}</td-->
-          <td class="px-6 py-3 bg-gray-50 bg-base-200">
+      <tbody>
+        <tr v-for="(presentation, index) in data.rows" :key="presentation.id" :class="classTr(index)">
+          <td class="px-4 py-1">{{presentation.bar_cod}}</td>
+          <td class="px-4 py-1 text-justify">{{presentation.product.category.name}}</td>
+          <td class="px-4 py-1" :id='presentation.packing'>{{presentation.product.name}}</td>
+          <td class="px-4 py-1 text-justify">{{presentation.product.mark.name}}</td>
+          <td class="px-4 py-1 text-justify">{{presentation.packing_deployed}}</td>
+          <td class="px-4 py-1 text-right">{{presentation.price}}</td>
+          <!--td class="px-6 py-1">{{presentation.status}}</td-->
+          <td class="px-4 py-1">
             <img
               v-if="presentation.photo_path"
               class="m-auto hover:cursor-pointer w-7 h-7"
@@ -114,7 +118,7 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
               class="w-7 h-7 m-auto fill-current hover:cursor-pointer"              
             />
           </td>  
-          <td class="px-6 py-3">
+          <td class="px-4 py-1">
             <div class="flex items-center space-x-1">
              <AppBtn
                 class="btn btn-primary btn-xs"                    
@@ -134,6 +138,10 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
       </tbody>
     </table>
   </div>
-  <AppPaginationB v-if="data.links" :links="data.links" />
+  <AppPaginationC
+    v-if="data.links"
+    :links="data.links"
+    @getSearch="getSearch"
+  />
   </div>
 </template>
