@@ -2,11 +2,11 @@
 import { toRaw, ref, reactive, onMounted } from "vue"
 import useTableGrid from "../../composables/Article/useTableGrid"
 import AppPaginationC from "@/components/AppPaginationC.vue";
-import IconCamera from "@/components/icons/IconCamera.vue"
+import IconCamera from "@/components/icons/menu/icon-products.vue"
 //import ArticleDetailService from "@/modules/Article/services/ArticleDetail"
 import type { ArticleDetail } from "../../types/Article/ArticleDetail";
 
-import { getPresentationSearch } from '@/modules/Product/services/PresentationService'
+
 
 type Params =  string | string[][] | Record<string, string> | URLSearchParams | undefined
 
@@ -27,7 +27,7 @@ const emits = defineEmits<{
 //  emits("removeArticleDetail", article_detailId)
 //};
 
-const article_detailId = ref("")
+//const article_detailId = ref("")
   
 const data = reactive({
   rows: [],
@@ -39,30 +39,15 @@ const data = reactive({
 })
 
 const {
+  getSearch,
   setSearch,
   setSort, 
 } = useTableGrid(data)
-
-
-const getSearch = async (pageNum?: string = "1") => {    
-  data.page = pageNum   
-  const {data: { rows }} = await getPresentationSearch(
-    new URLSearchParams(data as unknown as Params).toString()
-  )  
-  data.rows = rows.data ?? []
-  data.links = rows.links ?? []
-  data.page = rows.page ?? "1"
-  data.search = rows.search ?? ""
-  data.sort = rows.sort ?? ""
-  data.direction = rows.direction ?? "asc"
-}
 
 const classTr = (index) => {
   let num = (index%2 == 1) ? '100' : '200'
   return  `bg-base-${num}`
 }
-
-onMounted(async () => await getSearch())
 
 const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${presentation.photo_path}`
 </script>
@@ -77,7 +62,7 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
               type="text"
               v-model="data.search"
               @input="setSearch"
-              placeholder="Filtrar…"
+              placeholder="Buscar…"
             />
           </div>
         </div>
@@ -101,9 +86,9 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
       <tbody>
         <tr v-for="(presentation, index) in data.rows" :key="presentation.id" :class="classTr(index)">
           <td class="px-4 py-1">{{presentation.bar_cod}}</td>
-          <td class="px-4 py-1 text-justify">{{presentation.product.category.name}}</td>
-          <td class="px-4 py-1" :id='presentation.packing'>{{presentation.product.name}}</td>
-          <td class="px-4 py-1 text-justify">{{presentation.product.mark.name}}</td>
+          <td class="px-4 py-1 text-justify">{{presentation.category_name}}</td>
+          <td class="px-4 py-1" :id='presentation.packing'>{{presentation.product_name}}</td>          
+          <td class="px-4 py-1 text-justify">{{presentation.mark_name}}</td>
           <td class="px-4 py-1 text-justify">{{presentation.packing_deployed}}</td>
           <td class="px-4 py-1 text-right">{{presentation.price}}</td>
           <!--td class="px-6 py-1">{{presentation.status}}</td-->
@@ -120,18 +105,7 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
           </td>  
           <td class="px-4 py-1">
             <div class="flex items-center space-x-1">
-             <AppBtn
-                class="btn btn-primary btn-xs"                    
-                @click="edit(presentation)"
-              >
-                Editar
-              </AppBtn>
-              <!--AppBtn
-                @click="remove(presentation.id)"                    
-                class="btn btn-danger btn-xs"                    
-              >
-                Eliminar
-              </AppBtn-->
+             <AppCheckbox label="Seleccione" />
             </div>
           </td>
         </tr>

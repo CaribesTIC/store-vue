@@ -1,5 +1,8 @@
+import { onMounted } from "vue"
+
 //import { useRouter, useRoute } from 'vue-router'
 //import type { RouteLocationNormalizedLoaded, Router } from 'vue-router'
+import { getPresentationSearch } from '@/modules/Product/services/PresentationService'
 
 interface Data {
   //rows: string[];
@@ -20,6 +23,8 @@ interface TableGrid {
 export default (data: Data): TableGrid => {
   //const router = useRouter()
   //const route = useRoute()
+  
+  onMounted(async () => await getSearch())
 
   // search
   let searchDebounceTimer: NodeJS.Timeout
@@ -45,37 +50,43 @@ export default (data: Data): TableGrid => {
   // setLoad
   const load = (newParams: object): void => {
     const params = {
-      //page: data.links || "1",
-      page: 1,
+      page: data.links || "1",
+      //page: 1,
       search: data.search || "",
       sort: data.sort || "",
       direction: data.direction || "",
       ...newParams,
     }
 
-    console.log(
-    {
-      
+    console.log({      
       query: {
-        // ...route.query,
-        ...params
+         // ...route.query,
+         ...params
       }
-    }
-    )
+    })
 
-    /*router.push({
-      path,
-      query: {
-        ...route.query,
-        ...params
-      }
-    })*/
+    getSearch()
+  }
+  
+  const getSearch = async (pageNum?: string = "1") => {    
+    data.page = pageNum
+    data.search = data.search
+    const {data: { rows }} = await getPresentationSearch(
+      new URLSearchParams(data as unknown as Params).toString()
+    )  
+    data.rows = rows.data ?? []
+    data.links = rows.links ?? []
+    data.page = rows.page ?? "1"
+    data.search = data.search ?? ""
+    data.sort = rows.sort ?? ""
+    data.direction = rows.direction ?? "asc"  
   }
 
   return {
     //route,
     //router,
 
+    getSearch,
     setSearch,
     setSort,
   }
