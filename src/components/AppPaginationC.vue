@@ -12,7 +12,7 @@ const emits = defineEmits<{
 
 const baseUrlApi = process.env.VUE_APP_API_URL+'/api'
 
-const getSearch = (link) => emits("getSearch", link.url.split("page=")[1])
+const getSearch = (link) => emits("getSearch", { page: link.url.split("page=")[1] })
 </script>
 
 <template>

@@ -1,7 +1,4 @@
 import { onMounted } from "vue"
-
-//import { useRouter, useRoute } from 'vue-router'
-//import type { RouteLocationNormalizedLoaded, Router } from 'vue-router'
 import { getPresentationSearch } from '@/modules/Product/services/PresentationService'
 
 interface Data {
@@ -13,18 +10,17 @@ interface Data {
 }
 
 interface TableGrid {
-  //route: RouteLocationNormalizedLoaded;
-  //router: Router;
-
   setSearch: (e: Event) => void;
   setSort: (s: "asc" | "des") => void;
 }
 
-export default (data: Data): TableGrid => {
-  //const router = useRouter()
-  //const route = useRoute()
-  
-  onMounted(async () => await getSearch())
+export default (data: Data): TableGrid => { 
+  onMounted(async () => await getSearch({
+    page: "1",
+    search: "",
+    sort: "",
+    direction: ""    
+  }))
 
   // search
   let searchDebounceTimer: NodeJS.Timeout
@@ -41,9 +37,11 @@ export default (data: Data): TableGrid => {
   const setSort = (s: "asc" | "des"): void => { // "s" is abbreviation of "sort"
     // reverse direction if clicked twice on column
     let d = "asc";         // "d" is abbreviation of "direction"
+
     if (data.sort == s) {
       d = data.direction == "asc" ? "desc" : "asc";
     }
+ 
     load({direction: d, sort: s})
   };
   
@@ -58,34 +56,30 @@ export default (data: Data): TableGrid => {
       ...newParams,
     }
 
-    console.log({      
-      query: {
-         // ...route.query,
-         ...params
-      }
-    })
+    /*console.log("load", { query: { ...params } })*/
 
-    getSearch()
+    getSearch(params)
   }
   
-  const getSearch = async (pageNum?: string = "1") => {    
-    data.page = pageNum
-    data.search = data.search
+  const getSearch = async (params) => {    
+    data.page = params.page ?? "1"
+    data.search = params.search ?? ""
+    data.sort = params.sort ?? ""
+    data.direction = params.direction ?? ""
+    
     const {data: { rows }} = await getPresentationSearch(
       new URLSearchParams(data as unknown as Params).toString()
-    )  
+    )
+    
     data.rows = rows.data ?? []
     data.links = rows.links ?? []
     data.page = rows.page ?? "1"
     data.search = data.search ?? ""
-    data.sort = rows.sort ?? ""
-    data.direction = rows.direction ?? "asc"  
+    data.sort = data.sort ?? ""
+    //data.direction = rows.direction ?? ""  
   }
 
   return {
-    //route,
-    //router,
-
     getSearch,
     setSearch,
     setSort,
