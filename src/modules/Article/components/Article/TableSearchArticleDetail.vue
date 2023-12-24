@@ -72,10 +72,34 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
     <table id="id_tab_presentacion" class="w-full text-sm text-left text-gray-500 dark:text-gray-400" width="100%">
       <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
         <tr class="bg-base-100">          
-          <th class="px-4 py-1">barcode</th>      
-          <th class="px-4 py-1">Categoría</th>        
-          <th class="px-4 py-1">Producto</th>
-          <th class="px-4 py-1">Marca</th>
+          <th class="px-4 py-1">
+            <AppBtn
+              class="bg-base-100 hover:text-gray-500"
+              @click.prevent="setSort('presentations.bar_cod')">
+                Barcode
+            </AppBtn>
+          </th>      
+          <th class="px-4 py-1">
+            <AppBtn
+              class="bg-base-100 hover:text-gray-500"
+              @click.prevent="setSort('categories.name')">
+              Categoría
+            </AppBtn>
+          </th>
+          <th class="px-4 py-1">
+            <AppBtn
+              class="bg-base-100 hover:text-gray-500"
+              @click.prevent="setSort('products.name')">
+                Producto
+            </AppBtn>
+          </th>
+          <th class="px-4 py-1">
+            <AppBtn
+              class="bg-base-100 hover:text-gray-500"
+              @click.prevent="setSort('marks.name')">
+                Marca
+            </AppBtn>
+          </th>
           <th class="px-4 py-1">Empaque</th>
           <th class="px-4 py-1">Precio</th>
           <!--th class="px-4">Estatus</th-->
