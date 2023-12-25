@@ -6,16 +6,13 @@ import IconCamera from "@/components/icons/menu/icon-products.vue"
 //import ArticleDetailService from "@/modules/Article/services/ArticleDetail"
 import type { ArticleDetail } from "../../types/Article/ArticleDetail";
 
-
-
 type Params =  string | string[][] | Record<string, string> | URLSearchParams | undefined
 
 
 //const props = defineProps<{ article_details: ArticleDetail[] }>()
 
 const emits = defineEmits<{
-  //(e: 'editArticleDetail', article_detailId: object): void
-  //(e: 'removeArticleDetail', article_detailId: string): void
+  //(e: 'editArticleDetail', article_detailId: object): void  
   //(e: 'getArticleDetails' ): void
 }>()
 
@@ -23,11 +20,7 @@ const emits = defineEmits<{
   emits("editArticleDetail", toRaw(article_detail))
 };*/
 
-//const removeArticleDetail =  (article_detailId: string) => {
-//  emits("removeArticleDetail", article_detailId)
-//};
-
-//const article_detailId = ref("")
+const form = reactive({})
   
 const data = reactive({
   rows: [],
@@ -47,6 +40,14 @@ const {
 const classTr = (index) => {
   let num = (index%2 == 1) ? '100' : '200'
   return  `bg-base-${num}`
+}
+
+const selectedPresentations = ref([])
+
+const selectPresentationId = (presentationId) => {
+  selectedPresentations.value.includes(presentationId)
+    ? selectedPresentations.value.splice(selectedPresentations.value.indexOf(presentationId),1)
+      : selectedPresentations.value.push(presentationId)
 }
 
 const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${presentation.photo_path}`
@@ -128,8 +129,9 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
             />
           </td>  
           <td class="px-4 py-1">
-            <div class="flex items-center space-x-1">
-             <AppCheckbox label="Seleccione" />
+            <div class="flex items-center space-x-1">             
+             <input type="checkbox" v-model="selectedPresentations" :value="presentation.id" @click="selectPresentationId(presentation.id)">
+             <!--AppCheckbox label="Seleccione"  :value="presentation.id" @click="selectPresentationId(presentation.id)"/-->
             </div>
           </td>
         </tr>
