@@ -3,24 +3,17 @@ import { toRaw, ref, reactive, onMounted } from "vue"
 import useTableGrid from "../../composables/Article/useTableGrid"
 import AppPaginationC from "@/components/AppPaginationC.vue";
 import IconCamera from "@/components/icons/menu/icon-products.vue"
-//import ArticleDetailService from "@/modules/Article/services/ArticleDetail"
 import type { ArticleDetail } from "../../types/Article/ArticleDetail";
 
 type Params =  string | string[][] | Record<string, string> | URLSearchParams | undefined
 
-
-//const props = defineProps<{ article_details: ArticleDetail[] }>()
+const props = defineProps<{ selectedPresentations: ArticleDetail[] }>()
 
 const emits = defineEmits<{
-  //(e: 'editArticleDetail', article_detailId: object): void  
-  //(e: 'getArticleDetails' ): void
+  (e: 'selectPresentationId', article_detailId: object): void
 }>()
 
-/*const editArticleDetail =  (article_detail: object) => {
-  emits("editArticleDetail", toRaw(article_detail))
-};*/
-
-const form = reactive({})
+const selectedPresentations = ref(props.selectedPresentations)
   
 const data = reactive({
   rows: [],
@@ -42,12 +35,8 @@ const classTr = (index) => {
   return  `bg-base-${num}`
 }
 
-const selectedPresentations = ref([])
-
-const selectPresentationId = (presentationId) => {
-  selectedPresentations.value.includes(presentationId)
-    ? selectedPresentations.value.splice(selectedPresentations.value.indexOf(presentationId),1)
-      : selectedPresentations.value.push(presentationId)
+const selectPresentationId = (presentationId: string) => {
+  emits("selectPresentationId", presentationId)  
 }
 
 const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${presentation.photo_path}`
@@ -105,7 +94,7 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
           <th class="px-4 py-1">Precio</th>
           <!--th class="px-4">Estatus</th-->
           <th class="px-4 py-1">Imagen</th>               
-          <th class="px-4 py-1">Acción(es)</th>
+          <th class="px-4 py-1">Seleccione</th>
         </tr>
       </thead>
       <tbody>
@@ -129,9 +118,13 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
             />
           </td>  
           <td class="px-4 py-1">
-            <div class="flex items-center space-x-1">             
-             <input type="checkbox" v-model="selectedPresentations" :value="presentation.id" @click="selectPresentationId(presentation.id)">
-             <!--AppCheckbox label="Seleccione"  :value="presentation.id" @click="selectPresentationId(presentation.id)"/-->
+            <div class="flex items-center space-x-1">                    
+              <input
+                type="checkbox"
+                v-model="selectedPresentations"
+                :value="presentation.id"
+                @click="selectPresentationId(presentation.id)"
+              />
             </div>
           </td>
         </tr>
