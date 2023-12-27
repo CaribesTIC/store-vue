@@ -31,10 +31,12 @@ const submitArticleDetail = async () => {
   }*/
 }
 
-const selectPresentationId = (presentationId) => {
-  selectedPresentations.value.includes(presentationId)
-    ? selectedPresentations.value.splice(selectedPresentations.value.indexOf(presentationId),1)
-      : selectedPresentations.value.push(presentationId)
+const selectPresentation = (presentation) => {
+  const indexFound = selectedPresentations.value.findIndex((i)=> i.id === presentation.id);
+  (indexFound===-1)
+    ? selectedPresentations.value.push(presentation) 
+    : selectedPresentations.value.splice(indexFound,1);
+  console.log(selectedPresentations.value);
 }
 </script>
 
@@ -42,7 +44,7 @@ const selectPresentationId = (presentationId) => {
   <div>
     <TableSearchArticleDetail
       :selectedPresentations="selectedPresentations"
-       @selectPresentationId="selectPresentationId"
+       @selectPresentation="selectPresentation"
     /> 
     <form @submit.prevent="submitArticleDetail">       
      
