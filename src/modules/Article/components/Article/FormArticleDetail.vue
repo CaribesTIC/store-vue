@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { toRaw, ref } from "vue"
+import { toRaw, ref, nextTick } from "vue"
 import useFormArticleDetail from "../../composables/Article/useFormArticleDetail";
 // import type { RadioOption } from "@/types/RadioOption";
 import type { ArticleDetail } from "../../types/Article/ArticleDetail";
@@ -32,11 +32,25 @@ const submitArticleDetail = async () => {
 }
 
 const selectPresentation = (presentation) => {
+  //console.log('x', presentation.checked)
+  //console.log('a', presentation)
+
   const indexFound = selectedPresentations.value.findIndex((i)=> i.id === presentation.id);
-  (indexFound===-1)
-    ? selectedPresentations.value.push(presentation) 
-    : selectedPresentations.value.splice(indexFound,1);
-  console.log(selectedPresentations.value);
+  console.log('indexFound', indexFound)
+  console.log('presentation.checked', presentation.checked)
+  console.log('b', selectedPresentations.value)
+
+  if (indexFound===-1) {
+    presentation.count=1;
+    presentation.checked=true;
+    selectedPresentations.value.push(presentation);
+  } else if ( presentation.checked ){
+    selectedPresentations.value.splice(indexFound,1);
+    selectedPresentations.value.push(presentation);
+  } else{
+    selectedPresentations.value.splice(indexFound,1);
+  }
+
 }
 </script>
 
