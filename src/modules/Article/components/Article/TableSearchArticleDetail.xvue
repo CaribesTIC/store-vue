@@ -10,10 +10,10 @@ type Params =  string | string[][] | Record<string, string> | URLSearchParams | 
 const props = defineProps<{ selectedPresentations: ArticleDetail[] }>()
 
 const emits = defineEmits<{
-  (e: 'selectPresentation', article_detailId: object): void
+  (e: 'selectPresentationId', article_detailId: object): void
 }>()
 
-const selectedPresentation = ref([])
+const selectedPresentations = ref(props.selectedPresentations)
 const countPresentations = ref([])
   
 const data = reactive({
@@ -36,10 +36,9 @@ const classTr = (index) => {
   return  `bg-base-${num}`
 }
 
-const selectPresentation = (id: string, count: number) => {
-
-
-  emits("selectPresentation", { id , count })    
+const selectPresentationId = (presentationId: string) => {
+console.log(countPresentations.value)
+  emits("selectPresentationId", presentationId)  
 }
 
 const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${presentation.photo_path}`
@@ -120,19 +119,18 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
               class="w-7 h-7 m-auto fill-current hover:cursor-pointer"              
             />
           </td>  
-          <td class="px-4 py-1">
+          <td class="px-4 py-1">{{selectedPresentations}}
             <div class="flex items-center space-x-1">
-              <label>Seleccione</label>      
+              <label>Seleccione </label>                       
               <input
                 class="my-3"
                 type="checkbox"
-                v-model="selectedPresentation[presentation.id]"
+                v-model="selectedPresentations"
                 :value="presentation.id"
-                @click="selectPresentation(presentation.id, countPresentations[presentation.id])"
+                @click="selectPresentationId(presentation.id)"
               />              
-              <label v-show="!props.selectedPresentations.findIndex((i)=> i.id === presentation.id)">Cantidad  
-              <input type="number" min="1" max="10" v-model="countPresentations[presentation.id]"
-                @input="selectPresentation(presentation.id, countPresentations[presentation.id] )"/>
+              <label v-show="selectedPresentations.includes(presentation.id)">Cantidad
+              <input type="number" min="1" max="10" v-model="countPresentations[presentation.id]"/>
               </label>
             </div>
           </td>
