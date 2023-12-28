@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { toRaw, ref, reactive, onMounted } from "vue"
+//https://dev.to/razi91/vue-arrays-and-v-model-17e0
+import { toRaw, ref, reactive, onMounted, nextTick , computed} from "vue"
 import useTableGrid from "../../composables/Article/useTableGrid"
 import AppPaginationC from "@/components/AppPaginationC.vue";
 import IconCamera from "@/components/icons/menu/icon-products.vue"
@@ -13,8 +14,8 @@ const emits = defineEmits<{
   (e: 'selectPresentation', article_detailId: object): void
 }>()
 
-const selectedPresentation = ref([])
-const countPresentations = ref([])
+const selectedPresentation = reactive([])
+const countPresentations = reactive([])
   
 const data = reactive({
   rows: [],
@@ -36,10 +37,25 @@ const classTr = (index) => {
   return  `bg-base-${num}`
 }
 
-const selectPresentation = (id: string, count: number) => {
+const zzzz = computed (() => { 
+      return id => selectedPresentation[id]
+    
+  })    
+
+const selectPresentation =  async(id: string, count: number, checked ) => {
+
+  //alert(!selectedPresentation.value[id])
+  //(countPresentations[id]===undefined) ? 1 : countPresentations[id];
+  //emits("selectPresentation", { id , count, checked: (!count)? !selectedPresentation.value[id]: selectedPresentation.value[id]}) 
 
 
-  emits("selectPresentation", { id , count })    
+  await nextTick(() => {
+    //emits("selectPresentation", { id , count, checked: zzzz.value(id) }) 
+    emits("selectPresentation", { id , count, checked }) 
+
+  });
+
+   
 }
 
 const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${presentation.photo_path}`
@@ -101,7 +117,7 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(presentation, index) in data.rows" :key="presentation.id" :class="classTr(index)">
+        <tr v-for="(presentation, index) in data.rows" :key="index" :class="classTr(index)">
           <td class="px-4 py-1">{{presentation.bar_cod}}</td>
           <td class="px-4 py-1 text-justify">{{presentation.category_name}}</td>
           <td class="px-4 py-1" :id='presentation.packing'>{{presentation.product_name}}</td>          
@@ -128,12 +144,19 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
                 type="checkbox"
                 v-model="selectedPresentation[presentation.id]"
                 :value="presentation.id"
-                @click="selectPresentation(presentation.id, countPresentations[presentation.id])"
+                @click="selectPresentation(presentation.id, countPresentations[presentation.id], selectedPresentation[presentation.id])"
               />              
-              <label v-show="!props.selectedPresentations.findIndex((i)=> i.id === presentation.id)">Cantidad  
-              <input type="number" min="1" max="10" v-model="countPresentations[presentation.id]"
-                @input="selectPresentation(presentation.id, countPresentations[presentation.id] )"/>
+              <label v-show="selectedPresentation[presentation.id]">Cantidad  
+                <input
+                  type="number"
+                  min="1"
+                  max="10"
+                  v-model="countPresentations[presentation.id]"
+                  @input="selectPresentation(presentation.id, countPresentations[presentation.id], selectedPresentation[presentation.id] )"
+                />
               </label>
+              {{ presentation.id }}
+             {{ zzzz(presentation.id) }} 
             </div>
           </td>
         </tr>
