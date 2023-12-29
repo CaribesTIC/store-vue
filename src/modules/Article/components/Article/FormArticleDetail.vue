@@ -24,7 +24,7 @@ const emits = defineEmits<{
 }>()
 
 const submitArticleDetail = async () => {
-  alert(selectedPresentations.value)
+  console.log(selectedPresentations.value)
   /*const result = await v$.value.$validate();
   if (result) {
     emits("submitArticleDetail", toRaw(form));
@@ -32,25 +32,16 @@ const submitArticleDetail = async () => {
 }
 
 const selectPresentation = (presentation) => {
-  //console.log('x', presentation.checked)
-  //console.log('a', presentation)
-
   const indexFound = selectedPresentations.value.findIndex((i)=> i.id === presentation.id);
-  console.log('indexFound', indexFound)
-  console.log('presentation.checked', presentation.checked)
-  console.log('b', selectedPresentations.value)
+  (indexFound===-1) 
+    ? selectedPresentations.value.push(presentation)
+    : selectedPresentations.value.splice(indexFound,1);
+}
 
-  if (indexFound===-1) {
-    presentation.count=1;
-    presentation.checked=true;
-    selectedPresentations.value.push(presentation);
-  } else if ( presentation.checked ){
-    selectedPresentations.value.splice(indexFound,1);
-    selectedPresentations.value.push(presentation);
-  } else{
-    selectedPresentations.value.splice(indexFound,1);
-  }
-
+const qtyPresentation = (presentation) => {
+  const indexFound = selectedPresentations.value.findIndex((i)=> i.id === presentation.id);
+  if (indexFound===-1) { return; } 
+  selectedPresentations.value[indexFound].count=presentation.qty 
 }
 </script>
 
@@ -59,6 +50,8 @@ const selectPresentation = (presentation) => {
     <TableSearchArticleDetail
       :selectedPresentations="selectedPresentations"
        @selectPresentation="selectPresentation"
+       @qtyPresentation="qtyPresentation"
+
     /> 
     <form @submit.prevent="submitArticleDetail">       
      

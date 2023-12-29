@@ -1,6 +1,6 @@
 <script setup lang="ts">
 //https://dev.to/razi91/vue-arrays-and-v-model-17e0
-import { toRaw, ref, reactive, onMounted, nextTick , computed} from "vue"
+import { toRaw, reactive, watch} from "vue"
 import useTableGrid from "../../composables/Article/useTableGrid"
 import AppPaginationC from "@/components/AppPaginationC.vue";
 import IconCamera from "@/components/icons/menu/icon-products.vue"
@@ -12,10 +12,12 @@ const props = defineProps<{ selectedPresentations: ArticleDetail[] }>()
 
 const emits = defineEmits<{
   (e: 'selectPresentation', article_detailId: object): void
+  (e: 'qtyPresentation', article_detailId: object): void
 }>()
 
 const selectedPresentation = reactive([])
-const countPresentations = reactive([])
+const countPresentation = reactive([])
+
   
 const data = reactive({
   rows: [],
@@ -37,45 +39,48 @@ const classTr = (index) => {
   return  `bg-base-${num}`
 }
 
-const zzzz = computed (() => { 
-      return id => selectedPresentation[id]
-    
-  })    
-
-const selectPresentation =  async(id: string, count: number, checked ) => {
-
-  //alert(!selectedPresentation.value[id])
-  //(countPresentations[id]===undefined) ? 1 : countPresentations[id];
-  //emits("selectPresentation", { id , count, checked: (!count)? !selectedPresentation.value[id]: selectedPresentation.value[id]}) 
-
-
-  await nextTick(() => {
-    //emits("selectPresentation", { id , count, checked: zzzz.value(id) }) 
-    emits("selectPresentation", { id , count, checked }) 
-
-  });
-
-   
+const selectPresentation =  async(id: string, count: number=1 ) => {
+    emits("selectPresentation", { id , count })
+    countPresentation.values[id]=count;  
 }
+
+const convertToNumber = (qtyStr: string): void|number => {
+  const qtyNumber = parseInt(qtyStr)
+  return (!qtyNumber) ? alert("Error: Ingrese números") : qtyNumber; 
+}
+
+const setCount = (presentationId): void => {
+  const qtyStr: string = prompt('Por favor ingrese la cantidad') 
+  const qtyNumber: void|number = convertToNumber(qtyStr)
+  if (qtyNumber)
+    emits("qtyPresentation", { id: presentationId , qty: qtyNumber })
+}
+
+watch(props.selectedPresentations, (selectedPresentations) => {
+  //console.log('selectedPresentations', toRaw(selectedPresentations))
+  selectedPresentations.forEach((sp)=> {
+    countPresentation.values[sp.id] = sp.count
+  })
+}, { deep: true })
 
 const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${presentation.photo_path}`
 </script>
 
-<template>
-<div class="overflow-hidden panel">
-      <div class="flex justify-between items-center">
-        <div class="flex items-center">
-          <div class="flex w-full bg-white shadow rounded">
-            <input
-              class=""
-              type="text"
-              v-model="data.search"
-              @input="setSearch"
-              placeholder="Buscar…"
-            />
-          </div>
+<template>  
+  <div class="overflow-hidden panel">
+    <div class="flex justify-between items-center">
+      <div class="flex items-center">
+        <div class="flex w-full bg-white shadow rounded">
+          <input
+            class=""
+            type="text"
+            v-model="data.search"
+            @input="setSearch"
+            placeholder="Buscar…"
+          />
         </div>
       </div>
+    </div>
       
   <div class="mt-4 relative overflow-x-auto shadow-md sm:rounded-lg">     
     <table id="id_tab_presentacion" class="w-full text-sm text-left text-gray-500 dark:text-gray-400" width="100%">
@@ -138,25 +143,21 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
           </td>  
           <td class="px-4 py-1">
             <div class="flex items-center space-x-1">
-              <label>Seleccione</label>      
+              <label>Sel</label>      
               <input
                 class="my-3"
                 type="checkbox"
                 v-model="selectedPresentation[presentation.id]"
                 :value="presentation.id"
-                @click="selectPresentation(presentation.id, countPresentations[presentation.id], selectedPresentation[presentation.id])"
-              />              
-              <label v-show="selectedPresentation[presentation.id]">Cantidad  
-                <input
-                  type="number"
-                  min="1"
-                  max="10"
-                  v-model="countPresentations[presentation.id]"
-                  @input="selectPresentation(presentation.id, countPresentations[presentation.id], selectedPresentation[presentation.id] )"
-                />
-              </label>
-              {{ presentation.id }}
-             {{ zzzz(presentation.id) }} 
+                @click="selectPresentation(presentation.id, 1)"
+              />
+                        
+              <AppBtn
+                v-show="selectedPresentation[presentation.id]"
+                @click="setCount(presentation.id)"
+                type="button"
+                class="btn btn-primary btn-xs"
+              >ModQty|{{ countPresentation.values[presentation.id]}}</AppBtn>
             </div>
           </td>
         </tr>
@@ -168,5 +169,6 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
     :links="data.links"
     @getSearch="getSearch"
   />
+  <div class="hidden">{{ props.selectedPresentations }}</div>
   </div>
 </template>
