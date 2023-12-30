@@ -16,7 +16,7 @@ const emits = defineEmits<{
 }>()
 
 const selectedPresentation = reactive([])
-const countPresentation = reactive([])
+const quantityPresentation = reactive([])
 
   
 const data = reactive({
@@ -39,9 +39,9 @@ const classTr = (index) => {
   return  `bg-base-${num}`
 }
 
-const selectPresentation =  async(id: string, count: number=1 ) => {
-    emits("selectPresentation", { id , count })
-    countPresentation.values[id]=count;  
+const selectPresentation =  async(id: string, quantity: number=1 ) => {
+    emits("selectPresentation", { id , quantity })
+    quantityPresentation.values[id] = quantity;  
 }
 
 const convertToNumber = (qtyStr: string): void|number => {
@@ -49,7 +49,7 @@ const convertToNumber = (qtyStr: string): void|number => {
   return (!qtyNumber) ? alert("Error: Ingrese números") : qtyNumber; 
 }
 
-const setCount = (presentationId): void => {
+const setquantity = (presentationId): void => {
   const qtyStr: string = prompt('Por favor ingrese la cantidad') 
   const qtyNumber: void|number = convertToNumber(qtyStr)
   if (qtyNumber)
@@ -59,7 +59,7 @@ const setCount = (presentationId): void => {
 watch(props.selectedPresentations, (selectedPresentations) => {
   //console.log('selectedPresentations', toRaw(selectedPresentations))
   selectedPresentations.forEach((sp)=> {
-    countPresentation.values[sp.id] = sp.count
+    quantityPresentation.values[sp.id] = sp.quantity
   })
 }, { deep: true })
 
@@ -154,10 +154,10 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
                         
               <AppBtn
                 v-show="selectedPresentation[presentation.id]"
-                @click="setCount(presentation.id)"
+                @click="setquantity(presentation.id)"
                 type="button"
                 class="btn btn-primary btn-xs"
-              >ModQty|{{ countPresentation.values[presentation.id]}}</AppBtn>
+              >ModQty|{{ quantityPresentation.values[presentation.id]}}</AppBtn>
             </div>
           </td>
         </tr>
