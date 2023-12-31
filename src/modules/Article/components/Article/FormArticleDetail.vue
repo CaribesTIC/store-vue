@@ -24,7 +24,13 @@ const emits = defineEmits<{
 }>()
 
 const submitArticleDetail = async () => {
-  console.log(toRaw(selectedPresentations.value))
+  // console.log(toRaw(selectedPresentations.value))
+  
+  if (!selectedPresentations.value)
+    alert('pelando bola')
+  else
+    emits("submitArticleDetail", toRaw(selectedPresentations.value));
+  
   /*const result = await v$.value.$validate();
   if (result) {
     emits("submitArticleDetail", toRaw(form));

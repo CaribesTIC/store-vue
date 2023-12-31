@@ -5,21 +5,22 @@ export const getArticleDetails = (articleId: string) => {
   return Http.get(`/api/article_details/${articleId}`);
 }
 
-export const insertArticleDetail = (payload: ArticleDetail) => {   
+export const registerArticleDetail = (payload: ArticleDetail) => {
+  console.log('payloadFulll', payload)
   return Http.post(`/api/article_details`, payload);
 }
 
-export const updateArticleDetail = (payload: ArticleDetail, article_detailId: string) => {   
-  return Http.put(`/api/article_details/${article_detailId}`, payload);
-}
+//export const updateArticleDetail = (payload: ArticleDetail, article_detailId: string) => {   
+//  return Http.put(`/api/article_details/${article_detailId}`, payload);
+//}
 
-export const deleteArticleDetail = (article_detailId: string) => { 
-  return Http.delete(`/api/article_details/${article_detailId}`);
-}
+//export const deleteArticleDetail = (article_detailId: string) => { 
+//  return Http.delete(`/api/article_details/${article_detailId}`);
+//}
 
 export default {
   getArticleDetails,
-  insertArticleDetail,
-  updateArticleDetail,
-  deleteArticleDetail
+  registerArticleDetail,
+  //updateArticleDetail,
+  //deleteArticleDetail
 }
