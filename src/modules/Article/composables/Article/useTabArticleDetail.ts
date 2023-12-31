@@ -60,10 +60,10 @@ export default (articleId: string) => {
       .finally(() => pending.value = false) 
   }
 
-  const insertArticleDetail = async (payload: ArticleDetail) => {
+  const registerArticleDetail = async (payload: ArticleDetail) => {
     pending.value = true
     payload.article_id = articleId
-    return ArticleDetailService.insertArticleDetail(payload)
+    return ArticleDetailService.registerArticleDetail(payload)
       .then((response) => {
         panelOpened.value = false
         getArticleDetails()    
@@ -99,7 +99,9 @@ export default (articleId: string) => {
   }
   
   const submitArticleDetail = (payload: ArticleDetail) => {    
-    !article_detail.id ? insertArticleDetail (payload)  : updateArticleDetail(payload, article_detail.id)
+    //console.log('payload', payload)
+    registerArticleDetail (payload)
+    panelOpened.value = false
   }
 
   const createArticleDetail = () => {
