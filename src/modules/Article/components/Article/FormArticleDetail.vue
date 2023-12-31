@@ -24,7 +24,7 @@ const emits = defineEmits<{
 }>()
 
 const submitArticleDetail = async () => {
-  console.log(selectedPresentations.value)
+  console.log(toRaw(selectedPresentations.value))
   /*const result = await v$.value.$validate();
   if (result) {
     emits("submitArticleDetail", toRaw(form));
@@ -41,7 +41,7 @@ const selectPresentation = (presentation) => {
 const qtyPresentation = (presentation) => {
   const indexFound = selectedPresentations.value.findIndex((i)=> i.id === presentation.id);
   if (indexFound===-1) { return; } 
-  selectedPresentations.value[indexFound].count=presentation.qty 
+  selectedPresentations.value[indexFound].quantity = presentation.qty 
 }
 </script>
 
