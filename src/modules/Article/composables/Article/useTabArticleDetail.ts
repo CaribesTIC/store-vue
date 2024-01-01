@@ -61,6 +61,15 @@ export default (articleId: string) => {
   }
 
   const registerArticleDetail = async (payload: ArticleDetail) => {
+  
+  
+  /*
+          'article_id',     
+        'presentation_id',     
+        'quantity',  
+  */
+  
+  
     pending.value = true
     payload.article_id = articleId
     return ArticleDetailService.registerArticleDetail(payload)
