@@ -1,14 +1,13 @@
 <script setup lang="ts">
 // @ts-nocheck
 const props = defineProps<{
-  links: []
+  links: any[]
 }>()
 
 const emits = defineEmits<{
   //(e: 'editArticleDetail', article_detailId: object): void
-  (e: 'getSearch', url: string): void  
+  (e: 'getSearch', e: Event): void  
 }>()
-
 
 const baseUrlApi = process.env.VUE_APP_API_URL+'/api'
 

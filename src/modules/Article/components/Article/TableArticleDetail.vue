@@ -43,53 +43,22 @@ const article_detailId = ref("")
         <tr v-for="article_detail in props.article_details" :key="article_detail.id">
           <td class="px-6 py-3">{{ article_detail.category }}</td>
           <td class="px-6 py-3 bg-gray-50 bg-base-200">{{ article_detail.product }}</td>
-          <td class="px-6 py-3">{{ article_detail.mark  }}</td>
-
-
-          
-            <td class="px-6 py-3 bg-gray-50 bg-base-200" id="article_detail.presentation_id">
-              
+          <td class="px-6 py-3">{{ article_detail.mark  }}</td>          
+            <td class="px-6 py-3 bg-gray-50 bg-base-200" id="article_detail.presentation_id">              
               {{ article_detail.packing_deployed  }}
-
-              
-
             </td>
-           
             <td class="px-6 py-3 ">
               {{ article_detail.quantity }}
-
-
-              
-
             </td>
-           
             <td class="px-6 py-3 bg-gray-50 bg-base-200">
               {{ article_detail.status }}
-
-
-              
-
             </td>
-           
             <td class="px-6 py-3 ">
               {{ article_detail.user_insert_id }}
-
-
-              
-
-            </td>
-           
+            </td>           
             <td class="px-6 py-3 bg-gray-50 bg-base-200">
               {{ article_detail.user_update_id }}
-
-
-              
-
             </td>
-           
-
-
-
           <!--td class="px-6 py-3 bg-gray-50 bg-base-200">{{article_detail.bar_cod}}</td>
           <td class="px-6 py-3">{{article_detail.int_cod}}</td>
           <td class="px-6 py-3 text-right">{{article_detail.price}}</td>

@@ -5,8 +5,8 @@ export const getArticleDetails = (articleId: string) => {
   return Http.get(`/api/article_details/${articleId}`);
 }
 
-export const registerArticleDetail = (payload: ArticleDetail) => {
-  console.log('payloadFulll', payload)
+export const registerArticleDetail = (payload: ArticleDetail[]) => {
+  //console.log('payloadFulll', payload)
   return Http.post(`/api/article_details`, payload);
 }
 

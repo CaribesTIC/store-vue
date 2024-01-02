@@ -17,7 +17,6 @@ const emits = defineEmits<{
 
 const selectedPresentation = reactive([])
 const quantityPresentation = reactive([])
-
   
 const data = reactive({
   rows: [],
@@ -49,7 +48,7 @@ const convertToNumber = (qtyStr: string): void|number => {
   return (!qtyNumber) ? alert("Error: Ingrese números") : qtyNumber; 
 }
 
-const setquantity = (presentationId): void => {
+const setQuantity = (presentationId): void => {
   const qtyStr: string = prompt('Por favor ingrese la cantidad') 
   const qtyNumber: void|number = convertToNumber(qtyStr)
   if (qtyNumber)
@@ -67,7 +66,7 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
 </script>
 
 <template>  
-  <div class="overflow-hidden panel">
+  <div class="overflow-x-auto panel">
     <div class="flex justify-between items-center">
       <div class="flex items-center">
         <div class="flex w-full bg-white shadow rounded">
@@ -85,7 +84,9 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
   <div class="mt-4 relative overflow-x-auto shadow-md sm:rounded-lg">     
     <table id="id_tab_presentacion" class="w-full text-sm text-left text-gray-500 dark:text-gray-400" width="100%">
       <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
-        <tr class="bg-base-100">          
+        <tr class="bg-base-100">
+          <th class="px-4 py-1">Acción(es)</th>
+          <th class="px-4 py-1">Imagen</th>    
           <th class="px-4 py-1">
             <AppBtn
               class="bg-base-100 hover:text-gray-500"
@@ -117,30 +118,10 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
           <th class="px-4 py-1">Empaque</th>
           <th class="px-4 py-1">Precio</th>
           <!--th class="px-4">Estatus</th-->
-          <th class="px-4 py-1">Imagen</th>               
-          <th class="px-4 py-1">Seleccione</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(presentation, index) in data.rows" :key="index" :class="classTr(index)">
-          <td class="px-4 py-1">{{presentation.bar_cod}}</td>
-          <td class="px-4 py-1 text-justify">{{presentation.category_name}}</td>
-          <td class="px-4 py-1" :id='presentation.packing'>{{presentation.product_name}}</td>          
-          <td class="px-4 py-1 text-justify">{{presentation.mark_name}}</td>
-          <td class="px-4 py-1 text-justify">{{presentation.packing_deployed}}</td>
-          <td class="px-4 py-1 text-right">{{presentation.price}}</td>
-          <!--td class="px-6 py-1">{{presentation.status}}</td-->
-          <td class="px-4 py-1">
-            <img
-              v-if="presentation.photo_path"
-              class="m-auto hover:cursor-pointer w-7 h-7"
-              :src=imgPath(presentation)              
-            />
-            <IconCamera
-              v-else
-              class="w-7 h-7 m-auto fill-current hover:cursor-pointer"              
-            />
-          </td>  
           <td class="px-4 py-1">
             <div class="flex items-center space-x-1">
               <label>Sel</label>      
@@ -154,12 +135,30 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
                         
               <AppBtn
                 v-show="selectedPresentation[presentation.id]"
-                @click="setquantity(presentation.id)"
+                @click="setQuantity(presentation.id)"
                 type="button"
                 class="btn btn-primary btn-xs"
               >ModQty|{{ quantityPresentation.values[presentation.id]}}</AppBtn>
             </div>
           </td>
+          <td class="px-4 py-1">
+            <img
+              v-if="presentation.photo_path"
+              class="m-auto hover:cursor-pointer w-7 h-7"
+              :src=imgPath(presentation)              
+            />
+            <IconCamera
+              v-else
+              class="w-7 h-7 m-auto fill-current hover:cursor-pointer"              
+            />
+          </td>
+          <td class="px-4 py-1">{{presentation.bar_cod}}</td>
+          <td class="px-4 py-1 text-justify">{{presentation.category_name}}</td>
+          <td class="px-4 py-1" :id='presentation.packing'>{{presentation.product_name}}</td>          
+          <td class="px-4 py-1 text-justify">{{presentation.mark_name}}</td>
+          <td class="px-4 py-1 text-justify">{{presentation.packing_deployed}}</td>
+          <td class="px-4 py-1 text-right">{{presentation.price}}</td>
+          <!--td class="px-6 py-1">{{presentation.status}}</td-->          
         </tr>
       </tbody>
     </table>
