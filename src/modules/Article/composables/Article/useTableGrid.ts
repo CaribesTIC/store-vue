@@ -2,7 +2,8 @@ import { onMounted } from "vue"
 import { getPresentationSearch } from '@/modules/Product/services/PresentationService'
 
 interface Data {
-  //rows: string[];
+  rows: string[];
+  page: string;
   links: string[];
   search: string;
   sort: string;
@@ -10,9 +11,12 @@ interface Data {
 }
 
 interface TableGrid {
+  getSearch: (e: Event) => void;
   setSearch: (e: Event) => void;
-  setSort: (s: "asc" | "des") => void;
+  setSort: (s: string) => void;
 }
+
+type Params = string | string[][] | Record<string, string> | URLSearchParams
 
 export default (data: Data): TableGrid => { 
   onMounted(async () => await getSearch({

@@ -5,15 +5,7 @@ import type { Ref } from "vue";
 import type { ArticleDetail } from "../../types/Article/ArticleDetail";
 
 export default (articleId: string) => {
-  /*const saleTypeOptions = [
-    { label: 'Mayor', value: 0 },
-    { label: 'Detal', value: 1 }  
-  ]
-  const statusOptions = [
-    { label: 'Inactivo', value: 0 },
-    { label: 'Activo', value: 1 }  
-  ]*/
-  
+
   const article_detail: ArticleDetail = reactive({
     id: "", 
     article_id: "", 
@@ -45,7 +37,7 @@ export default (articleId: string) => {
 
   const panelToogleArticleDetail = ()=> {
     if (!panelOpened.value) {
-      createArticleDetail()
+      //createArticleDetail()
     }
     panelOpened.value =! panelOpened.value    
   }
@@ -60,24 +52,14 @@ export default (articleId: string) => {
       .finally(() => pending.value = false) 
   }
 
-  const registerArticleDetail = async (payload: ArticleDetail) => {
-  
-  
-  /*
-          'article_id',     
-        'presentation_id',     
-        'quantity',  
-  */
-  
-  
+  const registerArticleDetail = async (payload: ArticleDetail[]) => {
     pending.value = true
-    payload.article_id = articleId
+    payload.forEach(pl => pl.article_id = articleId)
     return ArticleDetailService.registerArticleDetail(payload)
       .then((response) => {
         panelOpened.value = false
         getArticleDetails()    
-        alert( response.data.message )
-              
+        alert( response.data.message )              
       })
       .catch((err) => {                
         console.log( err.response.data )
@@ -88,7 +70,7 @@ export default (articleId: string) => {
       })
   }
 
-  const updateArticleDetail = async (payload: ArticleDetail, article_detailId: string) => {
+  /*const updateArticleDetail = async (payload: ArticleDetail, article_detailId: string) => {
     pending.value = true
     payload.article_id = articleId
     payload._method = 'PUT'        
@@ -105,15 +87,14 @@ export default (articleId: string) => {
       .finally(() => {
         pending.value = false
       })
-  }
+  }*/
   
-  const submitArticleDetail = (payload: ArticleDetail) => {    
-    //console.log('payload', payload)
+  const submitArticleDetail = (payload: ArticleDetail[]) => {    
     registerArticleDetail (payload)
     panelOpened.value = false
   }
 
-  const createArticleDetail = () => {
+  /*const createArticleDetail = () => {
       article_detail.article_id = articleId
       article_detail.id = ""
       article_detail.presentation_id = ""
@@ -121,9 +102,9 @@ export default (articleId: string) => {
       article_detail.status = ""
       article_detail.user_insert_id = ""
       article_detail.user_update_id = ""
-  }
+  }*/
 
-  const editArticleDetail = (article_detailEdit: ArticleDetail) => {
+  /*const editArticleDetail = (article_detailEdit: ArticleDetail) => {
     // presentation.status = presentationEdit.sale_type ? 1 : 0
     article_detail.article_id = articleId
     article_detail.id = article_detailEdit.id
@@ -133,9 +114,9 @@ export default (articleId: string) => {
     article_detail.user_insert_id = article_detailEdit.user_insert_id
     article_detail.user_update_id = article_detailEdit.user_update_id
     panelOpened.value = true
-  }
+  }*/
   
-  const removeArticleDetail = async (article_detailId: string) => {
+  /*const removeArticleDetail = async (article_detailId: string) => {
     if (article_detailId === undefined)
       return
     else if (confirm(`¿Estás seguro que desea eliminar el registro ${article_detailId}?`)) {  
@@ -152,7 +133,7 @@ export default (articleId: string) => {
           pending.value = false
         })
     }
-  }
+  }*/
 
   return {
     panelOpened,
@@ -163,10 +144,10 @@ export default (articleId: string) => {
     /*saleTypeOptions,
     statusOptions,*/
 
-    createArticleDetail,
-    editArticleDetail,
+    //createArticleDetail,
+    //editArticleDetail,
     getArticleDetails,
-    removeArticleDetail, 
+    //removeArticleDetail, 
     submitArticleDetail,
     panelToogleArticleDetail
   }

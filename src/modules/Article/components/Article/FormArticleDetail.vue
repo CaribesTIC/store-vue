@@ -1,14 +1,11 @@
 <script setup lang="ts">
 import { toRaw, ref, nextTick } from "vue"
 import useFormArticleDetail from "../../composables/Article/useFormArticleDetail";
-// import type { RadioOption } from "@/types/RadioOption";
 import type { ArticleDetail } from "../../types/Article/ArticleDetail";
 import TableSearchArticleDetail from "./TableSearchArticleDetail.vue";
 
-const props = defineProps<{
+const props = defineProps<{ 
   article_detail: ArticleDetail
-  // saleTypeOptions: RadioOption[]
-  // statusOptions: RadioOption[]
 }>()
 
 const {
@@ -17,11 +14,11 @@ const {
   v$
 } = useFormArticleDetail(props.article_detail)
 
-const selectedPresentations = ref([])
-
 const emits = defineEmits<{
-  (e: 'submitArticleDetail', form: ArticleDetail): void
+  (e: 'submitArticleDetail', form: ArticleDetail[]): void
 }>()
+
+const selectedPresentations = ref([])
 
 const submitArticleDetail = async () => {
   // console.log(toRaw(selectedPresentations.value))
@@ -29,7 +26,7 @@ const submitArticleDetail = async () => {
   if (!selectedPresentations.value)
     alert('pelando bola')
   else
-    emits("submitArticleDetail", toRaw(selectedPresentations.value));
+    emits("submitArticleDetail", toRaw(selectedPresentations.value) as unknown as ArticleDetail[]);
   
   /*const result = await v$.value.$validate();
   if (result) {
@@ -52,15 +49,14 @@ const qtyPresentation = (presentation) => {
 </script>
 
 <template>
-  <div>
+  <div class="overflow-x-auto">
     <TableSearchArticleDetail
       :selectedPresentations="selectedPresentations"
        @selectPresentation="selectPresentation"
        @qtyPresentation="qtyPresentation"
 
     /> 
-    <form @submit.prevent="submitArticleDetail">       
-     
+    <form @submit.prevent="submitArticleDetail">
       <div class="block flex justify-center mt-4">
         <AppBtn
           type="submit"                 

@@ -14,10 +14,10 @@
     article_details,
     article_detail,
   
-    createArticleDetail,
-    editArticleDetail,
+    //createArticleDetail,
+    //editArticleDetail,
     getArticleDetails,
-    removeArticleDetail,  
+    //removeArticleDetail,  
     submitArticleDetail,
     panelToogleArticleDetail
   } = useTabArticleDetail(props.id)
@@ -46,10 +46,12 @@
               :key="componentKey"
               v-if="article_details"
               :article_details="article_details"
-              @editArticleDetail="editArticleDetail"
               @getArticleDetails="getArticleDetails"
-              @removeArticleDetail="removeArticleDetail"            
             />
+            <!--TableArticleDetail              
+              @editArticleDetail="editArticleDetail"
+              @removeArticleDetail="removeArticleDetail"            
+            /-->
           </div>
         </div>
       </div>
