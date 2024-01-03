@@ -17,7 +17,7 @@
     //createArticleDetail,
     //editArticleDetail,
     getArticleDetails,
-    //removeArticleDetail,  
+    removeArticleDetail,  
     submitArticleDetail,
     panelToogleArticleDetail
   } = useTabArticleDetail(props.id)
@@ -47,11 +47,8 @@
               v-if="article_details"
               :article_details="article_details"
               @getArticleDetails="getArticleDetails"
-            />
-            <!--TableArticleDetail              
-              @editArticleDetail="editArticleDetail"
               @removeArticleDetail="removeArticleDetail"            
-            /-->
+            />
           </div>
         </div>
       </div>
