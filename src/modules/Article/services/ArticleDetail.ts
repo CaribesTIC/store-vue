@@ -6,21 +6,15 @@ export const getArticleDetails = (articleId: string) => {
 }
 
 export const registerArticleDetail = (payload: ArticleDetail[]) => {
-  //console.log('payloadFulll', payload)
   return Http.post(`/api/article_details`, payload);
 }
 
-//export const updateArticleDetail = (payload: ArticleDetail, article_detailId: string) => {   
-//  return Http.put(`/api/article_details/${article_detailId}`, payload);
-//}
-
-//export const deleteArticleDetail = (article_detailId: string) => { 
-//  return Http.delete(`/api/article_details/${article_detailId}`);
-//}
+export const deleteArticleDetail = (articleDetailId: string) => {
+  return Http.delete(`/api/article_details/${articleDetailId}`);
+}
 
 export default {
   getArticleDetails,
   registerArticleDetail,
-  //updateArticleDetail,
-  //deleteArticleDetail
+  deleteArticleDetail
 }

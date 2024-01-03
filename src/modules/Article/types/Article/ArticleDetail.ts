@@ -1,5 +1,6 @@
 export type ArticleDetail = {
   id?: string;
+  bar_cod: string;
   article_id?: string;
   presentation_id?: string;  
   quantity?: string;

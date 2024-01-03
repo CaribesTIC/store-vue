@@ -8,6 +8,7 @@ export default (articleId: string) => {
 
   const article_detail: ArticleDetail = reactive({
     id: "", 
+    bar_cod: "",
     article_id: "", 
     presentation_id: "", 
     quantity: "", 
@@ -36,9 +37,6 @@ export default (articleId: string) => {
   )
 
   const panelToogleArticleDetail = ()=> {
-    if (!panelOpened.value) {
-      //createArticleDetail()
-    }
     panelOpened.value =! panelOpened.value    
   }
   
@@ -69,59 +67,18 @@ export default (articleId: string) => {
         pending.value = false
       })
   }
-
-  /*const updateArticleDetail = async (payload: ArticleDetail, article_detailId: string) => {
-    pending.value = true
-    payload.article_id = articleId
-    payload._method = 'PUT'        
-    return ArticleDetailService.updateArticleDetail(payload, article_detailId)
-      .then((response) => {        
-        panelOpened.value = false
-        getArticleDetails()    
-        alert( response.data.message )     
-      })
-      .catch((err) => {                
-        console.log( err.response.data )
-        errors.value = getError(err)
-      })
-      .finally(() => {
-        pending.value = false
-      })
-  }*/
   
   const submitArticleDetail = (payload: ArticleDetail[]) => {    
     registerArticleDetail (payload)
     panelOpened.value = false
   }
-
-  /*const createArticleDetail = () => {
-      article_detail.article_id = articleId
-      article_detail.id = ""
-      article_detail.presentation_id = ""
-      article_detail.quantity = ""
-      article_detail.status = ""
-      article_detail.user_insert_id = ""
-      article_detail.user_update_id = ""
-  }*/
-
-  /*const editArticleDetail = (article_detailEdit: ArticleDetail) => {
-    // presentation.status = presentationEdit.sale_type ? 1 : 0
-    article_detail.article_id = articleId
-    article_detail.id = article_detailEdit.id
-    article_detail.presentation_id = article_detailEdit.presentation_id
-    article_detail.quantity = article_detailEdit.quantity
-    article_detail.status = article_detailEdit.status
-    article_detail.user_insert_id = article_detailEdit.user_insert_id
-    article_detail.user_update_id = article_detailEdit.user_update_id
-    panelOpened.value = true
-  }*/
   
-  /*const removeArticleDetail = async (article_detailId: string) => {
-    if (article_detailId === undefined)
+  const removeArticleDetail = async (articleDetailId: string) => {
+    if (articleDetailId === undefined)
       return
-    else if (confirm(`¿Estás seguro que desea eliminar el registro ${article_detailId}?`)) {  
+    else if (confirm(`¿Estás seguro que desea eliminar el registro ${articleDetailId}?`)) {  
       pending.value = true    
-      return ArticleDetailService.deleteArticleDetail(article_detailId)
+      return ArticleDetailService.deleteArticleDetail(articleDetailId)
         .then((response) => {        
           getArticleDetails()
         })
@@ -133,7 +90,7 @@ export default (articleId: string) => {
           pending.value = false
         })
     }
-  }*/
+  }
 
   return {
     panelOpened,
@@ -141,13 +98,9 @@ export default (articleId: string) => {
     closeClassOpened,
     article_details,
     article_detail,
-    /*saleTypeOptions,
-    statusOptions,*/
 
-    //createArticleDetail,
-    //editArticleDetail,
     getArticleDetails,
-    //removeArticleDetail, 
+    removeArticleDetail, 
     submitArticleDetail,
     panelToogleArticleDetail
   }
