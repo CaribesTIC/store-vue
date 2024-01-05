@@ -18,9 +18,4 @@ export default [{
     meta: { middleware: [auth, admin] },
     component: () => import("@/modules/Inventory/views/Movement/Tabs.vue").then(m => m.default),
     props: true
-}, {
-    path: "/summary",
-    name: "summary",
-    meta: { middleware: [auth, admin] },
-    component: () => import("@/modules/Auth/components/InConstruction.vue").then(m => m.default),
 }]
