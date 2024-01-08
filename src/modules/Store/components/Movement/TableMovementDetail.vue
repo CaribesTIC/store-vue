@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { toRaw, ref } from "vue"
 //import MovementDetailService from "@/modules/Inventory/services/MovementDetail"
-import type { MovementDetail } from "../../types/Inventory/MovementDetail";
+import type { MovementDetail } from "../../types/Movement/MovementDetail";
 
 const props = defineProps<{ movement_details: MovementDetail[] }>()
 

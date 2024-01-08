@@ -1,7 +1,7 @@
 import { onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import useHttp from "@/composables/useHttp";
-import MovementService from "@/modules/Inventory/services/Movement";
+import MovementService from "@/modules/Store/services/Movement";
 
 import type { Movement } from "../../types/Movement";
 
