@@ -2,7 +2,7 @@
 import { toRaw } from "vue"
 import useFormMovementDetail from "../../composables/Movement/useFormMovementDetail";
 // import type { RadioOption } from "@/types/RadioOption";
-import type { MovementDetail } from "../../types/Inventory/MovementDetail";
+import type { MovementDetail } from "../../types/Movement/MovementDetail";
 
 const props = defineProps<{
   movement_detail: MovementDetail

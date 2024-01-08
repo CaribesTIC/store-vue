@@ -3,7 +3,7 @@ import { useVuelidate } from "@vuelidate/core";
 import { required, helpers, minValue } from "@vuelidate/validators";
 import useHttp from "@/composables/useHttp";
 
-import type { MovementDetail } from "../../types/Inventory/MovementDetail";
+import type { MovementDetail } from "../../types/Movement/MovementDetail";
 
 export default (movement_detail: MovementDetail) => {  
   const form = reactive<MovementDetail>({

@@ -1,8 +1,8 @@
 import { computed, onMounted, reactive, ref } from 'vue'
 import useHttp from "@/composables/useHttp";
-import MovementDetailService from "@/modules/Inventory/services/MovementDetail";
+import MovementDetailService from "@/modules/Store/services/MovementDetail";
 import type { Ref } from "vue";
-import type { MovementDetail } from "../../types/Inventory/MovementDetail";
+import type { MovementDetail } from "../../types/Movement/MovementDetail";
 
 export default (movementId: string) => {
   /*const saleTypeOptions = [

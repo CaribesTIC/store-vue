@@ -2,7 +2,7 @@ import { reactive, onMounted } from "vue"
 import { onBeforeRouteUpdate } from "vue-router"
 import useTableGrid from "@/composables/useTableGrid"
 import useHttp from "@/composables/useHttp"
-import ProductService from "../services"
+import MovementService from "../../services/Movement"
 
 type Params =  string | string[][] | Record<string, string> | URLSearchParams | undefined
 
@@ -27,10 +27,10 @@ export default () => {
 
     setSearch,
     setSort, 
-  } = useTableGrid(data, "/users")
+  } = useTableGrid(data, "/movements")
 
-  const getUsers = (routeQuery: string) => {  
-    return ProductService.getProduct(routeQuery)
+  const getMovements = (routeQuery: string) => {
+    return MovementService.getMovements(routeQuery)
       .then((response) => {
         errors.value = {}
         data.rows = response.data.rows.data
@@ -48,10 +48,12 @@ export default () => {
     if (rowId === undefined)
       return
     else if (confirm(`¿Estás seguro que desea eliminar el registro ${rowId}?`)) {    
-      return ProductService.deleteProduct(rowId)
+      return MovementService.deleteMovement(rowId)
         .then((response) => {
           errors.value = {}
-          router.push( { path: '/users' } )        
+          getMovements(
+            new URLSearchParams(route.query as Params).toString()
+          )
         })
         .catch((err) => {                
           console.log( err.response.data )
@@ -62,14 +64,14 @@ export default () => {
 
   onBeforeRouteUpdate(async (to, from) => {      
     if (to.query !== from.query) {        
-      await getUsers(
+      await getMovements(
         new URLSearchParams(to.query as Params).toString()
       )
     }
   })
 
   onMounted(() => {
-    getUsers(
+    getMovements(
       new URLSearchParams(route.query as Params).toString()
     )
   })
@@ -78,6 +80,7 @@ export default () => {
     errors,
     data,
     router,
+    route,
 
     deleteRow,
     setSearch,

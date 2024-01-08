@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from "vue"
+
 // @ts-nocheck
 import useIndex from "../../composables/Movement/useIndex";
 import AppPaginationB from "@/components/AppPaginationB.vue";
@@ -9,11 +11,20 @@ const {
   errors,
   data,
   router,
+  route,
 
   deleteRow,
   setSearch,
   setSort  
 } = useIndex()
+
+
+
+/*const title = computed(
+*  () => route.name.replace('movements-', '').toUpperCase()
+)*/
+
+
 </script>
 
 <template>
