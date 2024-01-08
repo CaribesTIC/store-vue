@@ -1,13 +1,14 @@
 import { onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import useHttp from "@/composables/useHttp";
-import MovementService from "@/modules/Movement/services/Movement";
+import MovementService from "@/modules/Inventory/services/Movement";
+
 import type { Movement } from "../../types/Movement";
 
 export default (movementId?: string) => {
   const router = useRouter();    
 
-  const Movement: Movement = reactive({
+  const movement: Movement = reactive({
     int_cod: "", 
     name: "", 
     price: "", 

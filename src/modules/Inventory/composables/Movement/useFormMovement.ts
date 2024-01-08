@@ -4,6 +4,7 @@ import { useVuelidate } from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
 import MovementService from "../../services/Movement"
 
+
 import type { Movement } from "../../types/Movement"
 
 // import { ascBubble } from "@/utils/helpers";

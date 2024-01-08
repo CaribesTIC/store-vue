@@ -14,7 +14,8 @@ const {
 
 const isTrue = computed(
   () => movement && movement.int_cod || !props.id
-) 
+)
+
 </script>
 
 <template>
