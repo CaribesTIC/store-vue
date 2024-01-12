@@ -1,5 +1,5 @@
-import { reactive, onMounted } from "vue"
-import { onBeforeRouteUpdate } from "vue-router"
+import { computed, reactive, onMounted } from "vue"
+import { onBeforeRouteUpdate, useRoute } from "vue-router"
 import useTableGrid from "@/composables/useTableGrid"
 import useHttp from "@/composables/useHttp"
 import MovementService from "../../services/Movement"
@@ -7,6 +7,10 @@ import MovementService from "../../services/Movement"
 type Params =  string | string[][] | Record<string, string> | URLSearchParams | undefined
 
 export default () => {
+
+  const route = useRoute()
+  const routePath = computed(()=> route.path.split("/")[1])
+
   const data = reactive({
     rows: [],
     links: [],
@@ -21,13 +25,12 @@ export default () => {
     getError     
   } = useHttp()
 
-  const {
-    route,
-    router,
+  const {    
+    router,// route,
 
     setSearch,
     setSort, 
-  } = useTableGrid(data, "/movements")
+  } = useTableGrid(data, `/${routePath.value}`)
 
   const getMovements = (routeQuery: string) => {
     return MovementService.getMovements(routeQuery)
@@ -81,6 +84,7 @@ export default () => {
     data,
     router,
     route,
+    routePath,
 
     deleteRow,
     setSearch,

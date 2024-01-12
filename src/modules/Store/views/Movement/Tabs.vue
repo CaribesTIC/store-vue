@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { defineAsyncComponent, shallowRef, ref } from 'vue'
+import { computed, defineAsyncComponent, shallowRef, ref } from 'vue'
 import AppPageHeader from "@/components/AppPageHeader.vue"
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
 const TabMovement = defineAsyncComponent(() => import('../../components/Movement/TabMovement.vue'))
 const TabMovementDetail = defineAsyncComponent(() => import('../../components/Movement/TabMovementDetail.vue'))
@@ -15,15 +15,19 @@ const tabs = [
 
 const currentTab = shallowRef(tabs[0])
 const router = useRouter();
+const route = useRoute()
+
+const routePath = computed(()=> route.path.split("/")[1])
+
 </script>
 
 <template>
 <div>
-  <AppPageHeader>Movements / {{ !props.id ? "Crear" : "Editar" }}</AppPageHeader>
+  <AppPageHeader>{{routePath.toLocaleUpperCase()}} / {{ !props.id ? "Crear" : "Editar" }}</AppPageHeader>
   <div  class="flex space-x-2">
     <button
       class="btn btn-primary mb-4"
-      @click="router.push({ path: '/movements' })"
+      @click="router.push({ path: `/${routePath}` })"
     >
       Ver todos
     </button>
