@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed } from "vue"
 
 // @ts-nocheck
 import useIndex from "../../composables/Movement/useIndex";
@@ -12,6 +11,7 @@ const {
   data,
   router,
   route,
+  routePath,
 
   deleteRow,
   setSearch,
@@ -29,10 +29,10 @@ const {
 
 <template>
 <div>
-  <AppPageHeader> Movements </AppPageHeader>
+  <AppPageHeader> {{routePath.toLocaleUpperCase()}} </AppPageHeader>
 
   <div class="flex space-x-2">
-    <AppLink class="btn btn-primary" to="/movements/create">
+    <AppLink class="btn btn-primary" :to="`/${routePath}/create`">
       <span>Crear</span>
     </AppLink>
   </div>
@@ -59,9 +59,12 @@ const {
               <th class="">
                 <AppLink to="#" @click.prevent="setSort('id')">id</AppLink>
               </th>
+              <th class="">
+                <AppLink to="#" @click.prevent="setSort('number')">type_id</AppLink>
+              </th>
               
               <th class="">
-                <AppLink to="#" @click.prevent="setSort('number')">number</AppLink>
+                <AppLink to="#" @click.prevent="setSort('type_id')">number</AppLink>
               </th>
               <th class="">
                 <AppLink to="#" @click.prevent="setSort('date_time')">date_time</AppLink>
@@ -100,10 +103,13 @@ const {
              <td class="">
               <AppLink
                 class="text-indigo-600 hover:text-indigo-800 underline"
-                :to="{ name: 'movementEdit', params: { id: row.id }}"
+                :to="{ path: `/${routePath}/edit/${row.id}`, params: { id: row.id }}"
               >
                 {{ row.id }}
               </AppLink>
+            </td>
+            <td class="">
+              {{ row.type_id }}
             </td>
             <td class="">
               {{ row.number }}
@@ -136,7 +142,7 @@ const {
               <div class="flex items-center space-x-1">                
                 <AppBtn
                   class="btn btn-primary btn-xs"                    
-                  @click="router.push({ path: '/movements/edit/'+row.id })"
+                  @click="router.push({ path: `/${routePath}/edit/${row.id}` })"
                 >
                   Editar
                 </AppBtn>
