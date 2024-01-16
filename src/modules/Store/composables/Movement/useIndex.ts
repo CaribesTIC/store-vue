@@ -11,6 +11,15 @@ export default () => {
   const route = useRoute()
   const routePath = computed(()=> route.path.split("/")[1])
 
+  const typeId = computed(() => {
+    switch (routePath.value) {
+      case "inputs": return 1;
+      case "outputs": return 2;
+      case "input-reverses": return 3;
+      case "output-reverses": return 4;
+    }
+  })
+
   const data = reactive({
     rows: [],
     links: [],
@@ -33,7 +42,7 @@ export default () => {
   } = useTableGrid(data, `/${routePath.value}`)
 
   const getMovements = (routeQuery: string) => {
-    return MovementService.getMovements(routeQuery)
+    return MovementService.getMovements(routeQuery, typeId.value)
       .then((response) => {
         errors.value = {}
         data.rows = response.data.rows.data
