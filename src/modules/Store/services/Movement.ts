@@ -5,8 +5,8 @@ export const getMovements = (query: string, typeId:number=0) => {
   return Http.get(`/api/movements/${typeId.toString()}?${query}`);
 }
  
-export const getMovement = (movementId: string) => { 
-  return Http.get(`/api/movements/${movementId}`);
+export const getMovement = (movementId: string, typeId:number) => { 
+  return Http.get(`/api/movements/${movementId}/${typeId.toString()}`);
 }
 
 export const insertMovement = (payload: Movement) => {   

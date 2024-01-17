@@ -13,9 +13,9 @@ const {
 } = useTabMovement(props.id)
 
 const isTrue = computed(
-  () => movement && movement.int_cod || !props.id
+  () => movement && movement.id || !props.id
 )
-
+//Object.keys(movement).length > 0
 </script>
 
 <template>

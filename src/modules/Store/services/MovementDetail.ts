@@ -1,5 +1,7 @@
 import Http from "@/utils/Http";
-import type { MovementDetail } from "../types/Inventory/MovementDetail";
+//import type { MovementDetail } from "../types/Store/MovementDetail";
+//import type { MovementDetail } from "../types/Movement";
+
 
 export const getMovementDetails = (movementId: string) => {  
   return Http.get(`/api/movement_details/${movementId}`);
