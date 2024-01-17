@@ -30,17 +30,19 @@ export default (movementId?: string) => {
   onMounted(() => {
     if (movementId) {
       pending.value = true
-      MovementService.getMovement(movementId)
-        .then((response) => { 
-          movement.int_cod = response.data.data.int_cod 
-          movement.name = response.data.data.name 
-          movement.price = response.data.data.price 
-          movement.stock_min = response.data.data.stock_min 
-          movement.stock_max = response.data.data.stock_max 
-          movement.status = response.data.data.status 
-          movement.photo = response.data.data.photo 
-          movement.id_user_insert = response.data.data.id_user_insert 
-          movement.id_user_update = response.data.data.id_user_update 
+      MovementService.getMovement(movementId, 1)
+        .then((response) => {
+          movement.id = response.data.data.id 
+          movement.type_id = response.data.data.type_id 
+          movement.number = response.data.data.number 
+          movement.date_time = response.data.data.date_time 
+          movement.subject = response.data.data.subject 
+          movement.description = response.data.data.description 
+          movement.observation = response.data.data.observation 
+          movement.close = response.data.data.close 
+          movement.support_type_id = response.data.data.support_type_id
+          movement.support_number = response.data.data.support_number
+          movement.support_date = response.data.data.support_date
         })
         .catch((err) => {        
           errors.value = getError(err)
