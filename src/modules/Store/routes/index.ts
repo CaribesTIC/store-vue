@@ -91,5 +91,5 @@ export default [{
     path: "/summary",
     name: "summary",
     meta: { middleware: [auth, admin] },
-    component: () => import("@/modules/Auth/components/InConstruction.vue").then(m => m.default),
+    component: () => import("@/modules/Store/views/Existence.vue").then(m => m.default),
 }]
