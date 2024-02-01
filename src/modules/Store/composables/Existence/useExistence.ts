@@ -28,7 +28,7 @@ export default () => {
     }, {
       article_id: 2,
       inputs: 10,  
-      outputs: 0,
+      outputs: 5,
       reverse_inputs: 0,
       reverse_outputs: 0,
       total: 5
