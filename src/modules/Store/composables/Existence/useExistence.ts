@@ -1,51 +1,22 @@
-import {ref} from "vue"
+import { ref, onMounted } from "vue"
+import useHttp from "@/composables/useHttp"
+import ExistenceService from "../../services/Existences"
+import type { Existence } from "@/modules/Store/types/Existence"
 
-type Existence = {
-  article_id: number;
-  inputs: number;  
-  outputs: number;
-  reverse_inputs: number;
-  reverse_outputs: number;
-  total: number;
-
-}
 export default () => {
-  const existences = ref<Existence[]>([
-    {
-      article_id: 3,
-      inputs: 10,  
-      outputs: 0,
-      reverse_inputs: 0,
-      reverse_outputs: 0,
-      total: 10
-    }, {
-      article_id: 4,
-      inputs: 10,  
-      outputs: 0,
-      reverse_inputs: 0,
-      reverse_outputs: 0,
-      total: 10
-    }, {
-      article_id: 2,
-      inputs: 10,  
-      outputs: 5,
-      reverse_inputs: 0,
-      reverse_outputs: 0,
-      total: 5
-    }, {
-      article_id: 1,
-      inputs: 20,  
-      outputs: 5,
-      reverse_inputs: 0,
-      reverse_outputs: 0,
-      total: 15
-    }
-  ]);
+  const { errors, getError } = useHttp();
+  const existences = ref<Existence[]>([]);
 
-  return {
-    existences
-  }
+  onMounted(() => {
+    ExistenceService.getExistences()
+      .then((response) => {
+        errors.value = {};
+        existences.value=response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  });
+
+  return { existences };
 }
-
-
-

@@ -4,7 +4,7 @@ export type Movement = {
   id?: any; 
   type_id?: any; 
   number?: string; 
-  date_time?: date; 
+  date_time?: Date; 
   subject?: string; 
   description?: string; 
   observation?: string; 
@@ -46,7 +46,7 @@ export type Rows = {
 export type MovementRow = {
   type_id?: any; 
   number?: string; 
-  date_time?: date; 
+  date_time?: Date; 
   subject?: string; 
   description?: string; 
   observation?: string; 
