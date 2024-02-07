@@ -8,7 +8,7 @@
 
 <template>
   <div>
-    <AppPageHeader> Existencia de Almacén </AppPageHeader>
+    <AppPageHeader> Resumen </AppPageHeader>
     <ExistenceTable :existences="existences" />
   </div>
 </template>
