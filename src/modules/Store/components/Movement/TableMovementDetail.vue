@@ -30,12 +30,12 @@ const movement_detailId = ref("")
         <tr>
           
           <th class="px-6 py-3 bg-gray-50 bg-base-200">movement_id / movement_detail_id</th>
-          <th class="px-6 py-3 bg-gray-50 bg-base-200">article_id</th>
-          <th class="px-6 py-3 ">quantity</th>
+          <th class="px-6 py-3">article_id</th>
+          <th class="px-6 py-3 bg-gray-50 bg-base-200">quantity</th>
           <!--th class="px-6 py-3 bg-gray-50 bg-base-200">close</th>
           <th class="px-6 py-3 ">user_insert_id</th>
           <th class="px-6 py-3 bg-gray-50 bg-base-200">user_update_id</th-->
-          <th class="px-6 py-3 ">Acción(es)</th>
+          <th class="px-6 py-3">Acción(es)</th>
         </tr>
       </thead>
       <tbody>      
@@ -43,10 +43,10 @@ const movement_detailId = ref("")
           <td class="px-6 py-3 bg-gray-50 bg-base-200">
             {{movement_detail.movement_id}} / {{movement_detail.id}}
           </td>
-          <td class="px-6 py-3 bg-gray-50 bg-base-200">
+          <td class="px-6 py-3">
             {{movement_detail.article_id}}
           </td>        
-          <td class="px-6 py-3 ">
+          <td class="px-6 py-3 bg-gray-50 bg-base-200">
             {{movement_detail.quantity}}
           </td> 
           <td class="px-6 py-3">

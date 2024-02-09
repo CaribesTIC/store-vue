@@ -1,23 +1,56 @@
 <script lang="ts" setup>
-import { computed, defineAsyncComponent, shallowRef, ref } from 'vue'
-import AppPageHeader from "@/components/AppPageHeader.vue"
+import { computed, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import AppPageHeader from "@/components/AppPageHeader.vue"
+//import TabMovementDetail from "../../components/Movement/TabMovementDetail.vue"
+import useTabMovement from "../../composables/Movement/useTabMovement";
+import FormMovement from '../../components/Movement/FormMovement.vue';
 
-const TabMovement = defineAsyncComponent(() => import('../../components/Movement/TabMovement.vue'))
-const TabMovementDetail = defineAsyncComponent(() => import('../../components/Movement/TabMovementDetail.vue'))
+import useTabMovementDetail from '../../composables/Movement/useTabMovementDetail'
+import TableMovementDetail from '../../components/Movement/TableMovementDetail.vue'
+
 
 const props = defineProps<{ id?: string }>()
 
-const tabs = [
-  { component: TabMovement , title: "Movement" },
-  { component: TabMovementDetail , title: "MovementDetails" }
-]
-
-const currentTab = shallowRef(tabs[0])
 const router = useRouter();
 const route = useRoute()
 
 const routePath = computed(()=> route.path.split("/")[1])
+
+
+const {  
+  movement,
+  errors,
+  pending,      
+  submit    
+} = useTabMovement(props.id)
+
+
+
+
+const isTrue = computed(
+  () => movement && movement.id || !props.id
+)
+//Object.keys(movement).length > 0
+
+
+
+const {
+    panelOpened,
+    closeButtonOpened,
+    closeClassOpened,  
+    movement_details,
+    movement_detail,
+  
+    createMovementDetail,
+    editMovementDetail,
+    getMovementDetails,
+    removeMovementDetail,  
+    submitMovementDetail,
+    panelToogleMovementDetail
+  } = useTabMovementDetail(props.id)
+  const componentKey = ref(0);
+
 
 </script>
 
@@ -34,23 +67,46 @@ const routePath = computed(()=> route.path.split("/")[1])
   </div>
 
   <div class="myPanel">
-    <div class="demo">
-      <button
-        v-for="(tab, index) in tabs"       
-        :key="index"
-        class="text-xl"
-        :class="['tab-button', { active: currentTab === tab }]"
-        @click="currentTab = tab"
-      >
-        {{ tab.title }}
-      </button>
-      <KeepAlive>
-        <Component
-          :is="currentTab.component"
-          class="demo-tab"
-          :id="props.id"
-        />
-      </KeepAlive>
+    <div class="demo-tab">
+      <FormMovement
+        v-if="isTrue"
+        :movement="movement"
+        :errors="errors"
+        :pending="pending"
+        @submit="submit"    
+      />
+
+
+    <div class="demo-tab">
+      <div class="form-group row">
+        <div class="col-sm-12">
+          <div class="grid justify-items-stretch">
+            <AppBtn
+              class="btn p-8 justify-self-center"
+              type="text"                 
+              data-testid="click-btn"
+              :class="closeClassOpened"
+              :text="`${closeButtonOpened}`"
+              @click="panelToogleMovementDetail"
+            />      
+            <FormMovementDetail
+              v-if="panelOpened"
+              class="bg-base-200 py-4 mt-2 rounded"
+              :movement_detail="movement_detail"
+              @submitMovementDetail="submitMovementDetail"
+            />
+            <TableMovementDetail
+              :key="componentKey"
+              v-if="movement_details"
+              :movement_details="movement_details"
+              @editMovementDetail="editMovementDetail"
+              @getMovementDetails="getMovementDetails"
+              @removeMovementDetail="removeMovementDetail"            
+            />
+          </div>
+        </div>
+      </div>
+    </div>
     </div>
   </div>
 </div>
