@@ -33,7 +33,7 @@
               type="text"                 
               data-testid="click-btn"
               :class="closeClassOpened"
-              :text="`${closeButtonOpened} formulario MovementDetail`"
+              :text="`${closeButtonOpened}`"
               @click="panelToogleMovementDetail"
             />      
             <FormMovementDetail

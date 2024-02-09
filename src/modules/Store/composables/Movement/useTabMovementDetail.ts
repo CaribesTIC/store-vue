@@ -26,7 +26,7 @@ export default (movementId: string) => {
   
   const movement_details: Ref<MovementDetail[]>  = ref([])
   const panelOpened = ref(false)
-  const closeButtonOpened = computed(()=> panelOpened.value ? "Cerrar" : "Abrir")
+  const closeButtonOpened = computed(()=> panelOpened.value ? "Cancel" : "Add")
   const closeClassOpened = computed(()=> panelOpened.value ? "btn-default" : "btn-primary")
 
   const {  
