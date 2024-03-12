@@ -29,9 +29,9 @@ const movement_detailId = ref("")
       <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
         <tr>
           
-          <th class="px-6 py-3 bg-gray-50 bg-base-200">movement_id / movement_detail_id</th>
-          <th class="px-6 py-3">article_id</th>
-          <th class="px-6 py-3 bg-gray-50 bg-base-200">quantity</th>
+          <th class="px-6 py-3 bg-gray-50 bg-base-200">Artículo</th>
+          <th class="px-6 py-3">Cantidad</th>
+          <th class="px-6 py-3 bg-gray-50 bg-base-200">Precio</th>
           <!--th class="px-6 py-3 bg-gray-50 bg-base-200">close</th>
           <th class="px-6 py-3 ">user_insert_id</th>
           <th class="px-6 py-3 bg-gray-50 bg-base-200">user_update_id</th-->
@@ -41,13 +41,14 @@ const movement_detailId = ref("")
       <tbody>      
         <tr v-for="movement_detail in props.movement_details" :key="movement_detail.id">
           <td class="px-6 py-3 bg-gray-50 bg-base-200">
-            {{movement_detail.movement_id}} / {{movement_detail.id}}
+            {{movement_detail.int_cod}} / {{movement_detail.name}}
           </td>
           <td class="px-6 py-3">
-            {{movement_detail.article_id}}
+            {{movement_detail.quantity}}
+
           </td>        
           <td class="px-6 py-3 bg-gray-50 bg-base-200">
-            {{movement_detail.quantity}}
+            {{movement_detail.price}}
           </td> 
           <td class="px-6 py-3">
             <div class="flex items-center space-x-1">

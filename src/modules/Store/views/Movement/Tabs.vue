@@ -5,6 +5,8 @@ import AppPageHeader from "@/components/AppPageHeader.vue"
 //import TabMovementDetail from "../../components/Movement/TabMovementDetail.vue"
 import useTabMovement from "../../composables/Movement/useTabMovement";
 import FormMovement from '../../components/Movement/FormMovement.vue';
+import FormMovementDetail from '../../components/Movement/FormMovementDetail.vue';
+
 
 import useTabMovementDetail from '../../composables/Movement/useTabMovementDetail'
 import TableMovementDetail from '../../components/Movement/TableMovementDetail.vue'
@@ -88,7 +90,7 @@ const {
               :class="closeClassOpened"
               :text="`${closeButtonOpened}`"
               @click="panelToogleMovementDetail"
-            />      
+            />
             <FormMovementDetail
               v-if="panelOpened"
               class="bg-base-200 py-4 mt-2 rounded"

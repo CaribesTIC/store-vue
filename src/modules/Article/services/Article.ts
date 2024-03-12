@@ -4,6 +4,10 @@ import type { Article } from "../types/Article";
 export const getArticles = (query: string) => {  
   return Http.get(`/api/articles/?${query}`);
 }
+
+export const getArticlesSearch = (query: string) => {
+  return Http.get(`/api/articles-search?${query}`);
+}
  
 export const getArticle = (articleId: string) => { 
   return Http.get(`/api/articles/${articleId}`);
@@ -27,6 +31,7 @@ export const getHelpArticles = () => {
 
 export default {
   getArticles,
+  getArticlesSearch,
   getArticle,
   insertArticle,
   updateArticle,
