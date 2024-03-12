@@ -3,6 +3,7 @@ import { toRaw } from "vue"
 import useFormMovementDetail from "../../composables/Movement/useFormMovementDetail";
 // import type { RadioOption } from "@/types/RadioOption";
 import type { MovementDetail } from "../../types/Movement/MovementDetail";
+import TableSearchDetail from "./TableSearchDetail.vue"
 
 const props = defineProps<{
   movement_detail: MovementDetail
@@ -26,24 +27,16 @@ const submitMovementDetail = async () => {
 
 <template>
   <div>
+    <TableSearchDetail />
     <form @submit.prevent="submitMovementDetail"> 
-      <div class="p-5 grid lg:grid-cols-2 gap-4">
-
-          
-            
-            
-            
+      <div class="p-5 grid lg:grid-cols-2 gap-4">   
+      
+        
             
             
             
 
-          <!--label>Tipo de Venta</label><br/>
-          <AppRadioGroup
-            v-model="form.status"
-            name="status"
-            :options="props.statusOptions"
-            :error="v$.status.$error ? v$.status.$errors[0].$message : null"           
-          /-->    
+   
       
       </div>
       <div class="block flex justify-center">
@@ -51,7 +44,7 @@ const submitMovementDetail = async () => {
           type="submit"                 
           data-testid="submit-btn"
           class="btn btn-primary"
-          text="Guardar"
+          text="Agregar"
         />        
       </div> 
     </form>    
