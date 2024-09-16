@@ -119,7 +119,7 @@ const store = computed(() => useAuthStore())
         >
           <img
             v-if="store.authUser && store.authUser.avatar"
-            :src="store.authUser.avatar"
+            :src="store.authUserAvatar"
             class="w-10 h-10 rounded-full"
             alt=""
           />
