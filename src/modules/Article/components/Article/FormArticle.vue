@@ -11,7 +11,7 @@ const props = defineProps<{
 const emits = defineEmits<{
   (e: 'submit', form: Article): void
 }>()
-//console.log(props.article)
+
 const {
   form,
   errors,
@@ -22,6 +22,7 @@ const {
 
 const submit = async () => {  
   const result = await v$.value.$validate();
+
   if (result) {
     emits("submit", form);
   }
@@ -40,8 +41,7 @@ const submit = async () => {
             type="text"
             :error="v$.int_cod.$error ? v$.int_cod.$errors[0].$message : null"
           />
-        </div>
-        
+        </div>        
         <div class="block">     
           <AppInput           
             v-model="form.name"
@@ -50,11 +50,7 @@ const submit = async () => {
             :error="v$.name.$error ? v$.name.$errors[0].$message : null"
           />
         </div>
-        
-      
-      
-      
-      <div class="block">
+        <div class="block">
           <AppInput
             label="Stock Mínimo"
             v-model="form.stock_min"                     
@@ -78,9 +74,6 @@ const submit = async () => {
             :error="v$.price.$error ? v$.price.$errors[0].$message : null"
           />
         </div>      
-      
-      
-      
         <div class="block">     
           <AppInput           
             v-model="form.photo"
@@ -88,17 +81,14 @@ const submit = async () => {
             type="text"
             :error="v$.photo.$error ? v$.photo.$errors[0].$message : null"
           />
-        </div>
-        
-    <div class="block">     
-      <AppCheckbox
-        v-model="form.status"
-        label="status"
-        :error="errors && errors.type ? errors.type[0] : ''"
-      />
-    </div>
-      
-      
+        </div>        
+        <div class="block">     
+          <AppCheckbox
+            v-model="form.status"
+            label="status"
+            :error="v$.photo.$error ? v$.photo.$errors[0].$message : null"
+          />
+        </div>      
       </div>
     
       <div class="mt-4 px-2 border-gray-100 flex justify-right space-x-2">

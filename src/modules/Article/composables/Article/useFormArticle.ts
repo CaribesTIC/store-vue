@@ -12,15 +12,13 @@ export default (article: Article) => {
   
 
   const form = reactive({
-    int_cod: article.int_cod, 
-    name: article.name, 
-    price: article.price, 
-    stock_min: article.stock_min, 
-    stock_max: article.stock_max, 
-    status: article.status, 
-    photo: article.photo, 
-    id_user_insert: article.id_user_insert, 
-    id_user_update: article.id_user_update, 
+    int_cod  : article.int_cod   ? article.int_cod   : 'G2G2G2G2G2', 
+    name     : article.name      ? article.name      : 'XJose XErnesto', 
+    price    : article.price     ? article.price     :  9, 
+    stock_min: article.stock_min ? article.stock_min : 18, 
+    stock_max: article.stock_max ? article.stock_max :  9000, 
+    status   : article.status    ? article.status    : true, 
+    photo    : article.photo     ? article.photo     : 'abc'
   })
 
   const {
@@ -122,12 +120,12 @@ export default (article: Article) => {
       photo: {
         required: helpers.withMessage("Campo requerido", required),
       },
-      id_user_insert: {
-        required: helpers.withMessage("Campo requerido", required),
-      },
-      id_user_update: {
-        required: helpers.withMessage("Campo requerido", required),
-      },
+     // id_user_insert: {
+     //   required: helpers.withMessage("Campo requerido", required),
+     // },
+     // id_user_update: {
+     //   required: helpers.withMessage("Campo requerido", required),
+     // },
     }
   })
 

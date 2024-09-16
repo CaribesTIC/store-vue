@@ -75,6 +75,8 @@ export default () => {
     )
   })
 
+  const avatarURLPath = (rowAvatar) => `${import.meta.env.VITE_APP_API_URL}/${rowAvatar}`
+
   return {
     errors,
     data,
@@ -82,7 +84,8 @@ export default () => {
 
     deleteRow,
     setSearch,
-    setSort
+    setSort,
+    avatarURLPath
   }
 }
 

@@ -13,7 +13,8 @@ const {
 
   deleteRow,
   setSearch,
-  setSort  
+  setSort,
+  avatarURLPath 
 } = useIndex()
 
 </script>
@@ -67,7 +68,7 @@ const {
               <div class="inline-flex items-center space-x-2">
             <img
               v-if="row.avatar"
-              :src="row.avatar"
+              :src="avatarURLPath(row.avatar)"
               class="w-10 h-10 rounded-full"
               alt=""
             />
