@@ -55,7 +55,7 @@ export default (articleId?: string) => {
     return ArticleService.insertArticle(article)
       .then((response) => {         
         alert( response.data.message )
-        router.push( { path: `/articles/edit/${response.data.article_id}` } )
+        router.push( { path: `/articles/edit/${response.data.id}` } )
       })
       .catch((err) => {                
         console.log( err.response.data )
@@ -83,7 +83,7 @@ export default (articleId?: string) => {
       })
   }
   
-  const submit = (article: Article) => {
+  const submit = (article: Article) => { 
     !articleId ? insertArticle(article) : updateArticle(article, articleId)
   }
 
