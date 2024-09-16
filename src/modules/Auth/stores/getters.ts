@@ -2,6 +2,9 @@ export default {
   authUser: (state) => {      
     return state.user;
   },
+  authUserAvatar: (state) => {
+    return `${import.meta.env.VITE_APP_API_URL}/${state.user.avatar}`
+  },
   isAdmin: (state) => {
     return state.user ? state.user.isAdmin : false;
   },

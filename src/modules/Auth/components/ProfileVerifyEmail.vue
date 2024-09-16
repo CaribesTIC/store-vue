@@ -9,8 +9,8 @@ const store = useAuthStore()
   <div v-if="store.authUser">
     <transition name="fade">
       <img
-        v-if="store.authUser.avatar"
-        :src="store.authUser.avatar"
+        v-if="store.authUser && store.authUser.avatar"
+        :src="store.authUserAvatar"
         class="w-16 h-16 rounded-full lg:w-20 lg:h-20"
         alt=""
       />
