@@ -37,6 +37,28 @@ const submit = async () => {
   }
 };
 
+
+/*
+export type Movement = {
+  id?: any; 
+  type_id?: any; 
+  number?: string; 
+  date_time?: Date; 
+  subject?: string; 
+  description?: string; 
+  observation?: string; 
+  close?: any; 
+  support_type_id?: any; 
+  support_number?: string; 
+  support_date?: any; 
+  user_insert_id?: any; 
+  user_update_id?: any; 
+  user_edit_id?: any; 
+  editing?: boolean | ""; 
+  
+  _method?: 'PUT';
+}
+*/
 </script>
 
 <template>
@@ -91,15 +113,14 @@ const submit = async () => {
           />
         </div>
         
-        <div class="block">     
-          <AppTextarea
-            label="Observation"
-            v-model="form.observation"
-            :error="v$.observation.$error ? v$.observation.$errors[0].$message : null"
+        <div class="block">
+          <AppSelect
+            :options="[{id: 1, name: 'Orden de Compra'}, {id: 2, name: 'Orden de Requicision'}]"
+            v-model="form.support_type_id"
+            label="Tipo de Soporte"
+            :error="v$.support_type_id.$error ? v$.support_type_id.$errors[0].$message : null"
           />
-        </div>
-        
-      
+        </div>   
       
         <div class="block">     
           <AppInput           
@@ -109,10 +130,14 @@ const submit = async () => {
             :error="v$.support_number.$error ? v$.support_number.$errors[0].$message : null"
           />
         </div>
-        
-      
-      
-      
+
+        <div class="block">     
+          <AppTextarea
+            label="Observation"
+            v-model="form.observation"
+            :error="v$.observation.$error ? v$.observation.$errors[0].$message : null"
+          />
+        </div>      
       
         <!--div class="block">     
           <AppCheckbox

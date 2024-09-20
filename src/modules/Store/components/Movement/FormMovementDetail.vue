@@ -26,25 +26,16 @@ const submitMovementDetail = async () => {
 </script>
 
 <template>
-  <div>
+  <div class="overflow-x-auto">
     <TableSearchDetail />
     <form @submit.prevent="submitMovementDetail"> 
-      <div class="p-5 grid lg:grid-cols-2 gap-4">   
-      
-        
-            
-            
-            
-
-   
-      
-      </div>
-      <div class="block flex justify-center">
+      <!-- div class="p-5 grid lg:grid-cols-2 gap-4"></div -->
+      <div class="block flex justify-start ml-4">
         <AppBtn
           type="submit"                 
           data-testid="submit-btn"
           class="btn btn-primary"
-          text="Agregar"
+          text="Add"
         />        
       </div> 
     </form>    

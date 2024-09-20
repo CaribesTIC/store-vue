@@ -11,6 +11,22 @@ import type { Movement } from "../../types/Movement"
 
 export default (movement: Movement) => {
   
+/*
+export type Movement = {
+  id?: any; 
+  type_id?: any; 
+  number?: string; 
+  date_time?: Date; 
+  subject?: string; 
+  description?: string; 
+  observation?: string; 
+  support_type_id?: any; 
+  support_number?: string; 
+  support_date?: any;
+  
+  _method?: 'PUT';
+}
+*/
 
   const form = reactive({
     type_id: movement.type_id, 
@@ -18,15 +34,10 @@ export default (movement: Movement) => {
     date_time: movement.date_time, 
     subject: movement.subject, 
     description: movement.description, 
-    observation: movement.observation, 
-    close: movement.close, 
+    observation: movement.observation,     
     support_type_id: movement.support_type_id, 
     support_number: movement.support_number, 
-    support_date: movement.support_date, 
-    user_insert_id: movement.user_insert_id, 
-    user_update_id: movement.user_update_id, 
-    user_edit_id: movement.user_edit_id, 
-    editing: movement.editing, 
+    support_date: movement.support_date   
   })
 
   const {

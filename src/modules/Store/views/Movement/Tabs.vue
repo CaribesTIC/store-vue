@@ -79,12 +79,12 @@ const {
       />
 
 
-    <div class="demo-tab">
+    <div class="demo-tab mx-5">
       <div class="form-group row">
         <div class="col-sm-12">
           <div class="grid justify-items-stretch">
             <AppBtn
-              class="btn p-8 justify-self-center"
+              class="btn p-8 justify-self-start"
               type="text"                 
               data-testid="click-btn"
               :class="closeClassOpened"
@@ -105,10 +105,21 @@ const {
               @getMovementDetails="getMovementDetails"
               @removeMovementDetail="removeMovementDetail"            
             />
+
+
           </div>
+
         </div>
+
+
       </div>
+
     </div>
+    <AppBtn
+              class="btn btn-primary m-5 justify-self-start"
+              type="text"                 
+              data-testid="click-btn"
+            />
     </div>
   </div>
 </div>
