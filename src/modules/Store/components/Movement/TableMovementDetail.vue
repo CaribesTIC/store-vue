@@ -29,13 +29,13 @@ const movement_detailId = ref("")
       <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
         <tr>
           
-          <th class="px-6 py-3 bg-gray-50 bg-base-200">Artículo</th>
-          <th class="px-6 py-3">Cantidad</th>
-          <th class="px-6 py-3 bg-gray-50 bg-base-200">Precio</th>
+          <th class="px-6 py-3 bg-gray-50 bg-base-200 text-center">Artículo</th>
+          <th class="px-6 py-3 text-center">Cantidad</th>
+          <th class="px-6 py-3 bg-gray-50 bg-base-200 text-center">Precio</th>
           <!--th class="px-6 py-3 bg-gray-50 bg-base-200">close</th>
           <th class="px-6 py-3 ">user_insert_id</th>
           <th class="px-6 py-3 bg-gray-50 bg-base-200">user_update_id</th-->
-          <th class="px-6 py-3">Acción(es)</th>
+          <th class="px-6 py-3 text-center">Acción(es)</th>
         </tr>
       </thead>
       <tbody>      
@@ -43,15 +43,15 @@ const movement_detailId = ref("")
           <td class="px-6 py-3 bg-gray-50 bg-base-200">
             {{movement_detail.int_cod}} / {{movement_detail.name}}
           </td>
-          <td class="px-6 py-3">
+          <td class="px-6 py-3 text-right">
             {{movement_detail.quantity}}
 
           </td>        
-          <td class="px-6 py-3 bg-gray-50 bg-base-200">
+          <td class="px-6 py-3 bg-gray-50 bg-base-200 text-right">
             {{movement_detail.price}}
           </td> 
           <td class="px-6 py-3">
-            <div class="flex items-center space-x-1">
+            <div class="flex items-center space-x-1 justify-center">
              <AppBtn
                 class="btn btn-primary btn-xs"                    
                 @click="editMovementDetail(movement_detail)"
