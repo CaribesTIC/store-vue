@@ -1,9 +1,16 @@
 <script setup lang="ts">
+import { inject } from 'vue'
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import useFormMovement from "../../composables/Movement/useFormMovement";
 import { useDark } from "@vueuse/core"
 import type { Movement } from "../../types/Movement";
+import type { MovementDetail } from '../../types/Movement/MovementDetail';
+
+const myform: {
+  movement: Movement,
+  movement_details: MovementDetail
+} = inject('form')
 
 const isDark = useDark({
   selector: 'body',
@@ -13,7 +20,6 @@ const isDark = useDark({
 })
 
 const props = defineProps<{
-  movement: Movement
   errors?: String | Object
   pending: Boolean  
 }>()
@@ -28,7 +34,7 @@ const {
   pending,
 
   v$
-} = useFormMovement(props.movement)
+} = useFormMovement(myform.movement)
 
 const submit = async () => {  
   const result = await v$.value.$validate();
