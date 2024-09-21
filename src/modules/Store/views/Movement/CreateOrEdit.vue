@@ -1,49 +1,33 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, ref, reactive, provide } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import AppPageHeader from "@/components/AppPageHeader.vue"
 //import TabMovementDetail from "../../components/Movement/TabMovementDetail.vue"
 import useTabMovement from "../../composables/Movement/useTabMovement";
 import FormMovement from '../../components/Movement/FormMovement.vue';
 import FormMovementDetail from '../../components/Movement/FormMovementDetail.vue';
-
-
 import useTabMovementDetail from '../../composables/Movement/useTabMovementDetail'
 import TableMovementDetail from '../../components/Movement/TableMovementDetail.vue'
 
-
 const props = defineProps<{ id?: string }>()
-
 const router = useRouter();
 const route = useRoute()
-
 const routePath = computed(()=> route.path.split("/")[1])
-
-
 const {  
   movement,
   errors,
   pending,      
   submit    
 } = useTabMovement(props.id)
-
-
-
-
 const isTrue = computed(
   () => movement && movement.id || !props.id
 )
-//Object.keys(movement).length > 0
-
-
-
 const {
     panelOpened,
     closeButtonOpened,
     closeClassOpened,  
     movement_details,
-    movement_detail,
-  
+    movement_detail,  
     createMovementDetail,
     editMovementDetail,
     getMovementDetails,
@@ -51,78 +35,64 @@ const {
     submitMovementDetail,
     panelToogleMovementDetail
   } = useTabMovementDetail(props.id)
-  const componentKey = ref(0);
+const componentKey = ref(0);
+const form = reactive({
+  movement: movement,
+  movement_details: movement_details
+})
 
-
+provide('form', form)
 </script>
 
 <template>
-<div>
-  <AppPageHeader>{{routePath.toLocaleUpperCase()}} / {{ !props.id ? "Crear" : "Editar" }}</AppPageHeader>
-  <div  class="flex space-x-2">
-    <button
-      class="btn btn-primary mb-4"
-      @click="router.push({ path: `/${routePath}` })"
-    >
-      Ver todos
-    </button>
-  </div>
-
-  <div class="myPanel">
-    <div class="demo-tab">
+  <div>
+    <AppPageHeader>{{routePath.toLocaleUpperCase()}} / {{ !props.id ? "Crear" : "Editar" }}</AppPageHeader>
+    <div  class="flex space-x-2">
+      <button
+        class="btn btn-primary mb-4"
+        @click="router.push({ path: `/${routePath}` })"
+      >
+        Ver todos
+      </button>
+    </div>
+    <div class="myPanel demo-tab">
       <FormMovement
-        v-if="isTrue"
-        :movement="movement"
+        v-if="isTrue"        
         :errors="errors"
         :pending="pending"
         @submit="submit"    
       />
-
-
-    <div class="demo-tab mx-5">
-      <div class="form-group row">
-        <div class="col-sm-12">
-          <div class="grid justify-items-stretch">
-            <AppBtn
-              class="btn p-8 justify-self-start"
-              type="text"                 
-              data-testid="click-btn"
-              :class="closeClassOpened"
-              :text="`${closeButtonOpened}`"
-              @click="panelToogleMovementDetail"
-            />
-            <FormMovementDetail
-              v-if="panelOpened"
-              class="bg-base-200 py-4 mt-2 rounded"
-              :movement_detail="movement_detail"
-              @submitMovementDetail="submitMovementDetail"
-            />
-            <TableMovementDetail
-              :key="componentKey"
-              v-if="movement_details"
-              :movement_details="movement_details"
-              @editMovementDetail="editMovementDetail"
-              @getMovementDetails="getMovementDetails"
-              @removeMovementDetail="removeMovementDetail"            
-            />
-
-
-          </div>
-
-        </div>
-
-
+      <div class="demo-tab grid justify-items-stretch mx-5">
+        <AppBtn
+          class="btn p-8 justify-self-start"
+          type="text"                 
+          data-testid="click-btn"
+          :class="closeClassOpened"
+          :text="`${closeButtonOpened}`"
+          @click="panelToogleMovementDetail"
+        />
+        <FormMovementDetail
+          v-if="panelOpened"
+          class="bg-base-200 py-4 mt-2 rounded"
+          :movement_detail="movement_detail"
+          @submitMovementDetail="submitMovementDetail"
+        />
+        <TableMovementDetail
+          :key="componentKey"
+          v-if="movement_details"
+          :movement_details="movement_details"
+          @editMovementDetail="editMovementDetail"
+          @getMovementDetails="getMovementDetails"
+          @removeMovementDetail="removeMovementDetail"            
+        />
       </div>
-
-    </div>
-    <AppBtn
-              class="btn btn-primary m-5 justify-self-start"
-              type="text"                 
-              data-testid="click-btn"
-            />
+      <AppBtn
+        class="btn btn-primary m-5 justify-self-start"
+        type="text"                 
+        data-testid="click-btn"
+      />
     </div>
   </div>
-</div>
 </template>
 
 <style scoped>
