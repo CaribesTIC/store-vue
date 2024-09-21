@@ -1,6 +1,7 @@
 <script setup lang="ts">
 //https://dev.to/razi91/vue-arrays-and-v-model-17e0
-import { toRaw, reactive, watch} from "vue"
+// import { toRaw} from "vue"
+import { reactive, watch} from "vue"
 import useTableGrid from "../../composables/Article/useTableGrid"
 import AppPaginationC from "@/components/AppPaginationC.vue";
 import IconCamera from "@/components/icons/menu/icon-products.vue"
@@ -38,9 +39,10 @@ const classTr = (index) => {
   return  `bg-base-${num}`
 }
 
-const selectPresentation =  async(id: string, quantity: number=1 ) => {
-    emits("selectPresentation", { id , quantity })
-    quantityPresentation.values[id] = quantity;  
+const selectPresentation =  (id: string, quantity: number=1 ) => {
+  emits("selectPresentation", { id , quantity })
+  quantityPresentation.values[id] = quantity;
+  selectedPresentation[id] = !selectedPresentation[id];
 }
 
 const convertToNumber = (qtyStr: string): void|number => {
@@ -56,7 +58,7 @@ const setQuantity = (presentationId): void => {
 }
 
 watch(props.selectedPresentations, (selectedPresentations) => {
-  //console.log('selectedPresentations', toRaw(selectedPresentations))
+  // console.log('selectedPresentations', toRaw(selectedPresentations))
   selectedPresentations.forEach((sp)=> {
     quantityPresentation.values[sp.id] = sp.quantity
   })
@@ -124,7 +126,7 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
         <tr v-for="(presentation, index) in data.rows" :key="index" :class="classTr(index)">
           <td class="px-4 py-1">
             <div class="flex items-center space-x-1">
-              <label>Sel</label>      
+              <label>Sel</label>   {{ selectedPresentation[presentation.id] }}   
               <input
                 class="my-3"
                 type="checkbox"

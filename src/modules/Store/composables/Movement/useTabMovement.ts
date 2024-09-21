@@ -9,16 +9,18 @@ export default (movementId?: string) => {
   const router = useRouter();    
 
   const movement: Movement = reactive({
-    int_cod: "", 
-    name: "", 
-    price: "", 
-    stock_min: "", 
-    stock_max: "", 
-    status: "", 
-    photo: "", 
-    id_user_insert: "", 
-    id_user_update: "", 
+    //int_cod: "", 
+    type_id: "1",
+    number: "",
+    date_time: "",
+    subject: "", 
+    description: "", 
+    observation: ""
+
   })
+
+
+
 
   const {  
     errors,

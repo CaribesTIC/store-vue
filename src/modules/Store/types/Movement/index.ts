@@ -4,7 +4,7 @@ export type Movement = {
   id?: any; 
   type_id?: any; 
   number?: string; 
-  date_time?: Date; 
+  date_time?: string; 
   subject?: string; 
   description?: string; 
   observation?: string; 
