@@ -86,18 +86,18 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
       <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
         <tr class="bg-base-100">
           <th class="px-4 py-1">Acción(es)</th>
-          <th class="px-4 py-1">Imagen</th>    
+          <!--th class="px-4 py-1">Imagen</th-->
           <th class="px-4 py-1">
             <AppBtn
               class="bg-base-100 hover:text-gray-500"
-              @click.prevent="setSort('presentations.bar_cod')">
+              @click.prevent="setSort('articles.int_cod')">
                 CÓDIGO INTERNO
             </AppBtn>
           </th>      
           <th class="px-4 py-1">
             <AppBtn
               class="bg-base-100 hover:text-gray-500"
-              @click.prevent="setSort('categories.name')">
+              @click.prevent="setSort('articles.name')">
               NOMBRE DEL ARTÍCULO
             </AppBtn>
           </th>
@@ -117,6 +117,11 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
           </th>
           <th class="px-4 py-1">Empaque</th-->
           <th class="px-4 py-1">Precio</th>
+          <th class="px-4 py-1">Min</th>
+          <th class="px-4 py-1">Max</th>
+          <th class="px-4 py-1">Existencia</th>
+
+
           <!--th class="px-4">Estatus</th-->
         </tr>
       </thead>
@@ -141,7 +146,7 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
               >ModQty|{{ quantityPresentation.values[presentation.id]}}</AppBtn>
             </div>
           </td>
-          <td class="px-4 py-1">
+          <!--td class="px-4 py-1">
             <img
               v-if="presentation.photo_path"
               class="m-auto hover:cursor-pointer w-7 h-7"
@@ -151,7 +156,7 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
               v-else
               class="w-7 h-7 m-auto fill-current hover:cursor-pointer"              
             />
-          </td>
+          </td-->
           <td class="px-4 py-1">{{presentation.int_cod}}</td>
           <td class="px-4 py-1 text-justify">{{presentation.name}}</td>
           <!--td class="px-4 py-1 text-justify">{{presentation.category_name}}</td>
@@ -159,6 +164,10 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
           <td class="px-4 py-1 text-justify">{{presentation.mark_name}}</td>
           <td class="px-4 py-1 text-justify">{{presentation.packing_deployed}}</td-->
           <td class="px-4 py-1 text-right">{{presentation.price}}</td>
+          <td class="px-4 py-1 text-right">{{presentation.stock_min}}</td>
+          <td class="px-4 py-1 text-right">{{presentation.stock_max}}</td>
+          <td class="px-4 py-1 text-right">{{presentation.stock_existence}}</td>
+
           <!--td class="px-6 py-1">{{presentation.status}}</td-->          
         </tr>
       </tbody>
