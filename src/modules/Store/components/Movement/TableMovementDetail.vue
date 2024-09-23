@@ -29,9 +29,9 @@ const movement_detailId = ref("")
       <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
         <tr>
           
-          <th class="px-6 py-3 bg-gray-50 bg-base-200 text-center">Artículo</th>
-          <th class="px-6 py-3 text-center">Cantidad</th>
-          <th class="px-6 py-3 bg-gray-50 bg-base-200 text-center">Precio</th>
+          <th class="px-6 py-3 bg-gray-50 bg-base-200 text-center">CÓDIGO INTERNO</th>
+          <th class="px-6 py-3 text-center text-center">NOMBRE DEL ARTÍCULO</th>
+          <th class="px-6 py-3 bg-gray-50 bg-base-200 text-center">Cantidad</th>
           <!--th class="px-6 py-3 bg-gray-50 bg-base-200">close</th>
           <th class="px-6 py-3 ">user_insert_id</th>
           <th class="px-6 py-3 bg-gray-50 bg-base-200">user_update_id</th-->
@@ -41,23 +41,17 @@ const movement_detailId = ref("")
       <tbody>      
         <tr v-for="movement_detail in props.movement_details" :key="movement_detail.id">
           <td class="px-6 py-3 bg-gray-50 bg-base-200">
-            {{movement_detail.int_cod}} / {{movement_detail.name}}
+            {{movement_detail.int_cod}}
           </td>
           <td class="px-6 py-3 text-right">
-            {{movement_detail.quantity}}
+            {{movement_detail.name}}
 
           </td>        
           <td class="px-6 py-3 bg-gray-50 bg-base-200 text-right">
-            {{movement_detail.price}}
+            {{movement_detail.quantity}}
           </td> 
           <td class="px-6 py-3">
             <div class="flex items-center space-x-1 justify-center">
-             <AppBtn
-                class="btn btn-primary btn-xs"                    
-                @click="editMovementDetail(movement_detail)"
-              >
-                Editar
-              </AppBtn>
               <AppBtn
                 @click="removeMovementDetail(movement_detail.id)"                    
                 class="btn btn-danger btn-xs"                    
