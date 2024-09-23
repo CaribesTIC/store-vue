@@ -21,6 +21,8 @@
     submitMovementDetail,
     panelToogleMovementDetail
   } = useTabMovementDetail(props.id)
+
+  submitMovementDetail([])
   </script>
   
   <template>

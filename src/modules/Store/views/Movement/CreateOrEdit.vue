@@ -62,15 +62,25 @@ provide('form', form)
         :pending="pending"
         @submit="submit"    
       />
-      <div class="demo-tab grid justify-items-stretch mx-5">
+      <div class="grid justify-items-stretch mx-5">
+      <div>
         <AppBtn
-          class="btn p-8 justify-self-start"
+          class="btn p-8 justify-self-start m-1"
           type="text"                 
           data-testid="click-btn"
           :class="closeClassOpened"
           :text="`${closeButtonOpened}`"
           @click="panelToogleMovementDetail"
         />
+        <AppBtn v-if="panelOpened"
+          class="btn btn-primary p-8 justify-self-end m-1"
+          type="text"                 
+          data-testid="click-btn"
+          :text="'Aceptar'"
+          @click="panelOpened=false"
+        />
+      </div>
+
         <FormMovementDetail
           v-if="panelOpened"
           class="bg-base-200 py-4 mt-2 rounded"

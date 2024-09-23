@@ -38,9 +38,15 @@ const classTr = (index) => {
   return  `bg-base-${num}`
 }
 
-const selectPresentation =  async(id: string, quantity: number=1 ) => {
-    emits("selectPresentation", { id , quantity })
-    quantityPresentation.values[id] = quantity;  
+const selectPresentation =  async(presentation: any, quantity: number=1 ) => {
+  emits("selectPresentation", {
+    id: presentation.id,
+    int_cod: presentation.int_cod,
+    name: presentation.name,
+    quantity
+  })
+  quantityPresentation.values[presentation.id] = quantity;
+  selectedPresentation[presentation.id] = !selectedPresentation[presentation.id];
 }
 
 const convertToNumber = (qtyStr: string): void|number => {
@@ -100,28 +106,11 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
               @click.prevent="setSort('articles.name')">
               NOMBRE DEL ARTÍCULO
             </AppBtn>
-          </th>
-          <!--th class="px-4 py-1">
-            <AppBtn
-              class="bg-base-100 hover:text-gray-500"
-              @click.prevent="setSort('products.name')">
-                Producto
-            </AppBtn>
-          </th>
-          <th class="px-4 py-1">
-            <AppBtn
-              class="bg-base-100 hover:text-gray-500"
-              @click.prevent="setSort('marks.name')">
-                Marca
-            </AppBtn>
-          </th>
-          <th class="px-4 py-1">Empaque</th-->
+          </th>          
           <th class="px-4 py-1">Precio</th>
           <th class="px-4 py-1">Min</th>
           <th class="px-4 py-1">Max</th>
           <th class="px-4 py-1">Existencia</th>
-
-
           <!--th class="px-4">Estatus</th-->
         </tr>
       </thead>
@@ -135,7 +124,7 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
                 type="checkbox"
                 v-model="selectedPresentation[presentation.id]"
                 :value="presentation.id"
-                @click="selectPresentation(presentation.id, 1)"
+                @click="selectPresentation(presentation, 1)"
               />
                         
               <AppBtn
@@ -179,5 +168,6 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
     @getSearch="getSearch"
   />
   <div class="hidden">{{ props.selectedPresentations }}</div>
+
   </div>
 </template>

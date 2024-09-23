@@ -99,7 +99,7 @@ export default (movementId: string) => {
   }
   
   const submitMovementDetail = (payload: MovementDetail) => {    
-    !movement_detail.id ? insertMovementDetail (payload)  : updateMovementDetail(payload, movement_detail.id)
+    movement_details.value = payload
   }
 
   const createMovementDetail = () => {
