@@ -5,7 +5,7 @@ import useFormMovementDetail from "../../composables/Movement/useFormMovementDet
 // import type { RadioOption } from "@/types/RadioOption";
 import TableSearchDetail from "./TableSearchDetail.vue"
 import type { Movement } from "../../types/Movement";
-//import type { MovementDetail } from '../../types/Movement/MovementDetail';
+import type { MovementDetail } from '../../types/Movement/MovementDetail';
 
 const myform: {
   movement: Movement,
@@ -23,13 +23,13 @@ const selectedPresentations = ref([])
 type Payload = { id: number; quantity: number }
 
 const emits = defineEmits<{
-  (e: 'submitMovementDetail', form: Payload[]): void
+  (e: 'submitMovementDetail', payload: MovementDetail[]): void
 }>()
 
 const submitMovementDetail = async () => {
   //const result = await v$.value.$validate();
   //if (result) {
-    emits("submitMovementDetail", toRaw(selectedPresentations.value) as Payload[]);
+    emits("submitMovementDetail", toRaw(selectedPresentations.value) as MovementDetail[]);
   //}
 }
 

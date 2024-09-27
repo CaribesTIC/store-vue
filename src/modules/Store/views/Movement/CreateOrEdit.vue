@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, ref, reactive, provide } from 'vue'
+import { computed, ref, reactive, provide, toRaw } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import AppPageHeader from "@/components/AppPageHeader.vue"
 //import TabMovementDetail from "../../components/Movement/TabMovementDetail.vue"
@@ -56,11 +56,11 @@ provide('form', form)
       </button>
     </div>
     <div class="myPanel demo-tab">
+      <div>
       <FormMovement
         v-if="isTrue"        
         :errors="errors"
         :pending="pending"
-        @submit="submit"    
       />
       <div class="grid justify-items-stretch mx-5">
       <div>
@@ -98,9 +98,12 @@ provide('form', form)
       </div>
       <AppBtn
         class="btn btn-primary m-5 justify-self-start"
-        type="text"                 
-        data-testid="click-btn"
+          type="b"
+          :text="pending ? 'Guardando...' : 'Guardar'"
+          :isDisabled='pending'
+          @click="submit({ movement: toRaw(movement), movement_details: toRaw(movement_details) })"    
       />
+    </div>
     </div>
   </div>
 </template>

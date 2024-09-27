@@ -98,7 +98,7 @@ export default (movementId: string) => {
       })
   }
   
-  const submitMovementDetail = (payload: MovementDetail) => {    
+  const submitMovementDetail = (payload: MovementDetail[]) => {    
     movement_details.value = payload
   }
 
