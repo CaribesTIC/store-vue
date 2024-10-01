@@ -7,14 +7,9 @@ import TableSearchDetail from "./TableSearchDetail.vue"
 import type { Movement } from "../../types/Movement";
 import type { MovementDetail } from '../../types/Movement/MovementDetail';
 
-/*const myform: {
+const myform: {
   movement: Movement,
   movement_details: MovementDetail
-} = inject('form')*/
-
-const myform: {
-  movement: any //Movement
-  //,movement_details: MovementDetail
 } = inject('form')
 
 const props = defineProps<{

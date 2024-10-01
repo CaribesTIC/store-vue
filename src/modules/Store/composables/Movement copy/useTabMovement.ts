@@ -88,8 +88,10 @@ export default (movementId?: string) => {
       })
   }
   
-  const submit = (movement: Movement) => {
-    console.log(movement)
+  const submit = (payload: Movement) => {
+    console.log('movement123', payload)
+    movement.number=payload.number
+
     //!movementId ? insertMovement(movement) : updateMovement(movement, movementId)
   }
 
