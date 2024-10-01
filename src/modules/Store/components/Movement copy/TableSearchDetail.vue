@@ -167,7 +167,7 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
     :links="data.links"
     @getSearch="getSearch"
   />
-  <div class="">{{ props.selectedPresentations }}</div>
+  <div class="hidden">{{ props.selectedPresentations }}</div>
 
   </div>
 </template>
