@@ -1,0 +1,95 @@
+<script setup lang="ts">
+import { inject } from 'vue'
+import { useDark } from "@vueuse/core"
+import VueDatePicker from '@vuepic/vue-datepicker';
+import useFormMovementMain from "../../composables/Movement/useFormMovementMain";
+import '@vuepic/vue-datepicker/dist/main.css'
+
+const isDark = useDark({
+  selector: 'body',
+  attribute: 'data-theme',
+  valueDark: 'night',
+  valueLight: 'winter'
+});
+
+const { movement: { main } }: {
+  movement: any //Movement
+} = inject('movement');
+
+const { errors, pending, v$ } = useFormMovementMain(main)
+</script>
+
+<template>
+  <div class="grid lg:grid-cols-2 gap-4">
+    
+      <div class="block">
+        <label>Date & Time</label>
+        <VueDatePicker
+          v-model="main.date_time"
+          :dark="isDark"
+          :format="format"
+          :max-date="new Date()"
+          placeholder="Select Fecha del Pago"
+          required
+          utc
+          :enable-time-picker="true"
+          input-class-name="dp-custom"
+          menu-class-name="dp-custom"
+        ></VueDatePicker>
+        <AppErrorMessage v-if="v$.date_time.$error" :id="`1-error`">{{ v$.date_time.$errors[0].$message }}</AppErrorMessage>
+      </div>
+
+      <div class="block">     
+        <AppInput           
+          v-model="main.number"
+          label="Number"
+          type="text"
+          :error="v$.number.$error ? v$.number.$errors[0].$message : null"
+        />
+      </div>        
+      
+      <div class="block">     
+        <AppInput           
+          v-model="main.subject"
+          label="Subject"
+          type="text"
+          :error="v$.subject.$error ? v$.subject.$errors[0].$message : null"
+        />
+      </div>
+        
+      <div class="block">     
+        <AppTextarea
+          label="Description"
+          v-model="main.description"
+          :error="v$.description.$error ? v$.description.$errors[0].$message : null"
+        />
+      </div>
+        
+      <div class="block">
+        <AppSelect
+          :options="[{id: 1, name: 'Orden de Compra'}, {id: 2, name: 'Orden de Requicision'}]"
+          v-model="main.support_type_id"
+          label="Tipo de Soporte"
+          :error="v$.support_type_id.$error ? v$.support_type_id.$errors[0].$message : null"
+        />
+      </div>   
+      
+      <div class="block">     
+        <AppInput           
+          v-model="main.support_number"
+          label="SupportNumber"
+          type="text"
+          :error="v$.support_number.$error ? v$.support_number.$errors[0].$message : null"
+        />
+      </div>
+
+      <div class="block">     
+        <AppTextarea
+          label="Observation"
+          v-model="main.observation"
+          :error="v$.observation.$error ? v$.observation.$errors[0].$message : null"
+        />
+      </div>      
+        
+  </div>
+</template>

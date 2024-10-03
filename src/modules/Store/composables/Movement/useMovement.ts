@@ -12,7 +12,7 @@ export default (movementId?: string) => {
 
   // type Movement+detail 
   const movement: any = reactive({
-    master: {
+    main: {
       //int_cod: "", 
       type_id: "1",
       number: "",
@@ -56,17 +56,17 @@ export default (movementId?: string) => {
         MovementService.getMovement(movementId, 1),
         MovementDetailService.getMovementDetails(movementId)
       ]).then((response) => {
-        movement.master.id = response[0].data.data.id 
-        movement.master.type_id = response[0].data.data.type_id 
-        movement.master.number = response[0].data.data.number 
-        movement.master.date_time = response[0].data.data.date_time 
-        movement.master.subject = response[0].data.data.subject 
-        movement.master.description = response[0].data.data.description 
-        movement.master.observation = response[0].data.data.observation 
-        movement.master.close = response[0].data.data.close 
-        movement.master.support_type_id = response[0].data.data.support_type_id
-        movement.master.support_number = response[0].data.data.support_number
-        movement.master.support_date = response[0].data.data.support_date        
+        movement.main.id = response[0].data.data.id 
+        movement.main.type_id = response[0].data.data.type_id 
+        movement.main.number = response[0].data.data.number 
+        movement.main.date_time = response[0].data.data.date_time 
+        movement.main.subject = response[0].data.data.subject 
+        movement.main.description = response[0].data.data.description 
+        movement.main.observation = response[0].data.data.observation 
+        movement.main.close = response[0].data.data.close 
+        movement.main.support_type_id = response[0].data.data.support_type_id
+        movement.main.support_number = response[0].data.data.support_number
+        movement.main.support_date = response[0].data.data.support_date        
         movement.details = response[1].data.map((r:any) => ({
           article_id: r.article_id,
           close: r.close,
@@ -125,7 +125,7 @@ export default (movementId?: string) => {
   }
   
   const submit = (payload: Movement) => {
-    console.log('movement123', payload)
+    //console.log('movement123', payload)
     movement.number=payload.number
 
     //!movementId ? insertMovement(movement) : updateMovement(movement, movementId)

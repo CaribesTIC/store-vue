@@ -7,9 +7,19 @@ import FormMovement from '../../components/Movement/FormMovement.vue';
 import useMovement from '../../composables/Movement/useMovement';
 
 const props = defineProps<{ id?: string }>()
+
 const router = useRouter();
 const route = useRoute()
+
+const {  
+  movement,
+  errors,
+  pending,      
+  submit    
+} = useMovement(props.id)
+
 const routePath = computed(()=> route.path.split("/")[1])
+
 const movementType = computed(()=>{
   switch (true) {
 	  case routePath.value==='inputs': return 1;
@@ -18,18 +28,12 @@ const movementType = computed(()=>{
 	  case routePath.value==='output-reverses':	return 4;
   }
 })
-const {  
-  movement,
-  errors,
-  pending,      
-  submit    
-} = useMovement(props.id)
+
 const isTrue = computed(
-  () => movement && movement.master.id || !props.id
+  () => movement && movement.main.id || !props.id
 )
 
-
-provide('form', { movement })
+provide('movement', { movement })
 </script>
 
 <template>
@@ -78,27 +82,15 @@ provide('form', { movement })
   margin-right: 0px;
 }
 
-.tab-button.active{
-  @apply font-semibold;
-}
+.tab-button.active{ @apply font-semibold; }
 
-[data-theme="winter"] .tab-button.active {
-    @apply bg-gray-300;
-}
+[data-theme="winter"] .tab-button.active { @apply bg-gray-300; }
 
-[data-theme="night"] .tab-button.active {
-    @apply bg-gray-700;
-}
+[data-theme="night"] .tab-button.active { @apply bg-gray-700; }
 
-[data-theme="winter"] .tab-button:hover {
-    @apply bg-gray-200;
-}
+[data-theme="winter"] .tab-button:hover { @apply bg-gray-200; }
 
-[data-theme="night"] .tab-button:hover {
-    @apply bg-gray-800;
-}
-.demo-tab {
-  border: 1px solid;
-  padding: 10px;
-}
+[data-theme="night"] .tab-button:hover { @apply bg-gray-800; }
+
+.demo-tab { border: 1px solid; padding: 10px; }
 </style>

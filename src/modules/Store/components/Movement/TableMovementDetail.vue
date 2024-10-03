@@ -1,26 +1,23 @@
 <script setup lang="ts">
-import { toRaw, ref } from "vue"
+import { toRaw, ref, inject } from "vue"
+
 //import MovementDetailService from "@/modules/Inventory/services/MovementDetail"
 import type { MovementDetail } from "../../types/Movement/MovementDetail";
 
-const props = defineProps<{ movement_details: MovementDetail[] }>()
+//const props = defineProps<{ movement_details: MovementDetail[] }>()
+
+const { movement: { details } }: {
+  movement: any //Movement
+} = inject('movement');
 
 const emits = defineEmits<{
-  (e: 'editMovementDetail', movement_detailId: object): void
-  (e: 'removeMovementDetail', movement_detailId: string): void
-  (e: 'getMovementDetails' ): void
+  (e: 'removeDetail', detailId: string): void
+  (e: 'getDetails' ): void
 }>()
 
-const editMovementDetail =  (movement_detail: object) => {
-  emits("editMovementDetail", toRaw(movement_detail))
+const removeDetail =  (detailId: string) => {
+  emits("removeDetail", detailId)
 };
-
-const removeMovementDetail =  (movement_detailId: string) => {
-  emits("removeMovementDetail", movement_detailId)
-};
-
-const movement_detailId = ref("")
-
 </script>
 
 <template>
@@ -35,31 +32,31 @@ const movement_detailId = ref("")
           <!--th class="px-6 py-3 bg-gray-50 bg-base-200">close</th>
           <th class="px-6 py-3 ">user_insert_id</th>
           <th class="px-6 py-3 bg-gray-50 bg-base-200">user_update_id</th-->
-          <th class="px-6 py-3 text-center">Acción(es)</th>
+          <!--th class="px-6 py-3 text-center">Acción(es)</th-->
         </tr>
       </thead>
       <tbody>      
-        <tr v-for="movement_detail in props.movement_details" :key="movement_detail.id">
+        <tr v-for="detail in details" :key="detail.id">
           <td class="px-6 py-3 bg-gray-50 bg-base-200">
-            {{movement_detail.int_cod}}
+            {{detail.int_cod}}
           </td>
           <td class="px-6 py-3 text-right">
-            {{movement_detail.name}}
+            {{detail.name}}
 
           </td>        
           <td class="px-6 py-3 bg-gray-50 bg-base-200 text-right">
-            {{movement_detail.quantity}}
+            {{detail.quantity}}
           </td> 
-          <td class="px-6 py-3">
+          <!--td class="px-6 py-3">
             <div class="flex items-center space-x-1 justify-center">
               <AppBtn
-                @click="removeMovementDetail(movement_detail.id)"                    
+                @click="removeDetail(detail.id)"                    
                 class="btn btn-danger btn-xs"                    
               >
                 Eliminar
               </AppBtn>
             </div>
-          </td>
+          </td-->
 
         </tr>
       </tbody>

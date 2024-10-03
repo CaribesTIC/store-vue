@@ -1,19 +1,14 @@
-import { computed, onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref, inject } from 'vue'
 import useHttp from "@/composables/useHttp";
 import MovementDetailService from "@/modules/Store/services/MovementDetail";
 import type { Ref } from "vue";
 import type { MovementDetail } from "../../types/Movement/MovementDetail";
 
 export default (movementId: string) => {
-  /*const saleTypeOptions = [
-    { label: 'Mayor', value: 0 },
-    { label: 'Detal', value: 1 }  
-  ]
-  const statusOptions = [
-    { label: 'Inactivo', value: 0 },
-    { label: 'Activo', value: 1 }  
-  ]*/
-  
+  const { movement: { details } }: {
+    movement: any //Movement
+  } = inject('movement');
+ 
   const movement_detail: MovementDetail = reactive({
     id: "", 
     movement_id: "", 
@@ -39,18 +34,18 @@ export default (movementId: string) => {
   onMounted(    
     () => {
       movement_detail.movement_id = movementId
-      getMovementDetails()
+      getDetails()
     }
   )
 
   const panelToogleMovementDetail = ()=> {
     if (!panelOpened.value) {
-      createMovementDetail()
+      //createMovementDetail()
     }
     panelOpened.value =! panelOpened.value    
   }
   
-  const getMovementDetails = async () => {
+  const getDetails = async () => {
     if (!movementId)
       return null 
     pending.value = true
@@ -66,7 +61,7 @@ export default (movementId: string) => {
     return MovementDetailService.insertMovementDetail(payload)
       .then((response) => {
         panelOpened.value = false
-        getMovementDetails()    
+        getDetails()    
         alert( response.data.message )
               
       })
@@ -86,7 +81,7 @@ export default (movementId: string) => {
     return MovementDetailService.updateMovementDetail(payload, movement_detailId)
       .then((response) => {        
         panelOpened.value = false
-        getMovementDetails()    
+        getDetails()    
         alert( response.data.message )     
       })
       .catch((err) => {                
@@ -101,45 +96,15 @@ export default (movementId: string) => {
   const submitMovementDetail = (payload: MovementDetail[]) => {    
     movement_details.value = payload
   }
+ 
+  const removeDetail = async (detailId: string) => {
 
-  const createMovementDetail = () => {
-      movement_detail.movement_id = movementId
-      movement_detail.id = ""
-      movement_detail.article_id = ""
-      movement_detail.quantity = ""
-      movement_detail.close = ""
-      movement_detail.user_insert_id = ""
-      movement_detail.user_update_id = ""
-  }
-
-  const editMovementDetail = (movement_detailEdit: MovementDetail) => {
-    // presentation.status = presentationEdit.sale_type ? 1 : 0
-    movement_detail.movement_id = movementId
-    movement_detail.id = movement_detailEdit.id
-    movement_detail.article_id = movement_detailEdit.article_id
-    movement_detail.quantity = movement_detailEdit.quantity
-    movement_detail.close = movement_detailEdit.close
-    movement_detail.user_insert_id = movement_detailEdit.user_insert_id
-    movement_detail.user_update_id = movement_detailEdit.user_update_id
-    panelOpened.value = true
-  }
-  
-  const removeMovementDetail = async (movement_detailId: string) => {
-    if (movement_detailId === undefined)
+    if (detailId === undefined)
       return
-    else if (confirm(`¿Estás seguro que desea eliminar el registro ${movement_detailId}?`)) {  
-      pending.value = true    
-      return MovementDetailService.deleteMovementDetail(movement_detailId)
-        .then((response) => {        
-          getMovementDetails()
-        })
-        .catch((err) => {                
-          console.log( err.response.data )
-          errors.value = getError(err)
-        })
-        .finally(() => {
-          pending.value = false
-        })
+    else if (confirm(`¿Estás seguro que desea eliminar el registro ${detailId}?`)) {
+      //details = details.filter(item => item.id !== detailId)
+      //details.shift();
+      // GIVE ME ERROR details = details.filter(item => item.id !== detailId)
     }
   }
 
@@ -152,10 +117,8 @@ export default (movementId: string) => {
     /*saleTypeOptions,
     statusOptions,*/
 
-    createMovementDetail,
-    editMovementDetail,
-    getMovementDetails,
-    removeMovementDetail, 
+    getDetails,
+    removeDetail, 
     submitMovementDetail,
     panelToogleMovementDetail
   }

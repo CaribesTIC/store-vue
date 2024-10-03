@@ -1,6 +1,6 @@
 <script setup lang="ts">
 //https://dev.to/razi91/vue-arrays-and-v-model-17e0
-import { toRaw, reactive, watch} from "vue"
+import { toRaw, reactive, watch, inject} from "vue"
 import useTableGrid from "@/modules/Store/composables/Movement/useTableGrid"
 import AppPaginationC from "@/components/AppPaginationC.vue";
 import IconCamera from "@/components/icons/menu/icon-products.vue"
@@ -8,7 +8,9 @@ import type { ArticleDetail } from "@/modules/Article/types/Article/ArticleDetai
 
 type Params =  string | string[][] | Record<string, string> | URLSearchParams | undefined
 
-const props = defineProps<{ selectedPresentations: ArticleDetail[] }>()
+const { movement: { details } }: {
+  movement: any //Movement
+} = inject('movement');
 
 const emits = defineEmits<{
   (e: 'selectPresentation', article_detailId: object): void
@@ -61,9 +63,8 @@ const setQuantity = (presentationId): void => {
     emits("qtyPresentation", { id: presentationId , qty: qtyNumber })
 }
 
-watch(props.selectedPresentations, (selectedPresentations) => {
-  //console.log('selectedPresentations', toRaw(selectedPresentations))
-  selectedPresentations.forEach((sp)=> {
+watch(details, (details) => {
+  details.forEach((sp)=> {
     quantityPresentation.values[sp.id] = sp.quantity
   })
 }, { deep: true })
@@ -167,7 +168,7 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
     :links="data.links"
     @getSearch="getSearch"
   />
-  <div class="">{{ props.selectedPresentations }}</div>
+  <div class="hidden">{{ details }}</div>
 
   </div>
 </template>
