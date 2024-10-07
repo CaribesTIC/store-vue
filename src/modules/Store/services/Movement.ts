@@ -1,8 +1,8 @@
 import Http from "@/utils/Http";
 import type { Movement } from "../types/Movement";
 
-export const getMovements = (query: string, typeId:number=0) => {  
-  return Http.get(`/api/movements/${typeId.toString()}?${query}`);
+export const getMovements = (query: string, movementTypeId:number=0) => {  
+  return Http.get(`/api/movements/${movementTypeId.toString()}?${query}`);
 }
  
 export const getMovement = (movementId: string, typeId:number) => { 

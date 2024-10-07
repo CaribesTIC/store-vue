@@ -1,46 +1,29 @@
-import { onMounted, reactive } from 'vue'
+import { onMounted, reactive, toRaw } from 'vue'
 import { useRouter } from 'vue-router'
+import useRoutePath from "./useRoutePath"
 import useHttp from "@/composables/useHttp";
 import MovementService from "@/modules/Store/services/Movement";
 import MovementDetailService from "@/modules/Store/services/MovementDetail";
 import type { Movement } from "../../types/Movement";
-// import type { MovementDetail } from "../../types/Movement/MovementDetail";
-
 
 export default (movementId?: string) => {
-  const router = useRouter();    
+  const router = useRouter();
+  const { routePath, movementTypeId } = useRoutePath()
 
-  // type Movement+detail 
-  const movement: any = reactive({
+  const movement = reactive<Movement>({
     main: {
-      //int_cod: "", 
-      type_id: "1",
+      type_id: movementTypeId.value,
       number: "",
       date_time: "",
       subject: "", 
       description: "", 
-      observation: ""
+      observation: "",
+      support_type_id: "",
+      support_number: "",
+      support_date: ""
     },
-    details: [
-      /*{
-          article_id: number      
-          close: date.toString
-          id: number
-          int_cod: string
-          movement_id: number
-          name: string
-          photo: string
-          price: string
-          quantity: number
-          status: number
-          stock_max: number
-          stock_min: number    
-    }*/
-    ]
+    details: []
   })
-
-
-
 
   const {  
     errors,
@@ -91,12 +74,16 @@ export default (movementId?: string) => {
     }    
   })
 
-  const insertMovement = async (movement: Movement) => {
-    pending.value = true
-    return MovementService.insertMovement(movement)
+  
+    
+  //const submit = async () => {    
+  const submit = () => {
+    //pending.value = true
+    console.log('payload', toRaw(movement))
+    /*return await MovementService.insertMovement(toRaw(movement))
       .then((response) => {         
         alert( response.data.message )
-        router.push( { path: `/movements/edit/${response.data.movement_id}` } )
+        router.push( { path: `/${routePath}` } )
       })
       .catch((err) => {                
         console.log( err.response.data )
@@ -104,31 +91,7 @@ export default (movementId?: string) => {
       })
       .finally(() => {
         pending.value = false
-      })
-  }
-
-  const updateMovement = async (movement: Movement, movementId: string) => {
-    pending.value= true
-    movement._method = 'PUT'
-    return MovementService.updateMovement(movementId, movement)
-      .then((response) => {
-        alert( response.data.message )
-        //router.push( { path: '/movements' } )
-      })
-      .catch((err) => {                
-        console.log( err.response.data )
-        errors.value = getError(err)
-      })
-      .finally(() => {
-        pending.value = false
-      })
-  }
-  
-  const submit = (payload: Movement) => {
-    //console.log('movement123', payload)
-    movement.number=payload.number
-
-    //!movementId ? insertMovement(movement) : updateMovement(movement, movementId)
+      })*/
   }
 
   return {    

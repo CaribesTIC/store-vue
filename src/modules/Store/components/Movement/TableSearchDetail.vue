@@ -1,12 +1,10 @@
 <script setup lang="ts">
 //https://dev.to/razi91/vue-arrays-and-v-model-17e0
-import { toRaw, reactive, watch, inject} from "vue"
+import { reactive, watch, inject} from "vue"
 import useTableGrid from "@/modules/Store/composables/Movement/useTableGrid"
 import AppPaginationC from "@/components/AppPaginationC.vue";
-import IconCamera from "@/components/icons/menu/icon-products.vue"
-import type { ArticleDetail } from "@/modules/Article/types/Article/ArticleDetail";
-
-type Params =  string | string[][] | Record<string, string> | URLSearchParams | undefined
+//import IconCamera from "@/components/icons/menu/icon-products.vue"
+//import type { ArticleDetail } from "@/modules/Article/types/Article/ArticleDetail";
 
 const { movement: { details } }: {
   movement: any //Movement
@@ -112,7 +110,6 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
           <th class="px-4 py-1">Min</th>
           <th class="px-4 py-1">Max</th>
           <th class="px-4 py-1">Existencia</th>
-          <!--th class="px-4">Estatus</th-->
         </tr>
       </thead>
       <tbody>
@@ -149,16 +146,10 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
           </td-->
           <td class="px-4 py-1">{{presentation.int_cod}}</td>
           <td class="px-4 py-1 text-justify">{{presentation.name}}</td>
-          <!--td class="px-4 py-1 text-justify">{{presentation.category_name}}</td>
-          <td class="px-4 py-1" :id='presentation.packing'>{{presentation.product_name}}</td>          
-          <td class="px-4 py-1 text-justify">{{presentation.mark_name}}</td>
-          <td class="px-4 py-1 text-justify">{{presentation.packing_deployed}}</td-->
           <td class="px-4 py-1 text-right">{{presentation.price}}</td>
           <td class="px-4 py-1 text-right">{{presentation.stock_min}}</td>
           <td class="px-4 py-1 text-right">{{presentation.stock_max}}</td>
-          <td class="px-4 py-1 text-right">{{presentation.stock_existence}}</td>
-
-          <!--td class="px-6 py-1">{{presentation.status}}</td-->          
+          <td class="px-4 py-1 text-right">{{presentation.stock_existence}}</td>        
         </tr>
       </tbody>
     </table>
