@@ -3,6 +3,7 @@ import { inject } from 'vue'
 import { useDark } from "@vueuse/core"
 import VueDatePicker from '@vuepic/vue-datepicker';
 import useFormMovementMain from "../../composables/Movement/useFormMovementMain";
+import type { Movement } from "../../types/Movement";
 import '@vuepic/vue-datepicker/dist/main.css'
 
 const isDark = useDark({
@@ -13,14 +14,19 @@ const isDark = useDark({
 });
 
 const { movement: { main } }: {
-  movement: any //Movement
+  movement: Movement
 } = inject('movement');
 
-const { errors, pending, v$ } = useFormMovementMain(main)
+const { form, v$ } = useFormMovementMain(main)
 </script>
 
 <template>
   <div class="grid lg:grid-cols-2 gap-4">
+
+     <AppInput
+       type="hidden"
+       v-model="main.type_id"
+     />
     
       <div class="block">
         <label>Date & Time</label>
@@ -39,9 +45,9 @@ const { errors, pending, v$ } = useFormMovementMain(main)
         <AppErrorMessage v-if="v$.date_time.$error" :id="`1-error`">{{ v$.date_time.$errors[0].$message }}</AppErrorMessage>
       </div>
 
-      <div class="block">     
+      <div class="block">   {{ v$.number.error }}  
         <AppInput           
-          v-model="main.number"
+          v-model="form.number"
           label="Number"
           type="text"
           :error="v$.number.$error ? v$.number.$errors[0].$message : null"
@@ -93,3 +99,13 @@ const { errors, pending, v$ } = useFormMovementMain(main)
         
   </div>
 </template>
+
+<style>
+[data-theme="winter"] .dp-custom{
+  @apply bg-gray-100 text-gray-900 py-2.5;
+}
+
+[data-theme="night"] .dp-custom {
+  @apply bg-gray-900 text-gray-100 py-2.5;
+}
+</style>

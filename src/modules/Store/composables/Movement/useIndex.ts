@@ -11,7 +11,7 @@ export default () => {
   const route = useRoute()
   const routePath = computed(()=> route.path.split("/")[1])
 
-  const typeId = computed(() => {
+  const movementTypeId = computed(() => {
     switch (routePath.value) {
       case "inputs": return 1;
       case "outputs": return 2;
@@ -42,7 +42,7 @@ export default () => {
   } = useTableGrid(data, `/${routePath.value}`)
 
   const getMovements = (routeQuery: string) => {
-    return MovementService.getMovements(routeQuery, typeId.value)
+    return MovementService.getMovements(routeQuery, movementTypeId.value)
       .then((response) => {
         errors.value = {}
         data.rows = response.data.rows.data

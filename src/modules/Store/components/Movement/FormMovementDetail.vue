@@ -1,21 +1,11 @@
 <script setup lang="ts">
-import { ref, toRaw, inject } from "vue"
-
-import useFormMovementDetail from "../../composables/Movement/useFormMovementDetail";
+import { inject } from "vue"
 import TableSearchDetail from "./TableSearchDetail.vue"
-//import type { Movement } from "../../types/Movement";
-import type { MovementDetail } from '../../types/Movement/MovementDetail';
-
-type Payload = { id: number; quantity: number }
+import type { Movement, Detail } from '../../types/Movement';
 
 const { movement: { details } }: {
-  movement: any //Movement
+  movement: Movement
 } = inject('movement');
-
-
-const emits = defineEmits<{
-  (e: 'submitMovementDetail', payload: MovementDetail[]): void
-}>()
 
 const selectPresentation = (presentation) => {
   const indexFound = details.findIndex((i)=> i.id === presentation.id);

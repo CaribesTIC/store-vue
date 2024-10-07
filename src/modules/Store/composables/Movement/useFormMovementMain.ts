@@ -1,119 +1,19 @@
-import { onMounted, reactive, ref, computed } from 'vue'
-import useHttp from "@/composables/useHttp";
+import { reactive, computed } from 'vue'
 import { useVuelidate } from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
-import MovementService from "../../services/Movement"
+import type { Main } from "../../types/Movement"
 
-
-import type { Movement } from "../../types/Movement"
-
-// import { ascBubble } from "@/utils/helpers";
-
-export default (movement: Movement) => {
-  
-/*
-export type Movement = {
-  id?: any; 
-  type_id?: any; 
-  number?: string; 
-  date_time?: Date; 
-  subject?: string; 
-  description?: string; 
-  observation?: string; 
-  support_type_id?: any; 
-  support_number?: string; 
-  support_date?: any;
-  
-  _method?: 'PUT';
-}
-*/
-
+export default (main: Main) => { 
   const form = reactive({
-    type_id: movement.type_id, 
-    number: movement.number, 
-    date_time: movement.date_time, 
-    subject: movement.subject, 
-    description: movement.description, 
-    observation: movement.observation,     
-    support_type_id: movement.support_type_id, 
-    support_number: movement.support_number, 
-    support_date: movement.support_date   
-  })
-
-  const {
-    errors,
-    pending,
-
-    getError
-  } = useHttp()
-
-  onMounted(() => {
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-    /*pending.value = true
-    CategoryService.getCategoriesSelect()
-      .then((response) => {
-        categories.value = response.data.map(function (c) {
-          return {
-            id: c.id,
-            name: c.family
-          }
-        }).sort(ascBubble)
-      })
-      .catch((err) => {
-        errors.value = getError(err)
-      })
-      .finally(() => {
-        pending.value = false
-      })
-
-    pending.value = true
-    MarkService.getMarksSelect()
-      .then((response) => {
-        marks.value = response.data.sort(ascBubble)
-      })
-      .catch((err) => {
-        errors.value = getError(err)
-      })
-      .finally(() => {
-        pending.value = false
-      })
-
-    pending.value = true
-    CommonService.getMeasureUnitTypes()
-      .then((response) => {
-        measureUnitTypes.value = response.data.map(function (mut) {
-          return {
-            id: mut.id,
-            name: mut.description
-          }
-        }).sort(ascBubble)
-      })
-      .catch((err) => {
-        errors.value = getError(err)
-      })
-      .finally(() => {
-        pending.value = false;
-      })*/
+    type_id: main.type_id, 
+    number: main.number, 
+    date_time: main.date_time, 
+    subject: main.subject, 
+    description: main.description, 
+    observation: main.observation,     
+    support_type_id: main.support_type_id, 
+    support_number: main.support_number, 
+    support_date: main.support_date   
   })
 
   const rules = computed(() => {
@@ -135,10 +35,7 @@ export type Movement = {
       },
       observation: {
         required: helpers.withMessage("Campo requerido", required),
-      },
-      close: {
-        required: helpers.withMessage("Campo requerido", required),
-      },
+      },      
       support_type_id: {
         required: helpers.withMessage("Campo requerido", required),
       },
@@ -147,29 +44,11 @@ export type Movement = {
       },
       support_date: {
         required: helpers.withMessage("Campo requerido", required),
-      },
-      user_insert_id: {
-        required: helpers.withMessage("Campo requerido", required),
-      },
-      user_update_id: {
-        required: helpers.withMessage("Campo requerido", required),
-      },
-      user_edit_id: {
-        required: helpers.withMessage("Campo requerido", required),
-      },
-      editing: {
-        required: helpers.withMessage("Campo requerido", required),
-      },
+      }      
     }
   })
 
   const v$ = useVuelidate(rules, form);
 
-  return {
-      form,
-    errors,
-    pending,
-
-    v$      
-  }
+  return { form, v$ }
 }
