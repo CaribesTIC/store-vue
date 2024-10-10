@@ -45,9 +45,9 @@ const { form, v$ } = useFormMovementMain(main)
         <AppErrorMessage v-if="v$.date_time.$error" :id="`1-error`">{{ v$.date_time.$errors[0].$message }}</AppErrorMessage>
       </div>
 
-      <div class="block">   {{ v$.number.error }}  
+      <div class="block"> 
         <AppInput           
-          v-model="form.number"
+          v-model="main.number"
           label="Number"
           type="text"
           :error="v$.number.$error ? v$.number.$errors[0].$message : null"
