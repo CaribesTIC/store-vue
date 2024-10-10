@@ -48,7 +48,7 @@ const componentKey = ref(0);
         <div>
           <AppBtn
             class="btn p-8 justify-self-start m-1"
-            type="text"                 
+            type="button"                 
             data-testid="click-btn"
             :class="closeClassOpened"
             :text="`${closeButtonOpened}`"
@@ -57,7 +57,7 @@ const componentKey = ref(0);
 
           <AppBtn v-if="panelOpened"
             class="btn btn-primary p-8 justify-self-end m-1"
-            type="text"                 
+            type="button"                 
             data-testid="click-btn"
             :text="'Aceptar'"
             @click="panelOpened=false"

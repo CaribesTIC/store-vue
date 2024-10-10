@@ -72,18 +72,14 @@ export default (movementId?: string) => {
         pending.value = false;
       });      
     }    
-  })
-
-  
+  });  
     
-  //const submit = async () => {    
-  const submit = () => {
-    //pending.value = true
-    console.log('payload', toRaw(movement))
-    /*return await MovementService.insertMovement(toRaw(movement))
+  const submit = async () => {    
+    pending.value = true
+    return await MovementService.insertMovement(movementTypeId.value, toRaw(movement))
       .then((response) => {         
-        alert( response.data.message )
-        router.push( { path: `/${routePath}` } )
+        //alert( response.data.message )
+        //router.push( { path: `/${routePath.value}` } )
       })
       .catch((err) => {                
         console.log( err.response.data )
@@ -91,7 +87,7 @@ export default (movementId?: string) => {
       })
       .finally(() => {
         pending.value = false
-      })*/
+      })
   }
 
   return {    
