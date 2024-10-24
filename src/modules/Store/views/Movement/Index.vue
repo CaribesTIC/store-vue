@@ -2,7 +2,7 @@
 
 // @ts-nocheck
 import useIndex from "../../composables/Movement/useIndex";
-import AppPaginationB from "@/components/AppPaginationB.vue";
+import AppPaginationD from "@/components/AppPaginationD.vue";
 import AppPageHeader from "@/components/AppPageHeader.vue"
 import AppBtn from "@/components/AppBtn.vue"
 
@@ -162,7 +162,7 @@ const {
       </table>
     </div>
     <span v-if="Object.keys(errors).length > 0" class="text-red-500">{{ errors }}</span>
-    <AppPaginationB v-if="data.links" :links="data.links" />      
+    <AppPaginationD v-if="data.links" :links="data.links" />      
   </div>
 </div>
 </template>
