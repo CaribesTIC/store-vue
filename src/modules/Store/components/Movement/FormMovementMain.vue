@@ -18,6 +18,14 @@ const { movement: { main } }: {
 } = inject('movement');
 
 const { form, v$ } = useFormMovementMain(main)
+
+const edit = main.id ? true : false;
+
+const formatDateTime = (dateTime) => {
+  const dt = new Date(dateTime);
+
+  return `${dt.toLocaleDateString()}, ${dt.toLocaleTimeString()}`;
+}
 </script>
 
 <template>
@@ -27,10 +35,14 @@ const { form, v$ } = useFormMovementMain(main)
        type="hidden"
        v-model="main.type_id"
      />
-    
       <div class="block">
-        <label>Date & Time</label>
+        <label class="block">Date & Time</label>
+        <span class="block p-2.5 border" v-if="edit">
+         {{ formatDateTime(main.date_time) }} 
+
+        </span>
         <VueDatePicker
+          v-else
           v-model="main.date_time"
           :dark="isDark"
           :format="format"
@@ -45,13 +57,18 @@ const { form, v$ } = useFormMovementMain(main)
         <AppErrorMessage v-if="v$.date_time.$error" :id="`1-error`">{{ v$.date_time.$errors[0].$message }}</AppErrorMessage>
       </div>
 
-      <div class="block"> 
-        <AppInput           
+      <div class="block">
+        <label class="block">Number</label>
+
+        <span class="block p-2.5 border">
+          {{ main.number }}
+        </span>
+        <!--AppInput           
           v-model="main.number"
           label="Number"
           type="text"
           :error="v$.number.$error ? v$.number.$errors[0].$message : null"
-        />
+        /-->
       </div>        
       
       <div class="block">     
