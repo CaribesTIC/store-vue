@@ -46,7 +46,7 @@ const componentKey = ref(0);
       <div class="grid justify-items-stretch mt-2">
 
         <div>
-          <AppBtn
+          <AppBtn v-if="!main.id"
             class="btn p-8 justify-self-start m-1"
             type="button"                 
             data-testid="click-btn"
@@ -77,11 +77,12 @@ const componentKey = ref(0);
       </div>
 
       <AppBtn
+        v-if="!main.id"
         class="btn btn-primary mt-5 justify-self-start"
-          type="submit"
-          :text="pending ? 'Guardando...' : 'Guardar'"
-          :isDisabled='pending'
-          @submit="submit()"    
+        type="submit"
+        :text="pending ? 'Guardando...' : 'Guardar'"
+        :isDisabled='pending'
+        @submit="submit()" 
       />
     </form>
   </div>
