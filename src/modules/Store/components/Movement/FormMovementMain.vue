@@ -19,13 +19,7 @@ const { movement: { main } }: {
 
 const { form, v$ } = useFormMovementMain(main)
 
-const edit = main.id ? true : false;
-
-const formatDateTime = (dateTime) => {
-  const dt = new Date(dateTime);
-
-  return `${dt.toLocaleDateString()}, ${dt.toLocaleTimeString()}`;
-}
+const onlyShow = main.id ? true : false;
 </script>
 
 <template>
@@ -37,12 +31,7 @@ const formatDateTime = (dateTime) => {
      />
       <div class="block">
         <label class="block">Date & Time</label>
-        <span class="block p-2.5 border" v-if="edit">
-         {{ formatDateTime(main.date_time) }} 
-
-        </span>
         <VueDatePicker
-          v-else
           v-model="main.date_time"
           :dark="isDark"
           :format="format"
@@ -53,15 +42,15 @@ const formatDateTime = (dateTime) => {
           :enable-time-picker="true"
           input-class-name="dp-custom"
           menu-class-name="dp-custom"
+          :disabled="onlyShow"
         ></VueDatePicker>
         <AppErrorMessage v-if="v$.date_time.$error" :id="`1-error`">{{ v$.date_time.$errors[0].$message }}</AppErrorMessage>
       </div>
 
       <div class="block">
         <label class="block">Number</label>
-
-        <span class="block p-2.5 border">
-          {{ main.number }}
+        <span class="showSpan">
+          {{ main.number ? main.number : "##########"}}
         </span>
         <!--AppInput           
           v-model="main.number"
@@ -69,22 +58,24 @@ const formatDateTime = (dateTime) => {
           type="text"
           :error="v$.number.$error ? v$.number.$errors[0].$message : null"
         /-->
-      </div>        
-      
-      <div class="block">     
-        <AppInput           
+      </div>      
+
+      <div class="block">
+        <AppInput
           v-model="main.subject"
           label="Subject"
           type="text"
           :error="v$.subject.$error ? v$.subject.$errors[0].$message : null"
+          :disabled="onlyShow"
         />
       </div>
         
-      <div class="block">     
+      <div class="block">   
         <AppTextarea
           label="Description"
           v-model="main.description"
           :error="v$.description.$error ? v$.description.$errors[0].$message : null"
+          :disabled="onlyShow"
         />
       </div>
         
@@ -94,6 +85,7 @@ const formatDateTime = (dateTime) => {
           v-model="main.support_type_id"
           label="Tipo de Soporte"
           :error="v$.support_type_id.$error ? v$.support_type_id.$errors[0].$message : null"
+          :disabled="onlyShow"
         />
       </div>   
       
@@ -103,6 +95,7 @@ const formatDateTime = (dateTime) => {
           label="SupportNumber"
           type="text"
           :error="v$.support_number.$error ? v$.support_number.$errors[0].$message : null"
+          :disabled="onlyShow"
         />
       </div>
 
@@ -111,6 +104,7 @@ const formatDateTime = (dateTime) => {
           label="Observation"
           v-model="main.observation"
           :error="v$.observation.$error ? v$.observation.$errors[0].$message : null"
+          :disabled="onlyShow"
         />
       </div>      
         
@@ -124,5 +118,9 @@ const formatDateTime = (dateTime) => {
 
 [data-theme="night"] .dp-custom {
   @apply bg-gray-900 text-gray-100 py-2.5;
+}
+
+.showSpan {
+  @apply block p-2.5 border;
 }
 </style>
