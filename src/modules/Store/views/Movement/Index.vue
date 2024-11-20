@@ -23,7 +23,18 @@ const {
 /*const title = computed(
 *  () => route.name.replace('movements-', '').toUpperCase()
 )*/
+const formatMovementTypeId = (movementTypeId: number) => {
+  if (movementTypeId===1)
+    return 'Input';
+  else if (movementTypeId===2)
+    return 'Output';
+  else if (movementTypeId===3)
+    return 'Reverse-Input';
+  else if (movementTypeId===4)
+    return 'Reverse-Output';
 
+
+}
 
 </script>
 
@@ -109,7 +120,7 @@ const {
               </AppLink>
             </td>
             <td class="">
-              {{ row.type_id }}
+              {{ formatMovementTypeId(row.type_id) }}
             </td>
             <td class="">
               {{ row.number }}
