@@ -17,7 +17,7 @@ const { movement: { main } }: {
   movement: Movement
 } = inject('movement');
 
-const { form, v$ } = useFormMovementMain(main)
+const { v$, options } = useFormMovementMain(main)
 
 const onlyShow = main.id ? true : false;
 </script>
@@ -34,7 +34,7 @@ const onlyShow = main.id ? true : false;
         <VueDatePicker
           v-model="main.date_time"
           :dark="isDark"
-          :format="format"
+          :format="'dd/MM/yyyy HH:mm'"
           :max-date="new Date()"
           placeholder="Select Fecha del Pago"
           required
@@ -81,7 +81,7 @@ const onlyShow = main.id ? true : false;
         
       <div class="block">
         <AppSelect
-          :options="[{id: 1, name: 'Orden de Compra'}, {id: 2, name: 'Orden de Requicision'}]"
+          :options="options"
           v-model="main.support_type_id"
           label="Tipo de Soporte"
           :error="v$.support_type_id.$error ? v$.support_type_id.$errors[0].$message : null"
