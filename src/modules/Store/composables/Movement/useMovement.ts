@@ -79,12 +79,7 @@ export default (movementId?: string) => {
     return await MovementService.insertMovement(movementTypeId.value, toRaw(movement))
       .then((response) => {         
         alert( response.data.message )
-        console.log( 'ruta', routePath.value)
-        console.log( 'data', response.data)
-
         router.push( { path: `/${routePath.value}/edit/${response.data.id}` } )
-        //router.push( { path: `/${routePath.value}` } )
-
       })
       .catch((err) => {                
         console.log( err.response.data )

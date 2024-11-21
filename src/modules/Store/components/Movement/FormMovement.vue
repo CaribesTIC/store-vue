@@ -1,23 +1,24 @@
 <script setup lang="ts">
-import { ref, inject, toRaw } from 'vue'
+import { ref, inject, computed } from 'vue'
 import FormMovementMain from '../../components/Movement/FormMovementMain.vue';
 import FormMovementDetail from '../../components/Movement/FormMovementDetail.vue';
 import TableMovementDetail from '../../components/Movement/TableMovementDetail.vue'
 import useMovementDetail from '../../composables/Movement/useMovementDetail'
+import useFormMovementMain from "../../composables/Movement/useFormMovementMain";
 import type { Movement } from "../../types/Movement";
 
 const { movement: { main, details } }: {
   movement: Movement
 } = inject('movement');
 
+const { v$ } = useFormMovementMain(main)
+
 const props = defineProps<{
   errors?: String | Object
   pending: Boolean  
 }>()
 
-const emits = defineEmits<{//Movement
-  (e: 'submit'): void
-}>()
+const emits = defineEmits<{ (e: 'submit'): void }>()
 
 const {
     panelOpened,
@@ -28,23 +29,25 @@ const {
 } = useMovementDetail()
 
 const submit = async () => {
-  emits("submit");
+  const result = await v$.value.$validate();
+  submitted.value = true;
+  if (result && details.length) {
+    emits("submit");
+  }
 };
 
+const submitted = ref(false)
+const emptyDetail = computed(()=> submitted.value && !details.length ? true : false);
 const componentKey = ref(0);
 </script>
 
 <template>
   <div class="m-5">
-
     <AppFlashMessage :error="errors"/>
-
     <form @submit.prevent="submit">
-
       <FormMovementMain />
 
       <div class="grid justify-items-stretch mt-2">
-
         <div>
           <AppBtn v-if="!main.id"
             class="btn p-8 justify-self-start m-1"
@@ -54,7 +57,6 @@ const componentKey = ref(0);
             :text="`${closeButtonOpened}`"
             @click="panelToogleMovementDetail"
           />
-
           <AppBtn v-if="panelOpened"
             class="btn btn-primary p-8 justify-self-end m-1"
             type="button"                 
@@ -73,7 +75,7 @@ const componentKey = ref(0);
           :key="componentKey"
           v-if="details"            
         />
-
+        <AppErrorMessage v-if="emptyDetail" :id="`2-error`">Requiere artículo(s)</AppErrorMessage>
       </div>
 
       <AppBtn
