@@ -88,6 +88,11 @@ export default [{
     component: () => import("@/modules/Store/views/Movement/CreateOrEdit.vue").then(m => m.default),
     props: true
 }, {
+    path: "/daily-closings",
+    name: "daily-closings",
+    meta: { middleware: [auth, admin] },
+    component: () => import("@/modules/Store/views/DailyClosing/Index.vue").then(m => m.default)
+}, {
     path: "/summary",
     name: "summary",
     meta: { middleware: [auth, admin] },
