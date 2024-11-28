@@ -93,6 +93,11 @@ export default [{
     meta: { middleware: [auth, admin] },
     component: () => import("@/modules/Store/views/DailyClosing/Index.vue").then(m => m.default)
 }, {
+    path: "/daily-closings/create",
+    name: "daily-closings-create",
+    meta: { middleware: [auth, admin] },
+    component: () => import("@/modules/Store/views/DailyClosing/Create.vue").then(m => m.default)
+}, {
     path: "/summary",
     name: "summary",
     meta: { middleware: [auth, admin] },

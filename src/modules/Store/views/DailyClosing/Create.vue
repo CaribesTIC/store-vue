@@ -1,45 +1,40 @@
 <script lang="ts" setup>
-import { computed, provide } from 'vue'
-import { useRouter } from 'vue-router'
-import AppPageHeader from '@/components/AppPageHeader.vue'
-import FormMovement from '../../components/Movement/FormMovement.vue';
-import useMovement from '../../composables/Movement/useMovement';
-import useRoutePath from '../../composables/Movement/useRoutePath';
+import { computed, provide } from 'vue';
+import { useRouter } from 'vue-router';
+import AppPageHeader from '@/components/AppPageHeader.vue';
+import PreDailyClosing from "../../components/DailyClosing/PreDailyClosing.vue";
+import FormDailyClosing from '../../components/DailyClosing/FormDailyClosing.vue';
+import useDailyClosings from '../../composables/DailyClosing/useDailyClosing';
 
 const router = useRouter();
-const { routePath } = useRoutePath()
 
-const props = defineProps<{ id?: string }>()
-
-const {  
-  movement,
+const {
+  preDailyClosings,
   errors,
   pending,      
   submit    
-} = useMovement(props.id)
-
-provide('movement', { movement })
-
-const isTrue = computed(
-  () => movement && movement.main.id || !props.id
-)
+} = useDailyClosings()
 </script>
 
 <template>
   <div>
-    <AppPageHeader>{{routePath.toLocaleUpperCase()}} / {{ !props.id ? "Crear" : "Editar" }}</AppPageHeader>
+    <AppPageHeader>Cierres Diarios / Crear</AppPageHeader>
     <div  class="flex space-x-2">
       <button
         class="btn btn-primary mb-4"
-        @click="router.push({ path: `/${routePath}` })"
+        @click="router.push({ path: '/daily-closings' })"
       >
         Ver todos
       </button>
     </div>
     <div class="demo-tab">
+      <PreDailyClosing
+        v-if="preDailyClosings && preDailyClosings.length"
+        :preDailyClosings="preDailyClosings"
+      />
+      <div v-else>Loading...</div>
       <div>
-      <FormMovement
-        v-if="isTrue"        
+      <FormDailyClosing
         :errors="errors"
         :pending="pending"
         @submit="submit"
