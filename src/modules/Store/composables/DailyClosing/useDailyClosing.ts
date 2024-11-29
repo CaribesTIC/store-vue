@@ -1,46 +1,17 @@
 import { ref, onMounted } from 'vue'
-
 import useHttp from "@/composables/useHttp";
+import DaylyClosingServices from '../../services/DaylyClosing';
 
-const details = [
-  {
-      date_time: "2024-11-28 14:06:35", 
-      article_id: 1,
-      int_cod: "DJEFP9228146823",
-      name: "UT",
-      quantity_input: 20, 
-      quantity_output: 5, 
-      quantity_reverse_input: 0,
-      quantity_reverse_output: 0
-  },  {
-      date_time: "2024-11-28 14:06:35", 
-      article_id: 2,
-      int_cod: "MUKGA3628397079",
-      name: "SUNT",
-      quantity_input: 10, 
-      quantity_output: 5, 
-      quantity_reverse_input: 0,
-      quantity_reverse_output: 0
-  },  {
-      date_time: "2024-11-28 14:06:35", 
-      article_id: 3, 
-      int_cod: "LLONY6167474232",
-      name: "QUAE",
-      quantity_input: 10, 
-      quantity_output: 0, 
-      quantity_reverse_input: 0,
-      quantity_reverse_output: 0
-  },  {
-      date_time: "2024-11-28 14:06:35", 
-      article_id: 4, 
-      int_cod: "OYWLG1890361368",
-      name: "ODIT",
-      quantity_input: 10, 
-      quantity_output: 0, 
-      quantity_reverse_input: 0,
-      quantity_reverse_output: 0
-  }
-];
+type xyz = {
+  date_time: string;
+  article_id: number;
+  int_cod: string;
+  name: string;
+  quantity_input: number;
+  quantity_output: number;
+  quantity_reverse_input: number;
+  quantity_reverse_output: number;
+}
 
 export default () => {  
 
@@ -56,25 +27,24 @@ export default () => {
   const getPreDailyClosings = async ()=> {
     pending.value = true
 
-    return await new Promise(resolve => setTimeout(() => resolve("foo"), 300))
-    .then(() => {
-      preDailyClosings.value = details;
+    DaylyClosingServices.getPreDailyClosings()
+    .then((response) => {
+      // console.log(response)
+      preDailyClosings.value = response.data //as unknown as [];
     })
     .finally(() => {
       pending.value = false
     })
   }
 
-
-
-
-  const submit = async () => {    
+  const submit = async (payload) => {    
     pending.value = true
 
-    return await new Promise((resolve) => resolve("foo"))
-      .then((response) => {         
-        //alert( response.data.message )
-        //router.push( { path: `/${routePath.value}/edit/${response.data.id}` } )
+    DaylyClosingServices.setDailyClosings(payload)
+      .then((response) => {
+        console.log(response)      
+        alert( 'Cierre diario exitoso !!' )
+        getPreDailyClosings()
       })
       .catch((err) => {                
         console.log( err.response.data )
@@ -85,8 +55,7 @@ export default () => {
       })
   }
 
-  onMounted(()=> getPreDailyClosings())
- 
+  onMounted(()=> getPreDailyClosings()) 
   
   return {
     preDailyClosings,

@@ -17,7 +17,7 @@ const props = defineProps<{
   pending: Boolean  
 }>()
 
-const emits = defineEmits<{ (e: 'submit'): void }>()
+const emits = defineEmits<{ (e: 'submit', form: object): void }>()
 
 const form = reactive({
   date_time: ''
@@ -37,7 +37,7 @@ const { v$ } = useFormDailyClosing(form);
 const submit = async () => {
   const result = await v$.value.$validate();  
   if (result) {
-    emits("submit");
+    emits("submit", {date: form.date_time.split('T')[0]});
   }
 };
 
@@ -69,9 +69,9 @@ const submit = async () => {
       <AppBtn
         class="btn btn-primary mt-5 justify-self-start"
         type="submit"
-        :text="pending ? 'Creando...' : 'Crear'"
+        :text="pending ? 'Cerrando...' : 'Cerrar'"
         :isDisabled='pending'
-        @submit="submit()" 
+        @submit="submit" 
       />
     </form>
   </div>
