@@ -70,7 +70,7 @@ const formatMovementTypeId = (movementTypeId: number) => {
               <th class="">
                 <AppLink to="#" @click.prevent="setSort('close')">Cierre</AppLink>
               </th>
-              <th class="">
+              <!--th class="">
                 <AppLink to="#" @click.prevent="setSort('quantity_input')">Entradas</AppLink>
               </th>
               
@@ -83,7 +83,7 @@ const formatMovementTypeId = (movementTypeId: number) => {
               
               <th class="">
                 <AppLink to="#" @click.prevent="setSort('quantity_reverse_output')">Reverso de Salidas</AppLink>
-              </th>                    
+              </th-->                    
             <!--th class="">Acción</th-->
           </tr>
         </thead>
@@ -92,12 +92,12 @@ const formatMovementTypeId = (movementTypeId: number) => {
              <td class="">
               <AppLink
                 class="text-indigo-600 hover:text-indigo-800 underline"
-                :to="{ path: `/${routePath}/edit/${row.id}`, params: { id: row.id }}"
+                :to="{ path: `/${routePath}/show/${row.close}`, params: { close: row.close }}"
               >
                 {{ row.close }}
               </AppLink>
             </td>
-            <td class="text-right">
+            <!--td class="text-right">
               {{ row.quantity_input }}
             </td>
             <td class="text-right">
@@ -108,7 +108,7 @@ const formatMovementTypeId = (movementTypeId: number) => {
             </td>
             <td class="text-right">
               {{ row.quantity_reverse_output }}
-            </td>            
+            </td-->            
             <!--td class="">
               <div class="flex items-center space-x-1">                
                 <AppBtn
