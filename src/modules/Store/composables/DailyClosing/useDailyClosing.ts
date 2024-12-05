@@ -13,7 +13,7 @@ type xyz = {
   quantity_reverse_output: number;
 }
 
-export default () => {  
+export default () => {
 
   const {  
     errors,
@@ -22,15 +22,30 @@ export default () => {
     getError
   } = useHttp();
 
+  const dailyClosing = ref([])
+  const getDailyClosing = async ()=> {
+    pending.value = true
+
+    DaylyClosingServices.getDailyClosing('2024-11-29')
+    .then((response) => {
+      //console.log(response)
+      dailyClosing.value = response.data //as unknown as [];
+    })
+    .finally(() => {
+      pending.value = false
+    })
+  }
+
   const preDailyClosings = ref([])
 
   const getPreDailyClosings = async ()=> {
     pending.value = true
 
-    DaylyClosingServices.getPreDailyClosings()
+    return DaylyClosingServices.getPreDailyClosings()
     .then((response) => {
       // console.log(response)
-      preDailyClosings.value = response.data //as unknown as [];
+      return response.data;
+      //preDailyClosings.value = response.data //as unknown as [];
     })
     .finally(() => {
       pending.value = false
@@ -58,6 +73,9 @@ export default () => {
   onMounted(()=> getPreDailyClosings()) 
   
   return {
+    dailyClosing,
+
+    getDailyClosing,
     preDailyClosings,
     errors,
     pending,

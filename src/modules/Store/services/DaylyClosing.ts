@@ -6,6 +6,10 @@ export const getDailyClosings = () => {
   return Http.get(`/api/daily-closings`);
 }
 
+export const getDailyClosing = (close: string) => {  
+  return Http.get(`/api/daily-closings/${close}`);
+}
+
 export const getPreDailyClosings = () => {
   return Http.get('/api/daily-closings/pre');
 }
@@ -16,6 +20,7 @@ export const setDailyClosings = (payload) => {
 
 export default {
   getDailyClosings,
+  getDailyClosing,
   getPreDailyClosings,
   setDailyClosings
 }
