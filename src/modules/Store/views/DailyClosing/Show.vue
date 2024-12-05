@@ -15,7 +15,7 @@ const {
   submit    
 } = useDailyClosings()
 
-onMounted(()=> getDailyClosing())
+onMounted(()=> getDailyClosing(route.params.close.toString()))
 
 const getTotalByArticle = article =>  (article.quantity_input - article.quantity_reverse_input) - (article.quantity_output - article.quantity_reverse_output);
 </script>
