@@ -23,10 +23,10 @@ export default () => {
   } = useHttp();
 
   const dailyClosing = ref([])
-  const getDailyClosing = async ()=> {
+  const getDailyClosing = async (close: string)=> {
     pending.value = true
 
-    DaylyClosingServices.getDailyClosing('2024-11-29')
+    DaylyClosingServices.getDailyClosing(close)
     .then((response) => {
       //console.log(response)
       dailyClosing.value = response.data //as unknown as [];
@@ -44,8 +44,7 @@ export default () => {
     return DaylyClosingServices.getPreDailyClosings()
     .then((response) => {
       // console.log(response)
-      return response.data;
-      //preDailyClosings.value = response.data //as unknown as [];
+      preDailyClosings.value = response.data //as unknown as [];
     })
     .finally(() => {
       pending.value = false
