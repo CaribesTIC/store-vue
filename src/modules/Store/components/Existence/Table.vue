@@ -1,6 +1,9 @@
 <script setup lang="ts">
 
 type Existence = {
+  id: string;
+  int_cod: string;
+  name: string;
   article_id: number;
   inputs: number;  
   outputs: number;
@@ -35,7 +38,7 @@ const classTr = (index) => {
       </thead>
       <tbody>
         <tr v-for="(existence, index) in existences" :key="index" :class="classTr(index)">
-          <td align="center" class="px-6 py-3">{{ existence.int_cod }} {{ existence.name }} </td>
+          <td align="center" class="px-6 py-3">{{ existence.id }} {{ existence.int_cod }} {{ existence.name }} </td>
           <td align="right" lass="px-6 py-3">{{ existence.inputs }}</td>
           <td align="right" class="px-6 py-3">{{existence.outputs }}</td>
           <td align="right" class="px-6 py-3">{{existence.reverse_inputs }}</td>
