@@ -56,7 +56,7 @@ export default () => {
       })
   }
 
-  const deleteRow = (rowId?: string) => {
+  /*const deleteRow = (rowId?: string) => {
     if (rowId === undefined)
       return
     else if (confirm(`¿Estás seguro que desea eliminar el registro ${rowId}?`)) {    
@@ -72,7 +72,7 @@ export default () => {
           errors.value = getError(err)
         })
     }
-  }
+  }*/
 
   onBeforeRouteUpdate(async (to, from) => {      
     if (to.query !== from.query) {        
@@ -95,7 +95,7 @@ export default () => {
     route,
     routePath,
 
-    deleteRow,
+    //deleteRow,
     setSearch,
     setSort
   }
