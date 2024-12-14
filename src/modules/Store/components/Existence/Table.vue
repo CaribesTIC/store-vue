@@ -5,12 +5,14 @@ type Existence = {
   int_cod: string;
   name: string;
   article_id: number;
+  accumulated: number;
   inputs: number;  
   outputs: number;
   reverse_inputs: number;
   reverse_outputs: number;
-  total: number;
-
+  stock_current: number;
+  stock_min: number;
+  stock_max: number;
 }
 
 const props = defineProps<{
@@ -29,21 +31,27 @@ const classTr = (index) => {
       <thead>
         <tr class="bg-base-100">
           <th class="px-6 py-3">Artículos</th>
+          <th class="px-6 py-3">Acumulados</th>
           <th class="px-6 py-3">Entradas</th>
           <th class="px-6 py-3">Salidas</th>
           <th class="px-6 py-3">Reverso Entradas</th>
           <th class="px-6 py-3">Reverso Salidas</th>
-          <th class="px-6 py-3">Existencia</th>
+          <th class="px-6 py-3">Existencia Actual</th>
+          <th class="px-6 py-3">Existencia Mínima</th>
+          <th class="px-6 py-3">Existencia Máxima</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(existence, index) in existences" :key="index" :class="classTr(index)">
           <td align="center" class="px-6 py-3">{{ existence.id }} {{ existence.int_cod }} {{ existence.name }} </td>
+          <td align="center" class="px-6 py-3">{{ existence.accumulated }} </td>
           <td align="right" lass="px-6 py-3">{{ existence.inputs }}</td>
           <td align="right" class="px-6 py-3">{{existence.outputs }}</td>
           <td align="right" class="px-6 py-3">{{existence.reverse_inputs }}</td>
           <td align="right" class="px-6 py-3">{{existence.reverse_outputs }}</td>
-          <td align="right" class="px-6 py-3">{{existence.total }}</td>
+          <td align="right" class="px-6 py-3">{{existence.stock_current }}</td>
+          <td align="right" class="px-6 py-3">{{existence.stock_min }}</td>
+          <td align="right" class="px-6 py-3">{{existence.stock_max }}</td>
         </tr>
       </tbody>
     </table>    
