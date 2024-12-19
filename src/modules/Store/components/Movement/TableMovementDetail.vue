@@ -20,7 +20,7 @@ const { movement: { details } }: {
       <tbody>      
         <tr v-for="detail in details" :key="detail.id">
           <td class="px-6 py-3 bg-gray-50 bg-base-200">
-            {{detail.int_cod}}
+            {{detail.article_id}} - {{detail.int_cod}}
           </td>
           <td class="px-6 py-3 text-right">
             {{detail.name}}
