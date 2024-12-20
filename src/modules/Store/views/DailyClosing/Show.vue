@@ -17,7 +17,20 @@ const {
 
 onMounted(()=> getDailyClosing(route.params.close.toString()))
 
-const getTotalByArticle = article =>  (article.quantity_input - article.quantity_reverse_input) - (article.quantity_output - article.quantity_reverse_output);
+type xyz = {
+  date_time: string;
+  article_id: number;
+  int_cod: string;
+  name: string;
+  accumulated: number;
+  quantity_input: number;
+  quantity_output: number;
+  quantity_reverse_input: number;
+  quantity_reverse_output: number;
+}
+
+const getTotalByArticle = (article: xyz) => 
+  article.accumulated + (article.quantity_input - article.quantity_reverse_input) - (article.quantity_output - article.quantity_reverse_output);
 </script>
 
 <template>
@@ -40,11 +53,12 @@ const getTotalByArticle = article =>  (article.quantity_input - article.quantity
         <tr>
           <th class="px-6 py-3 bg-gray-50 bg-base-200 text-center">Fecha de cierre</th>
           <th class="px-6 py-3 bg-gray-50 bg-base-100 text-center">Artículo</th>
+          <th class="px-6 py-3 text-center bg-base-200 text-center">Acumulados</th>
           <th class="px-6 py-3 text-center bg-base-200 text-center">Entradas</th>
           <th class="px-6 py-3 bg-gray-50 bg-base-100 text-center">Salidas</th>
           <th class="px-6 py-3 text-center bg-base-200 text-center">Reversos de Entrada</th>
-          <th class="px-6 py-3 bg-gray-50 bg-base-100 text-center">Reversos de Entrada</th>
-          <th class="px-6 py-3 bg-gray-50 bg-base-200 text-center">Total</th>
+          <th class="px-6 py-3 bg-gray-50 bg-base-100 text-center">Reversos de Salida</th>
+          <th class="px-6 py-3 bg-gray-50 bg-base-200 text-center">Stock</th>
         </tr>
       </thead>
       <tbody>      
@@ -54,6 +68,9 @@ const getTotalByArticle = article =>  (article.quantity_input - article.quantity
           </td>
           <td class="px-6 py-3 bg-base-100 text-left">
             {{detail.article_id}}-{{ detail.int_cod }}-{{ detail.name }}
+          </td>
+          <td class="px-6 py-3 bg-gray-50 bg-base-200 text-right">
+            {{detail.accumulated}}
           </td>        
           <td class="px-6 py-3 bg-gray-50 bg-base-200 text-right">
             {{detail.quantity_input}}
