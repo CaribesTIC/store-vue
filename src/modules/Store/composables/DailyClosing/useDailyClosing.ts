@@ -7,6 +7,7 @@ type xyz = {
   article_id: number;
   int_cod: string;
   name: string;
+  accumulated: number;
   quantity_input: number;
   quantity_output: number;
   quantity_reverse_input: number;

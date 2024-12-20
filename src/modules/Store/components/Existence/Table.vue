@@ -36,9 +36,9 @@ const classTr = (index) => {
           <th class="px-6 py-3">Salidas</th>
           <th class="px-6 py-3">Reverso Entradas</th>
           <th class="px-6 py-3">Reverso Salidas</th>
-          <th class="px-6 py-3">Existencia Actual</th>
-          <th class="px-6 py-3">Existencia Mínima</th>
-          <th class="px-6 py-3">Existencia Máxima</th>
+          <th class="px-6 py-3">Stock Actual</th>
+          <th class="px-6 py-3">Stock Mín</th>
+          <th class="px-6 py-3">Stock Máx</th>
         </tr>
       </thead>
       <tbody>
