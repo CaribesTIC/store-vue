@@ -107,4 +107,22 @@ export default [{
     name: "summary",
     meta: { middleware: [auth, admin] },
     component: () => import("@/modules/Store/views/Existence.vue").then(m => m.default),
+}, {
+    path: "/sub_warehouses",
+    name: "sub_warehouses",
+    meta: { middleware: [auth, admin] },
+    component: () => import("@/modules/Store/views/SubWarehouse/Index.vue").then(m => m.default)
+}, {
+    path: "/sub_warehouses/create",
+    name: "sub_warehouseCreate",
+    meta: { middleware: [auth, admin] },
+    component: () => import("@/modules/Store/views/SubWarehouse/CreateOrEdit.vue").then(m => m.default),
+    props: true
+}, {
+    path: "/sub_warehouses/edit/:id(\\d+)",
+    name: "sub_warehouseEdit",
+    meta: { middleware: [auth, admin] },
+    component: () => import("@/modules/Store/views/SubWarehouse/CreateOrEdit.vue").then(m => m.default),
+    props: true
 }]
+
