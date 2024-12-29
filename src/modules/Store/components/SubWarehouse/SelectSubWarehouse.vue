@@ -6,16 +6,12 @@ import { getHelpSubWarehouses } from '@/modules/Store/services/SubWarehouse';
 
 const {
     errors,
-    loading,
     pending,
     getError
 } = useHttp()
 
-//const subStore = computed(() => useSubStore())
 const subStore = useSubStore()
-
 subStore.getSubStoreIni()
-
 const options = ref([])
 
 onMounted(() => {
