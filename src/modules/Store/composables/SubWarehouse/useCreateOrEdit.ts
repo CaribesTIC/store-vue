@@ -29,7 +29,7 @@ export default (sub_warehouseId?: string) => {
       pending.value = true
       SubWarehouseService.getSubWarehouse(sub_warehouseId)
         .then((response) => { 
-          sub_warehouse.uuid = response.data.data.uuid 
+          // sub_warehouse.uuid = response.data.data.uuid 
           sub_warehouse.name = response.data.data.name 
           sub_warehouse.description = response.data.data.description 
         })
