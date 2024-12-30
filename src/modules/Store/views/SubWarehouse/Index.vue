@@ -18,7 +18,7 @@ const {
 
 <template>
 <div>
-  <AppPageHeader> SubWarehouses </AppPageHeader>
+  <AppPageHeader> Sub Almacenes </AppPageHeader>
 
   <div class="flex space-x-2">
     <AppLink class="btn btn-primary" to="/sub_warehouses/create">
