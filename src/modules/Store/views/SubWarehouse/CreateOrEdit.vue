@@ -18,7 +18,7 @@ const {
     
 <template>
 <div>
-  <AppPageHeader>SubWarehouses / {{ !props.id ? "Crear" : "Editar" }}</AppPageHeader>
+  <AppPageHeader>Sub Almacenes / {{ !props.id ? "Crear" : "Editar" }}</AppPageHeader>
   <transition name="fade" mode="out-in">
     <AppPageHeader
       message="pending..."
