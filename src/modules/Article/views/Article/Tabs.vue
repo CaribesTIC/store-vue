@@ -30,8 +30,8 @@ const router = useRouter();
   </div>
 
   <div class="myPanel">
-    <div class="demo">
-      <button
+    <div class="demo-tab">
+      <!--button
         v-for="(tab, index) in tabs"       
         :key="index"
         class="text-xl"
@@ -46,7 +46,10 @@ const router = useRouter();
           class="demo-tab"
           :id="props.id"
         />
-      </KeepAlive>
+      </KeepAlive-->
+
+      <TabArticle :id="props.id"/>
+      <TabArticleDetail :id="props.id"/>
     </div>
   </div>
 </div>
