@@ -1,4 +1,4 @@
-import { computed, onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref, toRaw } from 'vue'
 import useHttp from "@/composables/useHttp";
 import ArticleDetailService from "@/modules/Article/services/ArticleDetail";
 import type { Ref } from "vue";
@@ -67,9 +67,33 @@ export default (articleId: string) => {
         pending.value = false
       })
   }
-  
-  const submitArticleDetail = (payload: ArticleDetail[]) => {    
-    registerArticleDetail (payload)
+ 
+  const submitArticleDetail = (payload: ArticleDetail[]) => {
+
+    const mergeArrays = (
+      arrOld:ArticleDetail[] = [],
+      arrNew:ArticleDetail[] = []
+    ): ArticleDetail[] => {
+      const arrMerge = [...arrOld];
+      arrNew.forEach(newItem => {
+        const existingItem = arrMerge.find(oldItem => oldItem.id === newItem.id);
+        if (existingItem) {
+          existingItem.quantity += newItem.quantity;
+        } else {
+          arrMerge.push(newItem);
+        }
+      });
+      return arrMerge;
+    }
+
+    const articleDetailsSaved: ArticleDetail[] = article_details.value.map( ads => ({
+      id: ads.presentation_id,
+      quantity: ads.quantity,
+      article_id: ads.article_id.toString()
+    }))
+
+    const newPayload: ArticleDetail[] = mergeArrays(toRaw(articleDetailsSaved), payload)
+    registerArticleDetail(newPayload)
     panelOpened.value = false
   }
   
