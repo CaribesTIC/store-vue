@@ -90,10 +90,14 @@ const store = computed(() => useAuthStore())
           placeholder="Search"
         />
       </div>
+
+
     </div>
 
+    <SelectSubWarehouse />
+
+
     <div class="flex items-center">
-      <SelectSubWarehouse />
 
       <button class="flex focus:outline-none">
         <svg

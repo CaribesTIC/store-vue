@@ -34,17 +34,20 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="relative">
+  
+  <div class="relative flex justify-center">
+    <h1 class="text-4xl place-self-end p-3">Almacén</h1>
     <select
       v-model="subStore.uuid"
       @change="subStore.handleChange"
       v-if="!pending"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-3xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
     >
       <option key="" value="" disabled selected>Seleccione...</option>
       <option
         v-for="option in options"
         :value="option.id"
-        :selected="option.id === subStore.uuid"    
+        :selected="option.id === subStore.uuid"
       >{{ option.name }}</option>
     </select>
     <div v-else>Loading...</div>
