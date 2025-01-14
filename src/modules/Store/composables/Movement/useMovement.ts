@@ -2,13 +2,15 @@ import { onMounted, reactive, toRaw } from 'vue'
 import { useRouter } from 'vue-router'
 import useRoutePath from "./useRoutePath"
 import useHttp from "@/composables/useHttp";
+import { useSubStore } from "@/modules/Store/stores/"
 import MovementService from "@/modules/Store/services/Movement";
 import MovementDetailService from "@/modules/Store/services/MovementDetail";
 import type { Movement } from "../../types/Movement";
 
 export default (movementId?: string) => {
   const router = useRouter();
-  const { routePath, movementTypeId } = useRoutePath()
+  const { routePath, movementTypeId } = useRoutePath();
+  const subStore = useSubStore();
 
   const movement = reactive<Movement>({
     main: {
@@ -20,7 +22,8 @@ export default (movementId?: string) => {
       observation: "",
       support_type_id: "",
       support_number: "",
-      support_date: ""
+      support_date: "",
+      store_uuid: ""
     },
     details: []
   })
@@ -49,7 +52,8 @@ export default (movementId?: string) => {
         movement.main.close = response[0].data.data.close 
         movement.main.support_type_id = response[0].data.data.support_type_id
         movement.main.support_number = response[0].data.data.support_number
-        movement.main.support_date = response[0].data.data.support_date        
+        movement.main.support_date = response[0].data.data.support_date
+        
         movement.details = response[1].data.map((r:any) => ({
           article_id: r.article_id,
           close: r.close,
@@ -76,6 +80,7 @@ export default (movementId?: string) => {
     
   const submit = async () => {    
     pending.value = true
+    movement.main.store_uuid = subStore.uuid
     return await MovementService.insertMovement(movementTypeId.value, toRaw(movement))
       .then((response) => {         
         alert( response.data.message )
