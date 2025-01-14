@@ -18,6 +18,7 @@ export type Main = {
     support_type_id: string;
     support_number:  string;
     support_date:    string;
+    store_uuid?:       string;
 }
 
 export type Detail = {
