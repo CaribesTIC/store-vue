@@ -74,5 +74,11 @@ export default (main: Main) => {
 
   const v$ = useVuelidate(rules, main);
 
-  return { options, v$ }
+  const search = ()=> new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(alert('Buscando informacion de soporte...'));
+    }, 300);
+  })
+
+  return { options, v$, search }
 }
