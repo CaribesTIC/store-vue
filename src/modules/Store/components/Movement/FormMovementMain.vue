@@ -17,7 +17,7 @@ const { movement: { main } }: {
   movement: Movement
 } = inject('movement');
 
-const { v$, options } = useFormMovementMain(main)
+const { v$, options, search } = useFormMovementMain(main)
 
 const onlyShow = main.id ? true : false;
 </script>
@@ -89,14 +89,20 @@ const onlyShow = main.id ? true : false;
         />
       </div>   
       
-      <div class="block">     
-        <AppInput           
+      <div class="block flex flex-row">
+        <div class="w-4/5">
+          <AppInput                 
           v-model="main.support_number"
           label="SupportNumber"
           type="text"
           :error="v$.support_number.$error ? v$.support_number.$errors[0].$message : null"
           :disabled="onlyShow"
-        />
+          />
+        </div>
+        <div class="flex justify-center w-1/5 my-6">
+          <AppBtn type="button" text="Buscar" @click="search()"/>
+        </div>
+
       </div>
 
       <div class="block">     
