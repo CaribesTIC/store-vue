@@ -19,9 +19,14 @@ export const deleteMovementDetail = (movement_detailId: string) => {
   return Http.delete(`/api/movement_details/${movement_detailId}`);
 }
 
+export const getMovementDetailsByNumber = (supportNumber: string, typeId: string) => { 
+  return Http.get(`/api/movement_details_by_number/${supportNumber}/${typeId}`);
+}
+
 export default {
   getMovementDetails,
   insertMovementDetail,
   updateMovementDetail,
-  deleteMovementDetail
+  deleteMovementDetail,
+  getMovementDetailsByNumber
 }

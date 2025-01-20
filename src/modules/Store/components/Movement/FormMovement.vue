@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, inject, computed } from 'vue'
+import { ref, inject, computed , watch} from 'vue'
 import FormMovementMain from '../../components/Movement/FormMovementMain.vue';
 import FormMovementDetail from '../../components/Movement/FormMovementDetail.vue';
 import TableMovementDetail from '../../components/Movement/TableMovementDetail.vue'
@@ -11,7 +11,7 @@ const { movement: { main, details } }: {
   movement: Movement
 } = inject('movement');
 
-const { v$ } = useFormMovementMain(main)
+const { isReverse, v$ } = useFormMovementMain(main, details)
 
 const props = defineProps<{
   errors?: String | Object
@@ -49,7 +49,7 @@ const componentKey = ref(0);
 
       <div class="grid justify-items-stretch mt-2">
         <div>
-          <AppBtn v-if="!main.id"
+          <AppBtn v-if="!main.id && !isReverse"
             class="btn p-8 justify-self-start m-1"
             type="button"                 
             data-testid="click-btn"
