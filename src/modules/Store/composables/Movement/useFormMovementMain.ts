@@ -2,11 +2,16 @@ import { ref, computed } from 'vue' // reactive
 import { useVuelidate } from "@vuelidate/core";
 import useRoutePath from "./useRoutePath"
 import { required, helpers } from "@vuelidate/validators";
-import type { Main } from "../../types/Movement"
+import type { Main, Detail } from "../../types/Movement"
+import useHttp from "@/composables/useHttp";
+import MovementDetailService from "@/modules/Store/services/MovementDetail";
+//import type { Movement } from "../../types/Movement";
 
-export default (main: Main) => {
+
+export default (main: Main, details: Detail[]) => {
   const { movementTypeId } = useRoutePath()
   const options = ref([]);
+  const detailsToReverse = ref<Detail[]>([])
 
   if (movementTypeId.value === '1' ) {
     options.value.push(
@@ -74,11 +79,34 @@ export default (main: Main) => {
 
   const v$ = useVuelidate(rules, main);
 
-  const search = ()=> new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(alert('Buscando informacion de soporte...'));
-    }, 300);
-  })
+  const search = (supportNumber: string) => {
+    MovementDetailService.getMovementDetailsByNumber(supportNumber, main.type_id)
+      .then((response)=> {
+          //detailsToReverse.value = response.data
+          //details = detailsToReverse.value
+          //console.log('detailsToReverse.value', detailsToReverse.value)
+          details = response.data.map((r:any) => ({
+            article_id: r.article_id,
+            close: r.close,
+            id: r.id,
+            int_cod: r.int_cod,
+            movement_id: r.movement_id,
+            name: r.name,
+            photo: r.photo,
+            price: r.price,
+            quantity: r.quantity,
+            status: r.status,
+            stock_max: r.stock_max,
+            stock_min: r.stock_min
+          }))
+          console.log('details', details)
 
-  return { options, v$, search }
+
+      })
+  }
+
+  const isReverse = computed(() => ['3' , '4'].includes(main.type_id))
+
+  return { isReverse, options, v$, search }
 }
+ 

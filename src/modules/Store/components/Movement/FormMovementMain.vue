@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject } from 'vue'
+import { inject, computed } from 'vue'
 import { useDark } from "@vueuse/core"
 import VueDatePicker from '@vuepic/vue-datepicker';
 import useFormMovementMain from "../../composables/Movement/useFormMovementMain";
@@ -13,13 +13,14 @@ const isDark = useDark({
   valueLight: 'winter'
 });
 
-const { movement: { main } }: {
+const { movement: { main, details } }: {
   movement: Movement
 } = inject('movement');
 
-const { v$, options, search } = useFormMovementMain(main)
-
+const { isReverse, v$, options, search } = useFormMovementMain(main, details)
 const onlyShow = main.id ? true : false;
+
+
 </script>
 
 <template>
@@ -90,7 +91,7 @@ const onlyShow = main.id ? true : false;
       </div>   
       
       <div class="block flex flex-row">
-        <div class="w-4/5">
+        <div :class="isReverse ? 'w-4/5' : 'w-full'">
           <AppInput                 
           v-model="main.support_number"
           label="SupportNumber"
@@ -99,8 +100,8 @@ const onlyShow = main.id ? true : false;
           :disabled="onlyShow"
           />
         </div>
-        <div class="flex justify-center w-1/5 my-6">
-          <AppBtn type="button" text="Buscar" @click="search()"/>
+        <div class="flex justify-center w-1/5 my-6" v-if="isReverse">
+          <AppBtn type="button" text="Buscar" @click="search(main.support_number)"/>
         </div>
 
       </div>
