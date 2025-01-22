@@ -1,17 +1,24 @@
-import { ref, computed } from 'vue' // reactive
+import { ref, computed, inject } from 'vue' // reactive
 import { useVuelidate } from "@vuelidate/core";
 import useRoutePath from "./useRoutePath"
 import { required, helpers } from "@vuelidate/validators";
 import type { Main, Detail } from "../../types/Movement"
 import useHttp from "@/composables/useHttp";
 import MovementDetailService from "@/modules/Store/services/MovementDetail";
-//import type { Movement } from "../../types/Movement";
+import type { Movement } from "../../types/Movement";
 
 
-export default (main: Main, details: Detail[]) => {
+export default () => {
+  const {
+    movement: { main },
+    updateDetails
+  } : {
+    movement: Movement ,
+    updateDetails: (details: Detail[]) => void
+  } = inject('movement');
+
   const { movementTypeId } = useRoutePath()
   const options = ref([]);
-  const detailsToReverse = ref<Detail[]>([])
 
   if (movementTypeId.value === '1' ) {
     options.value.push(
@@ -82,26 +89,7 @@ export default (main: Main, details: Detail[]) => {
   const search = (supportNumber: string) => {
     MovementDetailService.getMovementDetailsByNumber(supportNumber, main.type_id)
       .then((response)=> {
-          //detailsToReverse.value = response.data
-          //details = detailsToReverse.value
-          //console.log('detailsToReverse.value', detailsToReverse.value)
-          details = response.data.map((r:any) => ({
-            article_id: r.article_id,
-            close: r.close,
-            id: r.id,
-            int_cod: r.int_cod,
-            movement_id: r.movement_id,
-            name: r.name,
-            photo: r.photo,
-            price: r.price,
-            quantity: r.quantity,
-            status: r.status,
-            stock_max: r.stock_max,
-            stock_min: r.stock_min
-          }))
-          console.log('details', details)
-
-
+        updateDetails(response.data)
       })
   }
 

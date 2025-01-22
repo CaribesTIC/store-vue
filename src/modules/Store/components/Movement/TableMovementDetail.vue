@@ -2,9 +2,7 @@
 import { inject } from "vue"
 import type { Movement } from "../../types/Movement";
 
-const { movement: { details } }: {
-  movement: Movement
-} = inject('movement');
+const { movement }: { movement: Movement } = inject('movement');
 </script>
 
 <template>
@@ -18,7 +16,7 @@ const { movement: { details } }: {
         </tr>
       </thead>
       <tbody>      
-        <tr v-for="detail in details" :key="detail.id">
+        <tr v-for="detail in movement.details" :key="detail.id">
           <td class="px-6 py-3 bg-gray-50 bg-base-200">
             {{detail.article_id}} - {{detail.int_cod}}
           </td>
