@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, inject, computed , watch} from 'vue'
+import { ref, inject, computed } from 'vue'
 import FormMovementMain from '../../components/Movement/FormMovementMain.vue';
 import FormMovementDetail from '../../components/Movement/FormMovementDetail.vue';
 import TableMovementDetail from '../../components/Movement/TableMovementDetail.vue'
@@ -7,11 +7,9 @@ import useMovementDetail from '../../composables/Movement/useMovementDetail'
 import useFormMovementMain from "../../composables/Movement/useFormMovementMain";
 import type { Movement } from "../../types/Movement";
 
-const { movement: { main, details } }: {
-  movement: Movement
-} = inject('movement');
+const { movement }: { movement: Movement } = inject('movement');
 
-const { isReverse, v$ } = useFormMovementMain(main, details)
+const { isReverse, v$ } = useFormMovementMain()
 
 const props = defineProps<{
   errors?: String | Object
@@ -31,13 +29,13 @@ const {
 const submit = async () => {
   const result = await v$.value.$validate();
   submitted.value = true;
-  if (result && details.length) {
+  if (result && movement.details.length) {
     emits("submit");
   }
 };
 
 const submitted = ref(false)
-const emptyDetail = computed(()=> submitted.value && !details.length ? true : false);
+const emptyDetail = computed(()=> submitted.value && !movement.details.length ? true : false);
 const componentKey = ref(0);
 </script>
 
@@ -49,7 +47,7 @@ const componentKey = ref(0);
 
       <div class="grid justify-items-stretch mt-2">
         <div>
-          <AppBtn v-if="!main.id && !isReverse"
+          <AppBtn v-if="!movement.main.id && !isReverse"
             class="btn p-8 justify-self-start m-1"
             type="button"                 
             data-testid="click-btn"
@@ -73,13 +71,13 @@ const componentKey = ref(0);
 
         <TableMovementDetail
           :key="componentKey"
-          v-if="details"            
+          v-if="movement.details"            
         />
         <AppErrorMessage v-if="emptyDetail" :id="`2-error`">Requiere artículo(s)</AppErrorMessage>
       </div>
 
       <AppBtn
-        v-if="!main.id"
+        v-if="!movement.main.id"
         class="btn btn-primary mt-5 justify-self-start"
         type="submit"
         :text="pending ? 'Guardando...' : 'Guardar'"

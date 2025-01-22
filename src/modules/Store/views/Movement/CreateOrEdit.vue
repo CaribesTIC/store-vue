@@ -14,11 +14,13 @@ const props = defineProps<{ id?: string }>()
 const {  
   movement,
   errors,
-  pending,      
-  submit    
+  pending,
+
+  submit,
+  updateDetails 
 } = useMovement(props.id)
 
-provide('movement', { movement })
+provide('movement', { movement, updateDetails })
 
 const isTrue = computed(
   () => movement && movement.main.id || !props.id

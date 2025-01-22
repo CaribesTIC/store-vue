@@ -5,7 +5,7 @@ import useHttp from "@/composables/useHttp";
 import { useSubStore } from "@/modules/Store/stores/"
 import MovementService from "@/modules/Store/services/Movement";
 import MovementDetailService from "@/modules/Store/services/MovementDetail";
-import type { Movement } from "../../types/Movement";
+import type { Movement, Detail } from "../../types/Movement";
 
 export default (movementId?: string) => {
   const router = useRouter();
@@ -95,11 +95,29 @@ export default (movementId?: string) => {
       })
   }
 
+  const updateDetails = (details: Detail[]) => {
+    movement.details = details.map((detail: Detail) => ({
+      article_id: detail.article_id,
+      close: detail.close,
+      id: detail.id,
+      int_cod: detail.int_cod,
+      movement_id: detail.movement_id,
+      name: detail.name,
+      photo: detail.photo,
+      price: detail.price,
+      quantity: detail.quantity,
+      status: detail.status,
+      stock_max: detail.stock_max,
+      stock_min: detail.stock_min
+    }))  
+  }
+
   return {    
     movement,
     errors,
     pending,
 
-    submit
+    submit,
+    updateDetails
   }
 }
