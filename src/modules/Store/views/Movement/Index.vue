@@ -98,10 +98,7 @@ const formatMovementTypeId = (movementTypeId: number) => {
               </th>
               <th class="">
                 <AppLink to="#" @click.prevent="setSort('support_date')">support_date</AppLink>
-              </th>
-              
-              
-              
+              </th>              
               <th class="">
                 <AppLink to="#" @click.prevent="setSort('editing')">editing</AppLink>
               </th>

@@ -87,6 +87,11 @@ export default () => {
   const v$ = useVuelidate(rules, main);
 
   const search = (supportNumber: string) => {
+    if (!supportNumber) {
+      alert('Debe ingresar un número válido.')
+      return
+    }
+    
     MovementDetailService.getMovementDetailsByNumber(supportNumber, main.type_id)
       .then((response)=> {
         updateDetails(response.data)
