@@ -17,7 +17,7 @@ const { movement: { main, details } }: {
   movement: Movement
 } = inject('movement');
 
-const { isReverse, v$, options, search } = useFormMovementMain(main, details)
+const { isReverse, v$, options, search } = useFormMovementMain()
 const onlyShow = main.id ? true : false;
 
 

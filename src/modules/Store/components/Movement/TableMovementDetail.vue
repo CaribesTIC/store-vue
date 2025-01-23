@@ -28,6 +28,9 @@ const { movement }: { movement: Movement } = inject('movement');
             {{detail.quantity}}
           </td>
         </tr>
+        <tr v-if="movement.details.length === 0">
+            <td class="" colspan="4">Details of the movement not found.</td>
+        </tr>
       </tbody>
     </table>    
   </div>  
