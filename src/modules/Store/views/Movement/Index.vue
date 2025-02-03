@@ -32,17 +32,21 @@ const formatMovementTypeId = (movementTypeId: number) => {
     return 'Reverse-Input';
   else if (movementTypeId===4)
     return 'Reverse-Output';
-
-
 }
 
+const isMovementTypeNameValid = () => [
+  'inputs',
+  'outputs',
+  'input-reverses',
+  'output-reverses'
+].includes(route.name)
 </script>
 
 <template>
 <div>
   <AppPageHeader> {{routePath.toLocaleUpperCase()}} </AppPageHeader>
 
-  <div class="flex space-x-2">
+  <div class="flex space-x-2" v-if="isMovementTypeNameValid()">
     <AppLink class="btn btn-primary" :to="`/${routePath}/create`">
       <span>Crear</span>
     </AppLink>

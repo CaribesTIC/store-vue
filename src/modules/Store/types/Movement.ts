@@ -22,11 +22,11 @@ export type Main = {
 }
 
 export type Detail = {
-    article_id:  string;
+    article_id?:  string;
     close:       string | null;
-    id:          string;
+    id?:          string;
     int_cod:     string;
-    movement_id: string;
+    movement_id?: string;
     name:        string;
     photo:       string;
     price:       string;

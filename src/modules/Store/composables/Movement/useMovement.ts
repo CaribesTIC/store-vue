@@ -23,7 +23,7 @@ export default (movementId?: string) => {
       support_type_id: "",
       support_number: "",
       support_date: "",
-      store_uuid: ""
+     // store_uuid: "" No more needed
     },
     details: []
   })
@@ -59,7 +59,7 @@ export default (movementId?: string) => {
           close: r.close,
           id: r.id,
           int_cod: r.int_cod,
-          movement_id: r.movement_id,
+          // movement_id: r.movement_id,
           name: r.name,
           photo: r.photo,
           price: r.price,
@@ -80,7 +80,7 @@ export default (movementId?: string) => {
     
   const submit = async () => {    
     pending.value = true
-    movement.main.store_uuid = subStore.uuid
+    // movement.main.store_uuid = subStore.uuid // It is not needed
     return await MovementService.insertMovement(movementTypeId.value, toRaw(movement))
       .then((response) => {         
         alert( response.data.message )
@@ -97,11 +97,28 @@ export default (movementId?: string) => {
 
   const updateDetails = (details: Detail[]) => {
     movement.details = details.map((detail: Detail) => ({
+
+      /*
       article_id: detail.article_id,
       close: detail.close,
       id: detail.id,
       int_cod: detail.int_cod,
-      movement_id: detail.movement_id,
+      //movement_id: detail.movement_id,
+      name: detail.name,
+      photo: detail.photo,
+      price: detail.price,
+      quantity: detail.quantity,
+      status: detail.status,
+      stock_max: detail.stock_max,
+      stock_min: detail.stock_min
+       */
+
+
+     //article_id: detail.article_id,
+      close: detail.close,
+      id: detail.article_id,
+      int_cod: detail.int_cod,
+      //movement_id: detail.movement_id,
       name: detail.name,
       photo: detail.photo,
       price: detail.price,
