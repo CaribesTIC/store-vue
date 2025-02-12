@@ -8,7 +8,7 @@ export default () => {
   const { errors, pending, getError } = useHttp()
   const containers = ref([])
   const preForm = reactive({
-    quantity: 0,
+    quantity: 0.1,
     packing: ""
   })  
 
@@ -39,7 +39,7 @@ export default () => {
     return {
       quantity: {
         required: helpers.withMessage("Campo requerido", required),         
-        minValue: helpers.withMessage("El valor mínimo permitido es 1", minValue(1)) 
+        minValue: helpers.withMessage("El valor mínimo permitido es 0.1", minValue(0.1)) 
       },
       packing: {
         required: helpers.withMessage("Campo requerido", required),

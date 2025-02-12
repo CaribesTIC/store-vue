@@ -2,6 +2,7 @@
 
 // @ts-nocheck
 import useIndex from "../../composables/Movement/useIndex";
+import useMovementType from "../../composables/Movement/useMovementType";
 import AppPaginationD from "@/components/AppPaginationD.vue";
 import AppPageHeader from "@/components/AppPageHeader.vue"
 import AppBtn from "@/components/AppBtn.vue"
@@ -18,33 +19,16 @@ const {
   setSort  
 } = useIndex()
 
-
-
-/*const title = computed(
-*  () => route.name.replace('movements-', '').toUpperCase()
-)*/
-const formatMovementTypeId = (movementTypeId: number) => {
-  if (movementTypeId===1)
-    return 'Input';
-  else if (movementTypeId===2)
-    return 'Output';
-  else if (movementTypeId===3)
-    return 'Reverse-Input';
-  else if (movementTypeId===4)
-    return 'Reverse-Output';
-}
-
-const isMovementTypeNameValid = () => [
-  'inputs',
-  'outputs',
-  'input-reverses',
-  'output-reverses'
-].includes(route.name)
+const {
+    pageHeader,
+    formatMovementTypeId,
+    isMovementTypeNameValid
+  } = useMovementType(route, routePath);
 </script>
 
 <template>
 <div>
-  <AppPageHeader> {{routePath.toLocaleUpperCase()}} </AppPageHeader>
+  <AppPageHeader> {{pageHeader}} </AppPageHeader>
 
   <div class="flex space-x-2" v-if="isMovementTypeNameValid()">
     <AppLink class="btn btn-primary" :to="`/${routePath}/create`">
@@ -71,60 +55,64 @@ const isMovementTypeNameValid = () => [
         <thead>
           <tr class="">
             
-              <th class="">
+              <!--th class="">
                 <AppLink to="#" @click.prevent="setSort('id')">id</AppLink>
+              </th-->
+              <th class="">
+                <AppLink to="#" @click.prevent="setSort('number')">Número</AppLink>
+              </th>
+              <th class="" v-if="routePath==='movements'">
+                <AppLink to="#" @click.prevent="setSort('type_id')">Tipo</AppLink>
               </th>
               <th class="">
-                <AppLink to="#" @click.prevent="setSort('number')">type_id</AppLink>
+                <AppLink to="#" @click.prevent="setSort('date_time')">Fecha</AppLink>
+              </th>
+              <th class="">
+                <AppLink to="#" @click.prevent="setSort('subject')">Asunto</AppLink>
+              </th>
+              <th class="">
+                <AppLink to="#" @click.prevent="setSort('description')">Descripción</AppLink>
+              </th>
+              <th class="">
+                <AppLink to="#" @click.prevent="setSort('observation')">Observación</AppLink>
+              </th>
+              <th class="">
+                <AppLink to="#" @click.prevent="setSort('close')">Cierre</AppLink>
               </th>
               
               <th class="">
-                <AppLink to="#" @click.prevent="setSort('type_id')">number</AppLink>
+                <AppLink to="#" @click.prevent="setSort('support_number')">Número de soporte</AppLink>
               </th>
               <th class="">
-                <AppLink to="#" @click.prevent="setSort('date_time')">date_time</AppLink>
-              </th>
-              <th class="">
-                <AppLink to="#" @click.prevent="setSort('subject')">subject</AppLink>
-              </th>
-              <th class="">
-                <AppLink to="#" @click.prevent="setSort('description')">description</AppLink>
-              </th>
-              <th class="">
-                <AppLink to="#" @click.prevent="setSort('observation')">observation</AppLink>
-              </th>
-              <th class="">
-                <AppLink to="#" @click.prevent="setSort('close')">close</AppLink>
-              </th>
-              
-              <th class="">
-                <AppLink to="#" @click.prevent="setSort('support_number')">support_number</AppLink>
-              </th>
-              <th class="">
-                <AppLink to="#" @click.prevent="setSort('support_date')">support_date</AppLink>
+                <AppLink to="#" @click.prevent="setSort('support_date')">Fecha de soporte</AppLink>
               </th>              
-              <th class="">
+              <!--th class="">
                 <AppLink to="#" @click.prevent="setSort('editing')">editing</AppLink>
-              </th>
+              </th-->
                                      
             <th class="">Acción</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="row in data.rows" :key="row.id" class="">
-             <td class="">
+             <!--td class="">
               <AppLink
                 class="text-indigo-600 hover:text-indigo-800 underline"
                 :to="{ path: `/${routePath}/edit/${row.id}`, params: { id: row.id }}"
               >
                 {{ row.id }}
               </AppLink>
+            </td-->
+            <td class="">              
+              <AppLink
+                class="text-indigo-600 hover:text-indigo-800 underline"
+                :to="{ path: `/${routePath}/edit/${row.id}`, params: { id: row.id }}"
+              >
+                {{ row.number }}
+              </AppLink>
             </td>
-            <td class="">
+            <td class="" v-if="routePath==='movements'">
               {{ formatMovementTypeId(row.type_id) }}
-            </td>
-            <td class="">
-              {{ row.number }}
             </td>
             <td class="">
               {{ row.date_time }}
@@ -147,23 +135,17 @@ const isMovementTypeNameValid = () => [
             <td class="">
               {{ row.support_date }}
             </td>
-            <td class="">
+            <!--td class="">
               {{ row.editing }}
-            </td> 
+            </td--> 
             <td class="">
               <div class="flex items-center space-x-1">                
                 <AppBtn
-                  class="btn btn-primary btn-xs"                    
+                  class="btn btn-success btn-xs"                    
                   @click="router.push({ path: `/${routePath}/edit/${row.id}` })"
                 >
-                  Editar
-                </AppBtn>
-                <AppBtn
-                  @click="deleteRow(row.id)"                    
-                  class="btn btn-danger btn-xs"                    
-                >
-                  Eliminar
-                </AppBtn>
+                  Mostrar
+                </AppBtn> 
               </div>
             </td>
           </tr>

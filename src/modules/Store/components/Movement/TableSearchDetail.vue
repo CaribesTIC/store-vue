@@ -116,7 +116,7 @@ const imgPath = (presentation) => `${import.meta.env.VITE_APP_API_URL}/${present
         <tr v-for="(presentation, index) in data.rows" :key="index" :class="classTr(index)">
           <td class="px-4 py-1">
             <div class="flex items-center space-x-1">
-              <label>Sel</label>      
+              <label>Seleccionar</label>      
               <input
                 class="my-3"
                 type="checkbox"

@@ -12,11 +12,11 @@ export default (article: Article) => {
   
 
   const form = reactive({
-    int_cod  : article.int_cod   ? article.int_cod   : 'G2G2G2G2G2', 
-    name     : article.name      ? article.name      : 'XJose XErnesto', 
-    price    : article.price     ? article.price     :  9, 
-    stock_min: article.stock_min ? article.stock_min : 18, 
-    stock_max: article.stock_max ? article.stock_max :  9000, 
+    int_cod  : article.int_cod   ? article.int_cod   : '', 
+    name     : article.name      ? article.name      : '', 
+    price    : article.price     ? article.price     :  0, 
+    stock_min: article.stock_min ? article.stock_min : 1, 
+    stock_max: article.stock_max ? article.stock_max :  100, 
     status   : article.status    ? article.status    : true, 
     photo    : article.photo     ? article.photo     : 'abc'
   })

@@ -31,13 +31,13 @@ const onlyShow = main.id ? true : false;
        v-model="main.type_id"
      />
       <div class="block">
-        <label class="block">Date & Time</label>
+        <label class="block">Fecha</label>
         <VueDatePicker
           v-model="main.date_time"
           :dark="isDark"
           :format="'dd/MM/yyyy HH:mm'"
           :max-date="new Date()"
-          placeholder="Select Fecha del Pago"
+          placeholder="Seleccionar fecha"
           required
           utc
           :enable-time-picker="true"
@@ -49,7 +49,7 @@ const onlyShow = main.id ? true : false;
       </div>
 
       <div class="block">
-        <label class="block">Number</label>
+        <label class="block">Número</label>
         <span class="showSpan">
           {{ main.number ? main.number : "##########"}}
         </span>
@@ -64,7 +64,7 @@ const onlyShow = main.id ? true : false;
       <div class="block">
         <AppInput
           v-model="main.subject"
-          label="Subject"
+          label="Asunto"
           type="text"
           :error="v$.subject.$error ? v$.subject.$errors[0].$message : null"
           :disabled="onlyShow"
@@ -73,7 +73,7 @@ const onlyShow = main.id ? true : false;
         
       <div class="block">   
         <AppTextarea
-          label="Description"
+          label="Descripción"
           v-model="main.description"
           :error="v$.description.$error ? v$.description.$errors[0].$message : null"
           :disabled="onlyShow"
@@ -84,7 +84,7 @@ const onlyShow = main.id ? true : false;
         <AppSelect
           :options="options"
           v-model="main.support_type_id"
-          label="Tipo de Soporte"
+          label="Tipo de soporte"
           :error="v$.support_type_id.$error ? v$.support_type_id.$errors[0].$message : null"
           :disabled="onlyShow"
         />
@@ -94,7 +94,7 @@ const onlyShow = main.id ? true : false;
         <div :class="isReverse ? 'w-4/5' : 'w-full'">
           <AppInput                 
           v-model="main.support_number"
-          label="SupportNumber"
+          label="Número de soporte"
           type="text"
           :error="v$.support_number.$error ? v$.support_number.$errors[0].$message : null"
           :disabled="onlyShow"
@@ -108,7 +108,7 @@ const onlyShow = main.id ? true : false;
 
       <div class="block">     
         <AppTextarea
-          label="Observation"
+          label="Observación"
           v-model="main.observation"
           :error="v$.observation.$error ? v$.observation.$errors[0].$message : null"
           :disabled="onlyShow"

@@ -69,9 +69,7 @@ export default () => {
       description: {
         required: helpers.withMessage("Campo requerido", required),
       },
-      observation: {
-        required: helpers.withMessage("Campo requerido", required),
-      },      
+      observation: {},      
       support_type_id: {
         required: helpers.withMessage("Campo requerido", required),
       },
@@ -84,7 +82,7 @@ export default () => {
     }
   })
 
-  const v$ = useVuelidate(rules, main);
+  const v$ = useVuelidate(rules, (main as any));
 
   const search = (supportNumber: string) => {
     if (!supportNumber) {

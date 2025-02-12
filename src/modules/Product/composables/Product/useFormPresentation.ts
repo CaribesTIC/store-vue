@@ -9,13 +9,13 @@ export default (presentation: Presentation) => {
     id: presentation.id,
    // sale_type: presentation.sale_type,
    // int_cod: presentation.int_cod,
-    bar_cod: presentation.bar_cod,
+    bar_cod: presentation.bar_cod ? presentation.bar_cod : 'N/A',
     packing_deployed: presentation.packing_deployed,
     packing_json: presentation.packing_json,
    // stock_min: presentation.stock_min,
    // stock_max: presentation.stock_max,
     price: presentation.price,
-    status: presentation.status
+    status: presentation.status ? presentation.status : 1
   })
 
   const isOpenModal = ref(false)

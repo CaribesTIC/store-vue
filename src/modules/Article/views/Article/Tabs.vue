@@ -19,7 +19,7 @@ const router = useRouter();
 
 <template>
 <div>
-  <AppPageHeader>Articles / {{ !props.id ? "Crear" : "Editar" }}</AppPageHeader>
+  <AppPageHeader>Artículos / {{ !props.id ? "Crear" : "Editar" }}</AppPageHeader>
   <div  class="flex space-x-2">
     <button
       class="btn btn-primary mb-4"

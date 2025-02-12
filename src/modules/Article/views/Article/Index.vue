@@ -18,7 +18,7 @@ const {
 
 <template>
 <div>
-  <AppPageHeader> Articles </AppPageHeader>
+  <AppPageHeader> Artículos </AppPageHeader>
 
   <div class="flex space-x-2">
     <AppLink class="btn btn-primary" to="/articles/create">

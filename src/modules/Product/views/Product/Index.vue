@@ -97,7 +97,7 @@ const {
               </td>
             </tr>
             <tr v-if="data.rows.length === 0">
-              <td class="" colspan="4">Usuarios no encontrados.</td>
+              <td class="" colspan="4">Productos no encontrados.</td>
             </tr>
           </tbody>
         </table>

@@ -127,7 +127,7 @@ const formatMovementTypeId = (movementTypeId: number) => {
             </td-->
           </tr>
           <tr v-if="data.rows.length === 0">
-            <td class="" colspan="4">Movements not found.</td>
+            <td class="" colspan="4">Cierres Diarios no encontrados.</td>
           </tr>
         </tbody>
       </table>
