@@ -37,7 +37,7 @@ const submit = async () => {
         <div class="block">     
           <AppInput           
             v-model="form.int_cod"
-            label="int_cod"
+            label="Código del artículo"
             type="text"
             :error="v$.int_cod.$error ? v$.int_cod.$errors[0].$message : null"
           />
@@ -45,7 +45,7 @@ const submit = async () => {
         <div class="block">     
           <AppInput           
             v-model="form.name"
-            label="name"
+            label="Nombre del artículo"
             type="text"
             :error="v$.name.$error ? v$.name.$errors[0].$message : null"
           />

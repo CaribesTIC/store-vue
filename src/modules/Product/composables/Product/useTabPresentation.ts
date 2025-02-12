@@ -10,8 +10,8 @@ export default (productId: string) => {
     { label: 'Detal', value: 1 }  
   ]
   const statusOptions = [
-    { label: 'Inactivo', value: 0 },
-    { label: 'Activo', value: 1 }  
+    { label: 'Activo', value: 1 },
+    { label: 'Inactivo', value: 0 }
   ]
   
   const presentation: Presentation = reactive({

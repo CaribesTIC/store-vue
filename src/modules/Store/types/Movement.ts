@@ -12,7 +12,7 @@ export type Main = {
     date_time:       string;
     subject:         string;
     description:     string;
-    observation:     string;
+    observation?:    string;
     id?:             string;
     close?:          string | null;
     support_type_id: string;

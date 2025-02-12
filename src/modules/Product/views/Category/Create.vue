@@ -104,13 +104,18 @@ export default defineComponent({
       <form @submit.prevent="submit">
         <div class="bg-base-200 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
 
-          <table style="width: 100%" id="main">                
-            <tr>
-              <th colspan="2" class="text-center font-bold py-2">Crear Categoría</th>
-            </tr>
+          <table style="width: 100%" id="main">
+            <thead>
+              <tr>
+                <th colspan="2" class="text-center font-bold py-2">Crear Categoría</th>
+              </tr>
+            </thead>
+            <tbody>
+
             <tr>
               <td colspan="2">
-                <table id="id_table_padre" style="width: 100%">                       
+                <table id="id_table_padre" style="width: 100%">
+                  <tbody>
                   <tr v-for="(selTex, index) in selTexs" class="font-bold">
                     <td width="50%" class="bg-base-200 py-2">{{ selTex.name }}</td>
                     <td class="bg-base-200 py-2">( nivel {{ selTex.nivel }} )</td>
@@ -133,6 +138,7 @@ export default defineComponent({
                       <span v-else >&nbsp;</span>
                     </td>
                   </tr>
+                </tbody>
                 </table>
               </td>                   
             </tr>
@@ -157,6 +163,9 @@ export default defineComponent({
               <td colspan="2" >
                 <!--form method="POST" v-on:submit.prevent="createMenu"-->
                 <table width="100%">
+
+                  <tbody>
+
                   <tr>
                     <td align="left" id="id_td_descripcion" width="50%">
                       Categoría (nivel {{ nivel }})
@@ -176,10 +185,16 @@ export default defineComponent({
                       <span v-for="error in errors" class="text-danger">@{{ error }}</span>
                     </td>
                   </tr-->
+
+                  </tbody>
+
+
                 </table>
                 <!--/form-->
               </td>
             </tr>
+          </tbody>           
+
           </table>
         
         </div>
@@ -191,14 +206,14 @@ export default defineComponent({
             <button
               type="submit"              
               class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5">
-              Create
+              Crear
             </button>
           </span>
           <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
             <button	          
 	          @click="closeModal"
 	          type="button"
-	          class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">Cancel</button>
+	          class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">Cancelar</button>
           </span>
         </div>
       </form>

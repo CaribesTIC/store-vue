@@ -2,7 +2,7 @@ import { computed, ref } from 'vue'
 
 export default () => {  
   const panelOpened = ref(false)
-  const closeButtonOpened = computed(()=> panelOpened.value ? "Cancel" : "Add")
+  const closeButtonOpened = computed(()=> panelOpened.value ? "Cancelar" : "Agregar")
   const closeClassOpened = computed(()=> panelOpened.value ? "btn-default" : "btn-primary")
 
   const panelToogleMovementDetail = ()=> {

@@ -4,7 +4,7 @@ defineProps<{
   links: []
 }>()
 
-const baseUrlApi = process.env.VUE_APP_API_URL+'/api'
+const baseUrlApi = process.env.VITE_APP_API_URL+'/api'
 </script>
 
 <template>
