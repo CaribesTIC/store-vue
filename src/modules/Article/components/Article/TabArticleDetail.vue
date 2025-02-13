@@ -28,13 +28,14 @@
       <div class="form-group row">
         <div class="col-sm-12">
           <div class="grid justify-items-stretch">
-            <AppBtn
+            <AppBtn 
+              v-if="props.id"
               class="btn p-8 justify-self-center"
               type="text"                 
               data-testid="click-btn"
               :class="closeClassOpened"
               :text="`${closeButtonOpened} panel para agregar detalles del artículo`"
-              @click="panelToogleArticleDetail"
+              @click="panelToogleArticleDetail"              
             />      
             <FormArticleDetail
               v-if="panelOpened"
