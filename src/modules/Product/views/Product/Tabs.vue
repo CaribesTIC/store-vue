@@ -52,6 +52,7 @@ provide('measureUnit', {
           class="text-xl"
           :class="['tab-button', { active: currentTab === tab }]"
           @click="currentTab = tab"
+          :disabled="!props.id"
         >
           {{ tab.title }}
         </button>
