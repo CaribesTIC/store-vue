@@ -71,78 +71,86 @@ export default defineComponent({
       aria-labelledby="modal-headline">
       <form @submit.prevent="submit">
         <div class="bg-base-200 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-          <table style="width: 100%" id="main" border="1">                
-            <tr class="text-left font-bold">
-              <th colspan="2" class="px-6 pt-6 pb-4 items-center">Update menu option</th>
-            </tr>
-            <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
-              <td colspan="2">
-                <table id="id_table_padre" style="width: 100%"> 
-                  <tr v-for="(parent, key) in parents">
-                    <td width="50%">Nivel {{ key }} </td>
-                    <td>( {{ parent }} )</td>                                
-                  </tr>
-                </table>
-              </td>                   
-            </tr>
-            <tr class="lospare">
-              <td colspan="2">                
-                <table width="100%">
-                  <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
-                    <td align="left" id="id_td_descripcion" width="50%">
-                      Option (level {{ nivel }})
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name="menu"
-                        class="form-control"
-                        v-model="form.title"
-                        placeholder="Opction..." />
-                    </td>
-                  </tr>
-                  <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
-                    <td align="left" width="50%">
-                      Path (level {{ nivel }})
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name="path"
-                        class="form-control"
-                        v-model="form.path"
-                        placeholder="Path..." />
-                    </td>
-                  </tr>
-                  <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
-                    <td align="left" width="50%">
-                      Icon (level {{ nivel }})
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name="icon"
-                        class="form-control"
-                        v-model="form.icon"
-                        placeholder="Icon..." />
-                    </td>
-                  </tr>
-                  <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
-                    <td align="left" width="50%">
-                      Sort (level {{ nivel }})
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name="sort"
-                        class="form-control"
-                        v-model="form.sort"
-                        placeholder="Sort...">
-                    </td>
-                  </tr>                            
-                </table>                
-              </td>
-            </tr>
+          <table style="width: 100%" id="main" border="1">
+            <thead>
+              <tr class="text-left font-bold">
+                <th colspan="2" class="px-6 pt-6 pb-4 items-center">Update menu option</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
+                <td colspan="2">
+                  <table id="id_table_padre" style="width: 100%">
+                    <tbody>
+                      <tr v-for="(parent, key) in parents">
+                        <td width="50%">Nivel {{ key }} </td>
+                        <td>( {{ parent }} )</td>                                
+                      </tr>
+                    </tbody>                    
+                  </table>
+                </td>                   
+              </tr>
+              <tr class="lospare">
+                <td colspan="2">
+                  <table width="100%">
+                    <tbody>
+                      <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
+                        <td align="left" id="id_td_descripcion" width="50%">
+                          Option (level {{ nivel }})
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            name="menu"
+                            class="form-control"
+                            v-model="form.title"
+                            placeholder="Opction..." />
+                        </td>
+                      </tr>
+                      <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
+                        <td align="left" width="50%">
+                          Path (level {{ nivel }})
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            name="path"
+                            class="form-control"
+                            v-model="form.path"
+                            placeholder="Path..." />
+                        </td>
+                      </tr>
+                      <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
+                        <td align="left" width="50%">
+                          Icon (level {{ nivel }})
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            name="icon"
+                            class="form-control"
+                            v-model="form.icon"
+                            placeholder="Icon..." />
+                        </td>
+                      </tr>
+                      <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
+                        <td align="left" width="50%">
+                          Sort (level {{ nivel }})
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            name="sort"
+                            class="form-control"
+                            v-model="form.sort"
+                            placeholder="Sort...">
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>                
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
         <div class="bg-base-100 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">

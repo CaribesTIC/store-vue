@@ -122,121 +122,129 @@ export default defineComponent({
       <form @submit.prevent="submit">
         <div class="bg-base-200 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
 
-          <table style="width: 100%" id="main">                
-            <tr>
-              <th colspan="2" class="text-center font-bold py-2">Crear nueva opción del menú</th>
-            </tr>
-            <tr>
+          <table style="width: 100%" id="main">
+            <thead>
+              <tr>
+                <th colspan="2" class="text-center font-bold py-2">Crear nueva opción del menú</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
               <td colspan="2">
-                <table id="id_table_padre" style="width: 100%">                       
-                  <tr v-for="(selTex, index) in selTexs" class="font-bold">
-                    <td width="50%" class="bg-gray-100 py-2">{{ selTex.title }}</td>
-                    <td class="bg-gray-100 py-2">( nivel {{ selTex.nivel }} )</td>
-                    <td class="bg-gray-100 py-2">
-                      <span 
-                        v-if="index==selTexs.length-1"
-                        title="Retroceder un paso"
-                        style="cursor:pointer"
-                        class="glyphicon glyphicon-step-backward"
-                        @click="stepBackward(selTex.id)">&lt;</span>
-                      <span v-else >&nbsp;</span>
-                    </td>
-                    <td class="bg-gray-100 py-2">                                   
-                      <span
-                        v-if="index==selTexs.length-1 && index!=0"
-                        title="Retroceder todos los pasos"
-                        class="glyphicon glyphicon-fast-backward"
-                        style="cursor:pointer"
-                        @click="fastBackward">&lt;&lt;</span>
-                      <span v-else >&nbsp;</span>
-                    </td>
-                  </tr>
+                <table id="id_table_padre" style="width: 100%">
+                  <tbody>
+                    <tr v-for="(selTex, index) in selTexs" class="font-bold">
+                      <td width="50%" class="bg-gray-100 py-2">{{ selTex.title }}</td>
+                      <td class="bg-gray-100 py-2">( nivel {{ selTex.nivel }} )</td>
+                      <td class="bg-gray-100 py-2">
+                        <span 
+                          v-if="index==selTexs.length-1"
+                          title="Retroceder un paso"
+                          style="cursor:pointer"
+                          class="glyphicon glyphicon-step-backward"
+                          @click="stepBackward(selTex.id)">&lt;</span>
+                        <span v-else >&nbsp;</span>
+                      </td>
+                      <td class="bg-gray-100 py-2">                                   
+                        <span
+                          v-if="index==selTexs.length-1 && index!=0"
+                          title="Retroceder todos los pasos"
+                          class="glyphicon glyphicon-fast-backward"
+                          style="cursor:pointer"
+                          @click="fastBackward">&lt;&lt;</span>
+                        <span v-else >&nbsp;</span>
+                      </td>
+                    </tr>
+                  </tbody>
                 </table>
               </td>                   
-            </tr>
-            <tr>
-              <td id="id_td_seleccion" width="50%" class="bg-base-200 py-2">Selección (nivel {{ nivel }})</td>
-              <td class="py-2">
-                <select
-                  style="width: 100%;cursor:pointer;"
-                  title="Seleccione una opción"
-                  v-model="selVal" 
-                  @change="stepFrontward(selVal)">
-                  <option
-                    v-for="(menu,index) in menus" 
-                    :value="menu.id" 
-                    :xlabel="menu.menu_id"
-                    v-bind:selected="index === 0">{{ menu.title }}</option>
-                </select>
-              </td>
-            </tr>
-            <tr class="lospare"><td colspan="2"><hr/></td></tr>
-            <tr class="lospare">
-              <td colspan="2" >
-                <!--form method="POST" v-on:submit.prevent="createMenu"-->
-                <table width="100%">
-                  <tr>
-                    <td align="left" id="id_td_descripcion" width="50%">
-                      Opción (nivel {{ nivel }})
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name="menu"
-                        class="form-control"
-                        v-model="form.title"
-                        placeholder="Opction..." />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td align="left" width="50%">
-                      Ruta (nivel {{ nivel }})
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name="path"
-                        class="form-control"
-                        v-model="form.path"
-                        placeholder="Path..." />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td align="left" width="50%">
-                      Icon (nivel {{ nivel }})
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name="icon"
-                        class="form-control"
-                        v-model="form.icon"
-                        placeholder="Icon..." />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td align="left" width="50%">
-                      Orden (nivel {{ nivel }})
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name="sort"
-                        class="form-control"
-                        v-model="form.sort"
-                        placeholder="Sort..." />
-                    </td>
-                  </tr>
-                  <!--tr>
-                    <td align="center" colspan="2">
-                      <input type="submit" class="btn btn-primary" value="Guardar">
-                      <span v-for="error in errors" class="text-danger">@{{ error }}</span>
-                    </td>
-                  </tr-->
-                </table>
-                <!--/form-->
-              </td>
-            </tr>
+              </tr>
+              <tr>
+                <td id="id_td_seleccion" width="50%" class="bg-base-200 py-2">Selección (nivel {{ nivel }})</td>
+                <td class="py-2">
+                  <select
+                    style="width: 100%;cursor:pointer;"
+                    title="Seleccione una opción"
+                    v-model="selVal" 
+                    @change="stepFrontward(selVal)">
+                    <option
+                      v-for="(menu,index) in menus" 
+                      :value="menu.id" 
+                      :xlabel="menu.menu_id"
+                      v-bind:selected="index === 0">{{ menu.title }}</option>
+                  </select>
+                </td>
+              </tr>
+              <tr class="lospare"><td colspan="2"><hr/></td></tr>
+              <tr class="lospare">
+                <td colspan="2" >
+                  <!--form method="POST" v-on:submit.prevent="createMenu"-->
+                  <table width="100%">
+                    <tbody>
+                      <tr>
+                        <td align="left" id="id_td_descripcion" width="50%">
+                          Opción (nivel {{ nivel }})
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            name="menu"
+                            class="form-control"
+                            v-model="form.title"
+                            placeholder="Opction..." />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="left" width="50%">
+                          Ruta (nivel {{ nivel }})
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            name="path"
+                            class="form-control"
+                            v-model="form.path"
+                            placeholder="Path..." />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="left" width="50%">
+                          Icon (nivel {{ nivel }})
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            name="icon"
+                            class="form-control"
+                            v-model="form.icon"
+                            placeholder="Icon..." />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="left" width="50%">
+                          Orden (nivel {{ nivel }})
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            name="sort"
+                            class="form-control"
+                            v-model="form.sort"
+                            placeholder="Sort..." />
+                        </td>
+                      </tr>
+                      <!--tr>
+                        <td align="center" colspan="2">
+                          <input type="submit" class="btn btn-primary" value="Guardar">
+                          <span v-for="error in errors" class="text-danger">@{{ error }}</span>
+                        </td>
+                      </tr-->
+                    </tbody>
+                  </table>
+                  <!--/form-->
+                </td>
+              </tr>
+            </tbody>
           </table>
         
         </div>
