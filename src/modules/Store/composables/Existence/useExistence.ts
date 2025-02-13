@@ -1,22 +1,71 @@
-import { ref, onMounted } from "vue"
+import { reactive, onMounted } from "vue"
+import { onBeforeRouteUpdate } from "vue-router"
+import useTableGrid from "@/composables/useTableGrid"
 import useHttp from "@/composables/useHttp"
 import ExistenceService from "../../services/Existences"
-import type { Existence } from "@/modules/Store/types/Existence"
+
+
+type Params =  string | string[][] | Record<string, string> | URLSearchParams | undefined
 
 export default () => {
-  const { errors, getError } = useHttp();
-  const existences = ref<Existence[]>([]);
+  const data = reactive({
+    rows: [],
+    links: [],
+    search: "",
+    sort: "",
+    direction: ""
+  })
 
-  onMounted(() => {
-    ExistenceService.getExistences()
+  const {  
+    errors,
+
+    getError     
+  } = useHttp()
+
+  const {
+    route,
+    router,
+
+    setSearch,
+    setSort, 
+  } = useTableGrid(data, "/summary")
+
+  const getArticles = (routeQuery: string) => {
+    return ExistenceService.getExistences(routeQuery)
       .then((response) => {
-        errors.value = {};
-        existences.value=response.data;
+        errors.value = {}
+        data.rows = response.data.rows.data
+        data.links = response.data.rows.links
+        data.search = response.data.search
+        data.sort = response.data.sort
+        data.direction = response.data.direction      
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error)
       })
-  });
+  }
 
-  return { existences };
+  onBeforeRouteUpdate(async (to, from) => {      
+    if (to.query !== from.query) {        
+      await getArticles(
+        new URLSearchParams(to.query as Params).toString()
+      )
+    }
+  })
+
+  onMounted(() => {
+    getArticles(
+      new URLSearchParams(route.query as Params).toString()
+    )
+  })
+
+  return {
+    errors,
+    data,
+    router,
+
+    setSearch,
+    setSort
+  }
 }
+
